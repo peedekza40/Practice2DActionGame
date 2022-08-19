@@ -9,7 +9,7 @@ namespace Character
     {
         public IPlayerController PlayerController;
 
-        private FrameInput input;
+        private FrameInput Input;
         private bool IsFalling;
         
         // Start is called before the first frame update
@@ -22,11 +22,11 @@ namespace Character
         // Update is called once per frame
         void Update()
         {
-            input = PlayerController.Input;
+            Input = PlayerController.Input;
 
-            if(input.X != 0)
+            if(Input.X != 0)
             {
-                transform.localScale = new Vector3(input.X, transform.localScale.y, transform.localScale.z);
+                transform.localScale = new Vector3(Input.X, transform.localScale.y, transform.localScale.z);
             }
 
             IsFalling = PlayerController.Velocity.y < 0;
@@ -40,6 +40,11 @@ namespace Character
         public override void TriggerAttack(int? countAttack)
         {
             Animator.SetTrigger($"{AnimationParameter.Attack}{countAttack}");
+        }
+
+        public override void SetBlock(bool isBlocking)
+        {
+            Animator.SetBool(AnimationParameter.IsBlocking, isBlocking);
         }
     }
 }

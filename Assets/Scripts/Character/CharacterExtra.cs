@@ -17,6 +17,8 @@ namespace Character {
     public interface IPlayerAttack 
     {
         int? CountAttack { get; }
+        bool IsAttacking { get; }
+        bool IsBlocking { get; }
     }
 
     public interface IAnimatorController 
@@ -25,6 +27,7 @@ namespace Character {
         void TriggerAttack(int? countAttack);
         void TriggerAttacked();
         void SetDeath();
+        void SetBlock(bool isBlocking);
         void FilpCharacter();
         float GetAnimationLength(string animName);
     }
@@ -35,6 +38,8 @@ namespace Character {
         public bool JumpDown;
         public bool JumpUp;
         public bool AttackDown;
+        public bool BlockDown;
+        public bool BlockUp;
     }
 
     public struct RayRange 

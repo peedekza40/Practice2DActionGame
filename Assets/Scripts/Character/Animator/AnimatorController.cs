@@ -31,6 +31,8 @@ namespace Character
             Animator.SetBool(AnimationParameter.IsDeath, true);
         }
 
+        public virtual void SetBlock(bool isBlocking){}
+
         public virtual void FilpCharacter(){}
 
         public virtual float GetAnimationLength(string animName)

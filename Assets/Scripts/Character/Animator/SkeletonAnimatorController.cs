@@ -25,7 +25,7 @@ namespace Character
 
         public override void TriggerAttack(int? countAttack)
         {
-            Animator.SetTrigger($"{AnimationParameter.Attack}{countAttack}");
+            Animator.SetTrigger($"{AnimationName.Attack}{countAttack}");
         }
 
         public override void FilpCharacter()

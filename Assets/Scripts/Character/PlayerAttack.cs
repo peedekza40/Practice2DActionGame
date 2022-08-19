@@ -1,21 +1,29 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Constants;
 
 namespace Character {
     public class PlayerAttack : MonoBehaviour, IPlayerAttack
     {
+        [Header("Attack")]
         public float TimeBetweenNextMove = 1f;
         public float AttackRange = 0.5f;
         public float Damage = 20f;
         public Transform AttackPoint;
         public LayerMask EnemyLayers;
-
         public int? CountAttack { get; private set; }
+        public bool IsAttacking { get; private set; }
         private float timeSinceAttack = 0f;
-        private IPlayerController playerController;
-        private IAnimatorController animatorController;
-        private FrameInput input;
+
+        [Header("Block")]
+        public float ReduceDamage = 5f;
+        public bool IsBlocking { get; private set; }
+
+        private IPlayerController PlayerController;
+        private IAnimatorController AnimatorController;
+        private AnimatorStateInfo AnimationState;
+        private FrameInput Input;
 
         void Awake()
         {
@@ -25,19 +33,26 @@ namespace Character {
         // Start is called before the first frame update
         void Start()
         {
-            playerController = GetComponent<IPlayerController>();
-            animatorController = GetComponentInChildren<IAnimatorController>();
+            PlayerController = GetComponent<IPlayerController>();
+            AnimatorController = GetComponentInChildren<IAnimatorController>();
         }
 
         // Update is called once per frame
         void Update()
         {
-            input = playerController.Input;
+            AnimationState = AnimatorController.Animator.GetCurrentAnimatorStateInfo(0);
+            Input = PlayerController.Input;
+            SetIsAttacking(CountAttack);
+            Attack();
+            Block();
+        }
 
+        private void Attack()
+        {
             // Increase timer that controls attack combo
             timeSinceAttack += Time.deltaTime;
 
-            if(input.AttackDown && timeSinceAttack > 0.25f)
+            if(IsBlocking == false && Input.AttackDown && timeSinceAttack > 0.25f)
             {
                 CountAttack++;
 
@@ -48,7 +63,7 @@ namespace Character {
                 }
                 
                 //update animation
-                animatorController.TriggerAttack(CountAttack);
+                AnimatorController.TriggerAttack(CountAttack);
 
                 //detect enemy in range of attack
                 Collider2D[] hitEnemies =  Physics2D.OverlapCircleAll(AttackPoint.position, AttackRange, EnemyLayers);
@@ -59,8 +74,32 @@ namespace Character {
                     hitEnemy.GetComponent<CharacterStatus>().TakeDamage(Damage);
                 }
 
-                //Reset time
+                //Reset
                 timeSinceAttack = 0f;
+            }
+        }
+
+        private void Block()
+        {
+            if(Input.BlockDown)
+            {   
+                IsBlocking = true;
+            }
+
+            if(Input.BlockUp)
+            {
+                IsBlocking = false;
+            }
+
+            AnimatorController.SetBlock(IsBlocking);
+        }
+
+        private void SetIsAttacking(int? countAttack)
+        {
+            IsAttacking = false;
+            if(countAttack != null && countAttack > 0)
+            {
+                IsAttacking = AnimationState.IsName($"{AnimationName.Attack}{countAttack}");
             }
         }
 

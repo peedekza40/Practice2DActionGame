@@ -21,17 +21,26 @@ namespace Character {
 
         private Vector3 _lastPosition;
         private float _currentHorizontalSpeed, _currentVerticalSpeed;
+        private IPlayerAttack PlayerAttack;
+        private bool IsCanMove;
 
         // This is horrible, but for some reason colliders are not fully established when update starts...
         private bool _active;
         void Awake() => Invoke(nameof(Activate), 0.5f);
         void Activate() =>  _active = true;
         
+        private void Start()
+        {
+            PlayerAttack = GetComponent<IPlayerAttack>();
+        }
+
         private void Update() {
             if(!_active) return;
             // Calculate velocity
             Velocity = (transform.position - _lastPosition) / Time.deltaTime;
             _lastPosition = transform.position;
+
+            IsCanMove = !(PlayerAttack.IsAttacking || PlayerAttack.IsBlocking);
 
             GatherInput();
             RunCollisionChecks();
@@ -48,15 +57,33 @@ namespace Character {
         #region Gather Input
 
         private void GatherInput() {
-            Input = new FrameInput {
-                JumpDown = UnityEngine.Input.GetButtonDown("Jump"),
-                JumpUp = UnityEngine.Input.GetButtonUp("Jump"),
-                AttackDown = UnityEngine.Input.GetButtonDown("Attack 1"),
-                X = UnityEngine.Input.GetAxisRaw("Horizontal")
-            };
-            if (Input.JumpDown) {
+            var input = new FrameInput();
+            if(IsCanMove)
+            {
+                input.JumpDown = UnityEngine.Input.GetButtonDown("Jump");
+                input.JumpUp = UnityEngine.Input.GetButtonUp("Jump");
+                input.X = UnityEngine.Input.GetAxisRaw("Horizontal");
+            }
+            else
+            {
+                input.JumpDown = false;
+                input.JumpUp = false;
+                input.X = 0f;
+                if(Grounded == false)
+                {
+                    input.X = RawMovement.x > 0 ? 1 : -1;
+                }
+            }
+
+            input.AttackDown = UnityEngine.Input.GetButtonDown("Attack");
+            input.BlockDown = UnityEngine.Input.GetButtonDown("Block");
+            input.BlockUp = UnityEngine.Input.GetButtonUp("Block");
+
+            if (input.JumpDown) {
                 _lastJumpPressed = Time.time;
             }
+
+            Input = input;
         }
 
         #endregion

@@ -190,7 +190,7 @@ namespace Character
             var result = false;
             if(countAttack != null && countAttack > 0)
             {
-                result = AnimationState.IsName($"{AnimationParameter.Attack}{countAttack}");
+                result = AnimationState.IsName($"{AnimationName.Attack}{countAttack}");
             }
 
             return result;
@@ -214,7 +214,7 @@ namespace Character
             if(countAttack != null && countAttack > 0)
             {
                 var clip = AnimatorClip[0].clip;
-                var animName = $"{AnimationParameter.Attack}{countAttack}";
+                var animName = $"{AnimationName.Attack}{countAttack}";
                 if(clip.name == animName)
                 {
                     result = clip;
