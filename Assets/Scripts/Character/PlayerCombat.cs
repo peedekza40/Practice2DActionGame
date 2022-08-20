@@ -4,21 +4,25 @@ using UnityEngine;
 using Constants;
 
 namespace Character {
-    public class PlayerAttack : MonoBehaviour, IPlayerAttack
+    public class PlayerCombat : MonoBehaviour, IPlayerCombat
     {
         [Header("Attack")]
-        public float TimeBetweenNextMove = 1f;
-        public float AttackRange = 0.5f;
+        public float TimeBetweenNextMove = 0.75f;
+        public float AttackRange = 0.75f;
         public float Damage = 20f;
         public Transform AttackPoint;
         public LayerMask EnemyLayers;
         public int? CountAttack { get; private set; }
         public bool IsAttacking { get; private set; }
-        private float timeSinceAttack = 0f;
+        private float TimeSinceAttack = 0f;
 
         [Header("Block")]
         public float ReduceDamage = 5f;
         public bool IsBlocking { get; private set; }
+        public bool PressBlockThisFrame { get; private set; }
+        public bool IsParry { get; private set; }
+        private float TimeSinceBlocked = 0f;
+        private float TimeSincePressBlock = 0f;
 
         private IPlayerController PlayerController;
         private IAnimatorController AnimatorController;
@@ -47,17 +51,27 @@ namespace Character {
             Block();
         }
 
+        public float GetReduceDamage()
+        {
+            return ReduceDamage;
+        }
+
+        public void SetIsParry(bool isParry)
+        {
+            IsParry = isParry;
+        }
+
         private void Attack()
         {
             // Increase timer that controls attack combo
-            timeSinceAttack += Time.deltaTime;
+            TimeSinceAttack += Time.deltaTime;
 
-            if(IsBlocking == false && Input.AttackDown && timeSinceAttack > 0.25f)
+            if(IsBlocking == false && Input.AttackDown && TimeSinceAttack > 0.25f)
             {
                 CountAttack++;
 
                 // Loop back to one after third attack or Reset Attack combo if time since last attack is too large
-                if(CountAttack > 3 || timeSinceAttack > TimeBetweenNextMove)
+                if(CountAttack > 3 || TimeSinceAttack > TimeBetweenNextMove)
                 {
                     CountAttack = 1;
                 }
@@ -75,14 +89,29 @@ namespace Character {
                 }
 
                 //Reset
-                timeSinceAttack = 0f;
+                TimeSinceAttack = 0f;
             }
         }
 
         private void Block()
         {
-            if(Input.BlockDown)
+            PressBlockThisFrame = false;
+            IsParry = false;
+            TimeSincePressBlock += Time.deltaTime;
+            if(IsBlocking == false)
+            {
+                TimeSinceBlocked += Time.deltaTime;
+            }
+
+            if(TimeSincePressBlock <= 0.15)
+            {
+                PressBlockThisFrame = true;
+            }
+
+            if(Input.BlockDown && TimeSinceBlocked > 0.1f)
             {   
+                TimeSinceBlocked = 0f;
+                TimeSincePressBlock = 0f;
                 IsBlocking = true;
             }
 

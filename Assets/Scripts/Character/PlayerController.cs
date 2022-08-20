@@ -21,7 +21,7 @@ namespace Character {
 
         private Vector3 _lastPosition;
         private float _currentHorizontalSpeed, _currentVerticalSpeed;
-        private IPlayerAttack PlayerAttack;
+        private IPlayerCombat PlayerCombat;
         private bool IsCanMove;
 
         // This is horrible, but for some reason colliders are not fully established when update starts...
@@ -31,7 +31,7 @@ namespace Character {
         
         private void Start()
         {
-            PlayerAttack = GetComponent<IPlayerAttack>();
+            PlayerCombat = GetComponent<IPlayerCombat>();
         }
 
         private void Update() {
@@ -40,7 +40,7 @@ namespace Character {
             Velocity = (transform.position - _lastPosition) / Time.deltaTime;
             _lastPosition = transform.position;
 
-            IsCanMove = !(PlayerAttack.IsAttacking || PlayerAttack.IsBlocking);
+            IsCanMove = !(PlayerCombat.IsAttacking || PlayerCombat.IsBlocking);
 
             GatherInput();
             RunCollisionChecks();

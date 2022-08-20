@@ -11,7 +11,9 @@ namespace Character
         public float MaxHP = 100;
         public HealthBar HealthBar;
 
-        private IAnimatorController AnimatorController;
+        private IAnimatorController CharacterAnimatorController;
+        private BlockFlashAnimatorController BlockFlashAnimatorController;
+        private IPlayerCombat PlayerCombat;
         private Rigidbody2D Rigidbody;
         private EnemyAI EnemyAi;
         private float CurrentHP;
@@ -20,7 +22,9 @@ namespace Character
         // Start is called before the first frame update
         void Start()
         {
-            AnimatorController = GetComponent<IAnimatorController>();
+            CharacterAnimatorController = GetComponent<IAnimatorController>();
+            BlockFlashAnimatorController = GameObject.Find("EffectBlock").GetComponent<BlockFlashAnimatorController>();
+            PlayerCombat = GetComponent<IPlayerCombat>();
             Rigidbody = GetComponent<Rigidbody2D>();
             EnemyAi = GetComponent<EnemyAI>();
 
@@ -46,15 +50,34 @@ namespace Character
         public void TakeDamage(float damage)
         {
             if(IsDeath == false){
-                CurrentHP -= damage;
-                AnimatorController.TriggerAttacked();
+
+                //player section
+                var reduceDamage = 0f;
+                if(PlayerCombat != null)
+                {
+                    if(PlayerCombat.IsBlocking)
+                    {
+                        if(PlayerCombat.PressBlockThisFrame)
+                        {
+                            reduceDamage = damage;
+                            BlockFlashAnimatorController.TriggerParry();
+                        }
+                        else
+                        {
+                            reduceDamage = PlayerCombat.GetReduceDamage();
+                        }
+                    }
+                }
+
+                CurrentHP -= damage - reduceDamage;
+                CharacterAnimatorController.TriggerAttacked();
                 HealthBar.SetHealth(CurrentHP);
             }
         }
 
         public virtual void Die()
         {
-            AnimatorController.SetDeath();
+            CharacterAnimatorController.SetDeath();
         }
     }
 }
