@@ -14,6 +14,7 @@ namespace Character {
         public LayerMask EnemyLayers;
         public int? CountAttack { get; private set; }
         public bool IsAttacking { get; private set; }
+        private Collider2D HitBox;
         private float TimeSinceAttack = 0f;
 
         [Header("Block")]
@@ -39,6 +40,7 @@ namespace Character {
         {
             PlayerController = GetComponent<IPlayerController>();
             AnimatorController = GetComponentInChildren<IAnimatorController>();
+            HitBox = GetComponentInChildren<Collider2D>();
         }
 
         // Update is called once per frame

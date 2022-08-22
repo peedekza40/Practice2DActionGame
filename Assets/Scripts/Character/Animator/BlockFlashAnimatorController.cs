@@ -18,7 +18,6 @@ public class BlockFlashAnimatorController : MonoBehaviour
 
     void destroyEvent()
     {
-        Debug.Log(true);
     }
 
     public void TriggerParry()
