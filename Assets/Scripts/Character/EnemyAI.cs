@@ -21,14 +21,17 @@ namespace Character
         public float JumpModifier = 0.3f;
         public float JumpCheckOffset = 0.1f;
 
-        [Header("Attack")]
+        [Header("Combat")]
         public float TimeBetweenNextMove = 1.2f;
-        public float AttackRange = 0.5f;
         public float Damage = 20f;
-        public Transform AttackPoint;
+        public Collider2D HitBox;
+        public float DetectEnemyRange = 0.5f;
+        public Transform DetectEnemy;
         public LayerMask EnemyLayers;
         private int? CountAttack = 0;
         private float TimeSinceAttack = 0f;
+        private bool IsAttacking;
+        private int DamageFrameCount = 0;
 
         [Header("Custom Behavior")]
         public bool FollowEnabled = true;
@@ -59,7 +62,7 @@ namespace Character
             AnimationState = AnimatorController.Animator.GetCurrentAnimatorStateInfo(0);
             AnimatorClip = AnimatorController.Animator.GetCurrentAnimatorClipInfo(0);
 
-            if(TargetInDistance() && FollowEnabled && IsAttacking(CountAttack) == false)
+            if(TargetInDistance() && FollowEnabled && IsAttacking == false)
             {
                 PathFollow();
             }
@@ -68,12 +71,11 @@ namespace Character
             {
                 Attack();
             }
+
+            SetIsAttacking(CountAttack);
         }
 
-        void OnDrawGizmosSelected()
-        {
-            Gizmos.DrawWireSphere(AttackPoint.position, AttackRange);
-        }
+        #region Pathfinding
 
         private void UpdatePath()
         {
@@ -145,55 +147,60 @@ namespace Character
             }
         }
 
+        #endregion
+
+        #region Combat
+
         private void Attack()
         {
+            bool isEnemyDetected =  Physics2D.OverlapCircleAll(DetectEnemy.position, DetectEnemyRange, EnemyLayers).ToList().Any();
             TimeSinceAttack += Time.deltaTime;
-            if(TimeSinceAttack > 0.25f)
+            Debug.Log(CountAttack);
+            if(IsAttacking == false && TimeSinceAttack > 0.25f && isEnemyDetected)
             {
-                //detect enemy in range of attack
-                List<Collider2D> hitEnemies =  Physics2D.OverlapCircleAll(AttackPoint.position, AttackRange, EnemyLayers).ToList();
-                if(hitEnemies.Any())
+                CountAttack++;
+                // Loop back to one after third attack or Reset Attack combo if time since last attack is too large
+                if(CountAttack > 2 || TimeSinceAttack > TimeBetweenNextMove)
                 {
-                    if(IsAttacking(CountAttack) == false)
-                    {
-                        CountAttack++;
-                        // Loop back to one after third attack or Reset Attack combo if time since last attack is too large
-                        if(CountAttack > 2 || TimeSinceAttack > TimeBetweenNextMove)
-                        {
-                            CountAttack = 1;
-                        }
-                        
-                        AnimatorController.TriggerAttack(CountAttack);
-                    }
+                    CountAttack = 1;
                 }
+                
+                AnimatorController.TriggerAttack(CountAttack);
+
+                //Reset
+                TimeSinceAttack = 0f;
+                DamageFrameCount = 0;
+            }
 
                 
-                if(IsAttacking(CountAttack))
-                {
-                    if(GetCurrentAttackingTime(CountAttack) >= 0.90f)
-                    {
-                        //damage them
-                        foreach (var hitEnemy in hitEnemies)
-                        {
-                            hitEnemy.GetComponent<CharacterStatus>().TakeDamage(Damage);
-                        }
-                    }
+            if(IsAttacking && DamageFrameCount == 0)
+            {
+                //detect enemy in range of attack
+                List<Collider2D> hitEnemies = new List<Collider2D>();
+                ContactFilter2D contactFilter = new ContactFilter2D();
+                contactFilter.SetLayerMask(EnemyLayers);
+                HitBox.OverlapCollider(contactFilter, hitEnemies);
 
-                    //Reset
-                    TimeSinceAttack = 0f;
+                //damage them
+                foreach (var hitEnemy in hitEnemies)
+                {
+                    hitEnemy.GetComponent<CharacterStatus>().TakeDamage(Damage);
+                    DamageFrameCount++;
                 }
+            }
+            else if(IsAttacking == false)
+            {
+                DamageFrameCount = 0;
             }
         }
 
-        private bool IsAttacking(int? countAttack)
+        private void SetIsAttacking(int? countAttack)
         {
-            var result = false;
+            IsAttacking = false;
             if(countAttack != null && countAttack > 0)
             {
-                result = AnimationState.IsName($"{AnimationName.Attack}{countAttack}");
+                IsAttacking = AnimationState.IsName($"{AnimationName.Attack}{countAttack}");
             }
-
-            return result;
         }
 
         private float GetCurrentAttackingTime(int? countAttack)
@@ -221,6 +228,14 @@ namespace Character
                 }
             }
             return result;
+        }
+
+        #endregion
+
+        void OnDrawGizmosSelected()
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(DetectEnemy.position, DetectEnemyRange);
         }
     }
 }

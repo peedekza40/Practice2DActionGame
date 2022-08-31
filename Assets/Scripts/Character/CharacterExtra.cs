@@ -12,6 +12,7 @@ namespace Character {
         bool LandingThisFrame { get; }
         Vector3 RawMovement { get; }
         bool Grounded { get; }
+        float LastAttackPressed { get; }
     }
 
     public interface IPlayerCombat

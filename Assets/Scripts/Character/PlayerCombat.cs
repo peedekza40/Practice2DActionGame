@@ -2,20 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Constants;
+using System.Linq;
 
 namespace Character {
     public class PlayerCombat : MonoBehaviour, IPlayerCombat
     {
         [Header("Attack")]
         public float TimeBetweenNextMove = 0.75f;
-        public float AttackRange = 0.75f;
         public float Damage = 20f;
-        public Transform AttackPoint;
+        public Collider2D HitBox;
         public LayerMask EnemyLayers;
         public int? CountAttack { get; private set; }
         public bool IsAttacking { get; private set; }
-        private Collider2D HitBox;
         private float TimeSinceAttack = 0f;
+        private int DamageFrameCount = 0;
 
         [Header("Block")]
         public float ReduceDamage = 5f;
@@ -40,7 +40,6 @@ namespace Character {
         {
             PlayerController = GetComponent<IPlayerController>();
             AnimatorController = GetComponentInChildren<IAnimatorController>();
-            HitBox = GetComponentInChildren<Collider2D>();
         }
 
         // Update is called once per frame
@@ -68,10 +67,9 @@ namespace Character {
             // Increase timer that controls attack combo
             TimeSinceAttack += Time.deltaTime;
 
-            if(IsBlocking == false && Input.AttackDown && TimeSinceAttack > 0.25f)
+            if(IsBlocking == false && Input.AttackDown && TimeSinceAttack > 0.4f)
             {
                 CountAttack++;
-
                 // Loop back to one after third attack or Reset Attack combo if time since last attack is too large
                 if(CountAttack > 3 || TimeSinceAttack > TimeBetweenNextMove)
                 {
@@ -81,17 +79,30 @@ namespace Character {
                 //update animation
                 AnimatorController.TriggerAttack(CountAttack);
 
+                //Reset
+                TimeSinceAttack = 0f;
+                DamageFrameCount = 0;
+            }
+
+            //damage enemy
+            if(IsAttacking && DamageFrameCount == 0)
+            {
                 //detect enemy in range of attack
-                Collider2D[] hitEnemies =  Physics2D.OverlapCircleAll(AttackPoint.position, AttackRange, EnemyLayers);
+                List<Collider2D> hitEnemies = new List<Collider2D>();
+                ContactFilter2D contactFilter = new ContactFilter2D();
+                contactFilter.SetLayerMask(EnemyLayers);
+                HitBox.OverlapCollider(contactFilter, hitEnemies);
 
                 //damage them
                 foreach (var hitEnemy in hitEnemies)
                 {
                     hitEnemy.GetComponent<CharacterStatus>().TakeDamage(Damage);
+                    DamageFrameCount++;
                 }
-
-                //Reset
-                TimeSinceAttack = 0f;
+            }
+            else if(IsAttacking == false)
+            {
+                DamageFrameCount = 0;
             }
         }
 
@@ -134,10 +145,7 @@ namespace Character {
             }
         }
 
-        void OnDrawGizmosSelected()
-        {
-            Gizmos.DrawWireSphere(AttackPoint.position, AttackRange);
-        }
+
 
     }
 }

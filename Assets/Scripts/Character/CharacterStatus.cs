@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Pathfinding;
+using Constants;
 
 namespace Character 
 {
@@ -23,7 +24,7 @@ namespace Character
         void Start()
         {
             CharacterAnimatorController = GetComponent<IAnimatorController>();
-            BlockFlashAnimatorController = GameObject.Find("EffectBlock").GetComponent<BlockFlashAnimatorController>();
+            BlockFlashAnimatorController = GameObject.Find(GameObjectName.EffectBlock).GetComponent<BlockFlashAnimatorController>();
             PlayerCombat = GetComponent<IPlayerCombat>();
             Rigidbody = GetComponent<Rigidbody2D>();
             EnemyAi = GetComponent<EnemyAI>();
@@ -52,9 +53,9 @@ namespace Character
             if(IsDeath == false){
 
                 //player section
-                var reduceDamage = 0f;
-                if(PlayerCombat != null)
+                if(gameObject.tag == "Player")
                 {
+                    var reduceDamage = 0f;
                     if(PlayerCombat.IsBlocking)
                     {
                         if(PlayerCombat.PressBlockThisFrame)
@@ -66,10 +67,12 @@ namespace Character
                         {
                             reduceDamage = PlayerCombat.GetReduceDamage();
                         }
+
+                        damage -= reduceDamage;
                     }
                 }
 
-                CurrentHP -= damage - reduceDamage;
+                CurrentHP -= damage;
                 CharacterAnimatorController.TriggerAttacked();
                 HealthBar.SetHealth(CurrentHP);
             }
@@ -77,6 +80,7 @@ namespace Character
 
         public virtual void Die()
         {
+            Rigidbody.simulated = false;
             CharacterAnimatorController.SetDeath();
         }
     }

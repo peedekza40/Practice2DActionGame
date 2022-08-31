@@ -18,6 +18,7 @@ namespace Character {
         public bool LandingThisFrame { get; private set; }
         public Vector3 RawMovement { get; private set; }
         public bool Grounded => _colDown;
+        public float LastAttackPressed { get; private set; }
 
         private Vector3 _lastPosition;
         private float _currentHorizontalSpeed, _currentVerticalSpeed;
@@ -81,6 +82,11 @@ namespace Character {
 
             if (input.JumpDown) {
                 _lastJumpPressed = Time.time;
+            }
+            
+            if(input.AttackDown)
+            {
+                LastAttackPressed = Time.time;
             }
 
             Input = input;
