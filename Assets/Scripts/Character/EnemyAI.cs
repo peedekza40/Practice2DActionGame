@@ -1,11 +1,10 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Pathfinding;
 using System.Linq;
 using Constants;
 
-namespace Character 
+namespace Character
 {
     public class EnemyAI : MonoBehaviour
     {
@@ -155,8 +154,7 @@ namespace Character
         {
             bool isEnemyDetected =  Physics2D.OverlapCircleAll(DetectEnemy.position, DetectEnemyRange, EnemyLayers).ToList().Any();
             TimeSinceAttack += Time.deltaTime;
-            Debug.Log(CountAttack);
-            if(IsAttacking == false && TimeSinceAttack > 0.25f && isEnemyDetected)
+            if(IsAttacking == false && TimeSinceAttack > 0.25f && (isEnemyDetected || CountAttack == 1))
             {
                 CountAttack++;
                 // Loop back to one after third attack or Reset Attack combo if time since last attack is too large

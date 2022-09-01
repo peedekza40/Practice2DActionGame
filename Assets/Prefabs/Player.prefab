@@ -598,7 +598,7 @@ GameObject:
   - component: {fileID: 5187863493397715742}
   - component: {fileID: 7048634681783095855}
   - component: {fileID: 6648175399296352733}
-  - component: {fileID: 3392141418775298328}
+  - component: {fileID: 7121550602702918623}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -721,14 +721,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TimeBetweenNextMove: 0.75
-  AttackRange: 0.75
   Damage: 20
   HitBox: {fileID: 4495012563492310587}
   EnemyLayers:
     serializedVersion: 2
     m_Bits: 128
   ReduceDamage: 5
---- !u!114 &3392141418775298328
+--- !u!114 &7121550602702918623
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -737,8 +736,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 8511704446154591096}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: de2486d9e36b41d4684b2f72d3b160b7, type: 3}
+  m_Script: {fileID: 11500000, guid: 23b121a682eeb5b4cab1a5c4bbf4e1cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   MaxHP: 100
+  CurrentHP: 0
   HealthBar: {fileID: 8456395811175856764}
+  OnBeforeDamage:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDamaged:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDied:
+    m_PersistentCalls:
+      m_Calls: []
