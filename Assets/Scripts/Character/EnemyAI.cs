@@ -21,7 +21,8 @@ namespace Character
         public float JumpCheckOffset = 0.1f;
 
         [Header("Combat")]
-        public float TimeBetweenNextMove = 1.2f;
+        public float TimeBetweenAttack = 1.5f;
+        public float TimeBetweenNextMove = 0.5f;
         public float Damage = 20f;
         public Collider2D HitBox;
         public float DetectEnemyRange = 0.5f;
@@ -43,6 +44,7 @@ namespace Character
         private bool IsGrounded = false;
         private Seeker Seeker;
         private Rigidbody2D Rb;
+        private KnockBack KnockBack;
         private IAnimatorController AnimatorController;
         private AnimatorStateInfo AnimationState;
         private AnimatorClipInfo[] AnimatorClip;
@@ -51,6 +53,7 @@ namespace Character
         {
             Seeker = GetComponent<Seeker>();
             Rb = GetComponent<Rigidbody2D>();
+            KnockBack = GetComponent<KnockBack>();
             AnimatorController = GetComponent<IAnimatorController>();
 
             InvokeRepeating(nameof(UpdatePath), 0f, PathUpdateSecond);
@@ -61,7 +64,7 @@ namespace Character
             AnimationState = AnimatorController.Animator.GetCurrentAnimatorStateInfo(0);
             AnimatorClip = AnimatorController.Animator.GetCurrentAnimatorClipInfo(0);
 
-            if(TargetInDistance() && FollowEnabled && IsAttacking == false)
+            if(TargetInDistance() && FollowEnabled && IsAttacking == false && KnockBack.IsKnockingBack == false)
             {
                 PathFollow();
             }
@@ -126,7 +129,7 @@ namespace Character
             }
 
             //Direction Graphics Handling
-            if(DirectionLookEnabled)
+            if(DirectionLookEnabled && KnockBack.IsKnockingBack == false)
             {
                 AnimatorController.FilpCharacter();
             }
@@ -152,13 +155,23 @@ namespace Character
 
         private void Attack()
         {
-            bool isEnemyDetected =  Physics2D.OverlapCircleAll(DetectEnemy.position, DetectEnemyRange, EnemyLayers).ToList().Any();
+            List<Collider2D> enemies = Physics2D.OverlapCircleAll(DetectEnemy.position, DetectEnemyRange, EnemyLayers).ToList();
+            bool isEnemyDetected =  enemies.Any();
             TimeSinceAttack += Time.deltaTime;
-            if(IsAttacking == false && TimeSinceAttack > 0.25f && (isEnemyDetected || CountAttack == 1))
+
+            if(IsAttacking == false && TimeSinceAttack > TimeBetweenAttack && (isEnemyDetected || CountAttack == 1))
             {
+                //look direction
+                var target = enemies.FirstOrDefault(x => x.tag == TagName.Player);
+                if(target != null)
+                {
+                    Vector2 direction = ((Vector2)target.transform.position - Rb.position).normalized;
+                    AnimatorController.FilpCharacter(direction);
+                }
+
                 CountAttack++;
                 // Loop back to one after third attack or Reset Attack combo if time since last attack is too large
-                if(CountAttack > 2 || TimeSinceAttack > TimeBetweenNextMove)
+                if(CountAttack > 2 || TimeSinceAttack > TimeBetweenAttack + TimeBetweenNextMove)
                 {
                     CountAttack = 1;
                 }
@@ -170,7 +183,6 @@ namespace Character
                 DamageFrameCount = 0;
             }
 
-                
             if(IsAttacking && DamageFrameCount == 0)
             {
                 //detect enemy in range of attack
@@ -182,7 +194,7 @@ namespace Character
                 //damage them
                 foreach (var hitEnemy in hitEnemies)
                 {
-                    hitEnemy.GetComponent<CharacterStatus>().TakeDamage(Damage);
+                    hitEnemy.GetComponent<CharacterStatus>().TakeDamage(Damage, HitBox.gameObject);
                     DamageFrameCount++;
                 }
             }

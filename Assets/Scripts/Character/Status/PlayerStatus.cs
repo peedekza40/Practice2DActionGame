@@ -20,7 +20,7 @@ namespace Character
             base.BaseUpdate();
         }
 
-        public override void TakeDamage(float damage)
+        public override void TakeDamage(float damage, GameObject attackerHitBox)
         {
             var reduceDamage = 0f;
             if(PlayerCombat.IsBlocking)
@@ -38,7 +38,7 @@ namespace Character
                 damage -= reduceDamage;
             }
             
-            base.TakeDamage(damage);
+            base.TakeDamage(damage, attackerHitBox);
         }
     }
 }

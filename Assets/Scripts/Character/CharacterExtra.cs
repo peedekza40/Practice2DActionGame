@@ -1,8 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-namespace Character {
+namespace Character
+{
 
     public interface IPlayerController 
     {
@@ -35,6 +34,7 @@ namespace Character {
         void SetDeath();
         void SetBlock(bool isBlocking);
         void FilpCharacter();
+        void FilpCharacter(Vector2 direction);
         float GetAnimationLength(string animName);
     }
 
@@ -45,6 +45,7 @@ namespace Character {
         public bool JumpUp;
         public bool AttackDown;
         public bool BlockDown;
+        public bool Blocking;
         public bool BlockUp;
     }
 

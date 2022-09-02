@@ -1,34 +1,32 @@
-using Constants;
+using System.Collections;
 using UnityEngine;
 
 public class KnockBack : MonoBehaviour
 {
     public float KnockBackRange = 8f;
+    public float KnockBackTime = 1f;
     public Transform CenterTransform;
     public bool IsKnockingBack { get; private set; }
 
-    private Transform AttackerTransform;
     private Rigidbody2D Rb;
 
     private void Start() 
     {
-        Rb = GetComponent<Rigidbody2D>();        
+        Rb = GetComponent<Rigidbody2D>();
+    }
+    
+    public void Action(GameObject attackerHitBox)
+    {
+        var direction = (Vector3)CenterTransform.position - attackerHitBox.transform.position;
+        Rb.velocity = (Vector2)(direction.normalized * KnockBackRange);
+        IsKnockingBack = true;
+        StartCoroutine(UnKnockBack());
     }
 
-    public void Action()
+    private IEnumerator UnKnockBack()
     {
-        if(AttackerTransform != null)
-        {
-            var direction = (Vector3)CenterTransform.position - AttackerTransform.position;
-            Rb.velocity = (Vector2)(direction.normalized * KnockBackRange);
-        }
-    }
-
-    private void OnTriggerEnter2D(Collider2D other) 
-    {
-        if(other.name == GameObjectName.HitBox)
-        {
-            AttackerTransform = other.transform;
-        }
+        yield return new WaitForSeconds(KnockBackTime);
+        IsKnockingBack = false;
+        Debug.Log($"{gameObject.name} : stop knock back");
     }
 }

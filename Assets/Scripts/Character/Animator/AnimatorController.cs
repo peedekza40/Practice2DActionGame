@@ -35,6 +35,8 @@ namespace Character
 
         public virtual void FilpCharacter(){}
 
+        public virtual void FilpCharacter(Vector2 direction){}
+
         public virtual float GetAnimationLength(string animName)
         {
             return Clips.FirstOrDefault(x => x.name == animName)?.length ?? 0;

@@ -23,6 +23,7 @@ namespace Character {
         private Vector3 _lastPosition;
         private float _currentHorizontalSpeed, _currentVerticalSpeed;
         private IPlayerCombat PlayerCombat;
+        private KnockBack KnockBack;
         private bool IsCanMove;
 
         // This is horrible, but for some reason colliders are not fully established when update starts...
@@ -33,6 +34,7 @@ namespace Character {
         private void Start()
         {
             PlayerCombat = GetComponent<IPlayerCombat>();
+            KnockBack = GetComponent<KnockBack>();
         }
 
         private void Update() {
@@ -41,7 +43,7 @@ namespace Character {
             Velocity = (transform.position - _lastPosition) / Time.deltaTime;
             _lastPosition = transform.position;
 
-            IsCanMove = !(PlayerCombat.IsAttacking || PlayerCombat.IsBlocking);
+            IsCanMove = !(PlayerCombat.IsAttacking || PlayerCombat.IsBlocking || KnockBack.IsKnockingBack);
 
             GatherInput();
             RunCollisionChecks();
@@ -78,6 +80,7 @@ namespace Character {
 
             input.AttackDown = UnityEngine.Input.GetButtonDown("Attack");
             input.BlockDown = UnityEngine.Input.GetButtonDown("Block");
+            input.Blocking = UnityEngine.Input.GetButton("Block");
             input.BlockUp = UnityEngine.Input.GetButtonUp("Block");
 
             if (input.JumpDown) {

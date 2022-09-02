@@ -1,11 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-using Pathfinding;
-using Constants;
+using System;
 
-namespace Character 
+namespace Character
 {
     public class CharacterStatus : MonoBehaviour
     {
@@ -13,7 +10,8 @@ namespace Character
         public float MaxHP = 100;
         public float CurrentHP;
         public HealthBar HealthBar;
-        public UnityEvent OnDamaged, OnDied;
+        public UnityEvent<GameObject> OnDamaged;
+        public UnityEvent OnDied;
 
         private IAnimatorController AnimatorController;
         private Rigidbody2D Rigidbody;
@@ -37,14 +35,14 @@ namespace Character
             }
         }
 
-        public virtual void TakeDamage(float damage)
+        public virtual void TakeDamage(float damage, GameObject attackerHitBox)
         {
             //set hp
             CurrentHP -= damage;
             AnimatorController.TriggerAttacked();
             HealthBar.SetHealth(CurrentHP);
             
-            OnDamaged?.Invoke();
+            OnDamaged?.Invoke(attackerHitBox);
         }
 
         public virtual void Die()

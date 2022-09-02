@@ -295,7 +295,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3269903174088872476}
   - component: {fileID: 4495012563492310587}
-  m_Layer: 3
+  m_Layer: 9
   m_Name: HitBox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -595,10 +595,11 @@ GameObject:
   - component: {fileID: 8511704446154591093}
   - component: {fileID: 6224632845274552669}
   - component: {fileID: 8540314856595276207}
-  - component: {fileID: 5187863493397715742}
   - component: {fileID: 7048634681783095855}
+  - component: {fileID: 5187863493397715742}
   - component: {fileID: 6648175399296352733}
   - component: {fileID: 7121550602702918623}
+  - component: {fileID: 1757245925762325566}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -662,6 +663,18 @@ CapsuleCollider2D:
   m_Offset: {x: -0.0038749278, y: -0.7720928}
   m_Size: {x: 0.57013017, y: 1.2466578}
   m_Direction: 0
+--- !u!114 &7048634681783095855
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8511704446154591096}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82aaff686670187499e30aa3117efd1b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &5187863493397715742
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -696,18 +709,6 @@ MonoBehaviour:
   _jumpBuffer: 0.1
   _jumpEndEarlyGravityModifier: 3
   _freeColliderIterations: 10
---- !u!114 &7048634681783095855
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8511704446154591096}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 82aaff686670187499e30aa3117efd1b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &6648175399296352733
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -720,7 +721,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66726709f593aa8439cd27bad685977e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TimeBetweenNextMove: 0.75
+  TimeBetweenAttack: 0.4
+  TimeBetweenNextMove: 0.35
   Damage: 20
   HitBox: {fileID: 4495012563492310587}
   EnemyLayers:
@@ -742,12 +744,24 @@ MonoBehaviour:
   MaxHP: 100
   CurrentHP: 0
   HealthBar: {fileID: 8456395811175856764}
-  OnBeforeDamage:
-    m_PersistentCalls:
-      m_Calls: []
   OnDamaged:
     m_PersistentCalls:
       m_Calls: []
   OnDied:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1757245925762325566
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8511704446154591096}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17e47e8250d77fd4f90f86c6cd2564a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  KnockBackRange: 3
+  KnockBackTime: 0.5
+  CenterTransform: {fileID: 8441723458737396292}
