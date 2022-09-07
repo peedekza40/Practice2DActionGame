@@ -10,7 +10,9 @@ namespace Character
         public float MaxHP = 100;
         public float CurrentHP;
         public HealthBar HealthBar;
-        public UnityEvent<GameObject> OnDamaged;
+        public UnityEvent OnDamaged;
+        public UnityEvent<GameObject> OnDamagedPassHitBox;
+        public UnityEvent<float> OnDamagedPassDamage;
         public UnityEvent OnDied;
 
         private IAnimatorController AnimatorController;
@@ -42,7 +44,9 @@ namespace Character
             AnimatorController.TriggerAttacked();
             HealthBar.SetHealth(CurrentHP);
             
-            OnDamaged?.Invoke(attackerHitBox);
+            OnDamagedPassDamage?.Invoke(damage);
+            OnDamagedPassHitBox?.Invoke(attackerHitBox);
+            OnDamaged?.Invoke();
         }
 
         public virtual void Die()

@@ -23,6 +23,11 @@ public class KnockBack : MonoBehaviour
         StartCoroutine(UnKnockBack());
     }
 
+    public void CalculateKnockBackRange(float damage)
+    {
+        KnockBackRange = damage * (3f/10f);
+    }
+
     private IEnumerator UnKnockBack()
     {
         yield return new WaitForSeconds(KnockBackTime);

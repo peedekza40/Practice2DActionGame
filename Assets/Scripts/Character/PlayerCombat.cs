@@ -8,6 +8,7 @@ namespace Character {
     public class PlayerCombat : MonoBehaviour, IPlayerCombat
     {
         [Header("Attack")]
+        public float TimeBetweenCombo = 0.45f;
         public float TimeBetweenAttack = 0.4f;
         public float TimeBetweenNextMove = 0.35f;
         public float Damage = 20f;
@@ -69,7 +70,10 @@ namespace Character {
             // Increase timer that controls attack combo
             TimeSinceAttack += Time.deltaTime;
 
-            if(IsBlocking == false && Input.AttackDown && TimeSinceAttack > TimeBetweenAttack)
+            if(IsBlocking == false 
+                && Input.AttackDown 
+                && ((CountAttack < 3 && TimeSinceAttack > TimeBetweenAttack)
+                || (CountAttack == 3 && TimeSinceAttack > TimeBetweenAttack + TimeBetweenCombo)))
             {
                 CountAttack++;
                 // Loop back to one after third attack or Reset Attack combo if time since last attack is too large

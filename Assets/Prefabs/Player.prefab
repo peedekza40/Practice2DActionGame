@@ -721,7 +721,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66726709f593aa8439cd27bad685977e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TimeBetweenAttack: 0.4
+  TimeBetweenCombo: 0.45
+  TimeBetweenAttack: 0.2
   TimeBetweenNextMove: 0.35
   Damage: 20
   HitBox: {fileID: 4495012563492310587}
@@ -745,6 +746,12 @@ MonoBehaviour:
   CurrentHP: 0
   HealthBar: {fileID: 8456395811175856764}
   OnDamaged:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDamagedPassHitBox:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDamagedPassDamage:
     m_PersistentCalls:
       m_Calls: []
   OnDied:

@@ -40,5 +40,12 @@ namespace Character
             
             base.TakeDamage(damage, attackerHitBox);
         }
+
+        public override void Die()
+        {
+            GetComponent<PlayerCombat>().enabled = false;
+            GetComponent<PlayerController>().enabled = false;
+            base.Die();
+        }
     }
 }
