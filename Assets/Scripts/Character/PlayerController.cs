@@ -10,7 +10,7 @@ namespace Character {
     /// if there's enough interest. You can play and compete for best times here: https://tarodev.itch.io/
     /// If you hve any questions or would like to brag about your score, come to discord: https://discord.gg/GqeHHnhHpz
     /// </summary>
-    public class PlayerController : MonoBehaviour, IPlayerController {
+    public class PlayerController : MonoBehaviour, IPlayerController, IDataPersistence {
         // Public for external hooks
         public Vector3 Velocity { get; private set; }
         public FrameInput Input { get; private set; }
@@ -338,5 +338,15 @@ namespace Character {
         }
 
         #endregion
+
+        public void LoadData(GameData data)
+        {
+            transform.position = data.PlayerPosition;
+        }
+
+        public void SaveData(ref GameData data)
+        {
+            data.PlayerPosition = _lastPosition;   
+        }
     }
 }

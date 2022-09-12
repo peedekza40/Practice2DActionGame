@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Character
 {
-    public class PlayerStatus : CharacterStatus
+    public class PlayerStatus : CharacterStatus, IDataPersistence
     {
         private IPlayerCombat PlayerCombat;
         private BlockFlashAnimatorController BlockFlashAnimatorController;
@@ -46,6 +46,17 @@ namespace Character
             GetComponent<PlayerCombat>().enabled = false;
             GetComponent<PlayerController>().enabled = false;
             base.Die();
+        }
+
+        public void LoadData(GameData data)
+        {
+            this.CurrentHP = data.PlayerHP;
+            HealthBar.SetHealth(CurrentHP);
+        }
+
+        public void SaveData(ref GameData data)
+        {
+            data.PlayerHP = this.CurrentHP;
         }
     }
 }

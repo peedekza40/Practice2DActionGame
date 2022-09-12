@@ -46,10 +46,14 @@ public class PauseMenu : MonoBehaviour
         Cursor.visible = false;
     }
 
-    public void Restart()
+    public void Save()
     {
-        Resume();
-        deathScript.Respawn();
+        DataPersistenceManager.instance.SaveGame();
+    }
+
+    public void Load()
+    {
+        DataPersistenceManager.instance.LoadGame();
     }
 
     public void Quit()
