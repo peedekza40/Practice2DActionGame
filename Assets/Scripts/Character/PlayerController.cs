@@ -342,11 +342,13 @@ namespace Character {
         public void LoadData(GameData data)
         {
             transform.position = data.PlayerPosition;
+            transform.localScale = data.Scale;
         }
 
         public void SaveData(ref GameData data)
         {
-            data.PlayerPosition = _lastPosition;   
+            data.PlayerPosition = _lastPosition;
+            data.Scale = transform.localScale;
         }
     }
 }

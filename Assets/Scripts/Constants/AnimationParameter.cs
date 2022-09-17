@@ -15,6 +15,7 @@ namespace Constants
         public const string IsGrounded = "IsGrounded";
         public const string Parry = "Parry";
         public const string Start = "Start";
+        public const string End = "End";
     }
 }
 

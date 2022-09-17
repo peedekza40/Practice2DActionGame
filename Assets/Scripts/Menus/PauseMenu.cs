@@ -1,19 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
+using Character;
 using UnityEngine;
 
 public class PauseMenu : MonoBehaviour
 {
-    public GameObject pauseMenu;
+    public GameObject MenuPanel;
     public GameObject Player;
 
-    private DeathScript deathScript;
+    private DeathScript DeathScript;
+    private PlayerCombat PlayerCombat;
 
     // Start is called before the first frame update
     void Start()
     {
         Cursor.visible = false;
-        deathScript = Player.GetComponent<DeathScript>();
+        DeathScript = Player.GetComponent<DeathScript>();
+        PlayerCombat = Player.GetComponent<PlayerCombat>();
     }
 
     // Update is called once per frame
@@ -21,7 +24,7 @@ public class PauseMenu : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.Escape))
         {
-            if(!pauseMenu.activeSelf)
+            if(!MenuPanel.activeSelf)
             {
                 Pause();
             }
@@ -35,14 +38,16 @@ public class PauseMenu : MonoBehaviour
     private void Pause()
     {
         Time.timeScale = 0f;
-        pauseMenu.SetActive(true);
+        MenuPanel.SetActive(true);
+        PlayerCombat.enabled = false;
         Cursor.visible = true;
     }
 
     public void Resume()
     {
         Time.timeScale = 1f;
-        pauseMenu.SetActive(false);
+        MenuPanel.SetActive(false);
+        PlayerCombat.enabled = true;
         Cursor.visible = false;
     }
 

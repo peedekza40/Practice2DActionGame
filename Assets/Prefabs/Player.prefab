@@ -244,7 +244,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: -0.000030517578}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5634841781720567050
@@ -703,7 +703,7 @@ MonoBehaviour:
   _fallClamp: -40
   _minFallSpeed: 30
   _maxFallSpeed: 40
-  _jumpHeight: 12
+  _jumpHeight: 15
   _jumpApexThreshold: 10
   _coyoteTimeThreshold: 0.1
   _jumpBuffer: 0.1
@@ -724,7 +724,7 @@ MonoBehaviour:
   TimeBetweenCombo: 0.45
   TimeBetweenAttack: 0.2
   TimeBetweenNextMove: 0.35
-  Damage: 20
+  Damage: 10
   HitBox: {fileID: 4495012563492310587}
   EnemyLayers:
     serializedVersion: 2
@@ -742,7 +742,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23b121a682eeb5b4cab1a5c4bbf4e1cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxHP: 100
+  MaxHP: 500
   CurrentHP: 0
   HealthBar: {fileID: 8456395811175856764}
   OnDamaged:
@@ -750,10 +750,34 @@ MonoBehaviour:
       m_Calls: []
   OnDamagedPassHitBox:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1757245925762325566}
+        m_TargetAssemblyTypeName: KnockBack, Assembly-CSharp
+        m_MethodName: Action
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   OnDamagedPassDamage:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1757245925762325566}
+        m_TargetAssemblyTypeName: KnockBack, Assembly-CSharp
+        m_MethodName: CalculateKnockBackRange
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   OnDied:
     m_PersistentCalls:
       m_Calls: []

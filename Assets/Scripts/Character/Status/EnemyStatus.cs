@@ -7,10 +7,10 @@ namespace Character
     {
         private EnemyAI EnemyAi;
 
-        void Start()
+        void Awake()
         {
             EnemyAi = GetComponent<EnemyAI>();
-            base.BaseStart();
+            base.BaseAwake();
         }
 
         void Update()

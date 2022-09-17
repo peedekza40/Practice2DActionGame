@@ -19,13 +19,12 @@ namespace Character
         private Rigidbody2D Rigidbody;
         private bool IsDeath = false;
 
-        protected void BaseStart()
+        protected void BaseAwake()
         {
             AnimatorController = GetComponent<IAnimatorController>();
             Rigidbody = GetComponent<Rigidbody2D>();
-
-            CurrentHP = MaxHP;
             HealthBar.SetMaxHealth(MaxHP);
+            SetCurrentHP(MaxHP);
         }
 
         protected void BaseUpdate()
@@ -37,12 +36,17 @@ namespace Character
             }
         }
 
+        public void SetCurrentHP(float hp)
+        {
+            this.CurrentHP = hp;
+            HealthBar.SetHealth(CurrentHP);
+        }
+
         public virtual void TakeDamage(float damage, GameObject attackerHitBox)
         {
             //set hp
-            CurrentHP -= damage;
+            SetCurrentHP(CurrentHP - damage);
             AnimatorController.TriggerAttacked();
-            HealthBar.SetHealth(CurrentHP);
             
             OnDamagedPassDamage?.Invoke(damage);
             OnDamagedPassHitBox?.Invoke(attackerHitBox);

@@ -8,11 +8,11 @@ namespace Character
         private IPlayerCombat PlayerCombat;
         private BlockFlashAnimatorController BlockFlashAnimatorController;
 
-        void Start()
+        void Awake()
         {
             PlayerCombat = GetComponent<IPlayerCombat>();
             BlockFlashAnimatorController = GameObject.Find(GameObjectName.EffectBlock).GetComponent<BlockFlashAnimatorController>();
-            base.BaseStart();
+            base.BaseAwake();
         }
 
         void Update()
@@ -50,8 +50,7 @@ namespace Character
 
         public void LoadData(GameData data)
         {
-            this.CurrentHP = data.PlayerHP;
-            HealthBar.SetHealth(CurrentHP);
+            SetCurrentHP(data.PlayerHP);
         }
 
         public void SaveData(ref GameData data)

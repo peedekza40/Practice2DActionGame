@@ -1,9 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-namespace Character {
-    public class CameraMovement : MonoBehaviour
+namespace Character
+{
+    public class CameraMovement : MonoBehaviour, IDataPersistence
     {
         public GameObject Target;
         public float FollowSpeed = 2f;
@@ -31,6 +30,16 @@ namespace Character {
 
             Vector3 newPos = new Vector3(Target.transform.position.x, Target.transform.position.y + OffsetY, newPositionZ);
             transform.position =  Vector3.Slerp(transform.position, newPos, FollowSpeed * Time.deltaTime);
+        }
+
+        public void LoadData(GameData data)
+        {
+            transform.position = data.CameraPosition;
+        }
+
+        public void SaveData(ref GameData data)
+        {
+            data.CameraPosition = transform.position;
         }
     }
 }
