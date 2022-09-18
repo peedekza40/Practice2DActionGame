@@ -14,10 +14,10 @@ namespace Character
         public UnityEvent<GameObject> OnDamagedPassHitBox;
         public UnityEvent<float> OnDamagedPassDamage;
         public UnityEvent OnDied;
+        public bool IsDeath { get; private set; }
 
         private IAnimatorController AnimatorController;
         private Rigidbody2D Rigidbody;
-        private bool IsDeath = false;
 
         protected void BaseAwake()
         {

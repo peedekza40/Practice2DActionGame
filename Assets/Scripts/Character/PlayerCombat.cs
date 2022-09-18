@@ -29,8 +29,10 @@ namespace Character {
 
         private IPlayerController PlayerController;
         private IAnimatorController AnimatorController;
+        private Gold Gold;
         private AnimatorStateInfo AnimationState;
         private FrameInput Input;
+        private List<EnemyStatus> AttackedEnemies = new List<EnemyStatus>();
 
         void Awake()
         {
@@ -42,6 +44,7 @@ namespace Character {
         {
             PlayerController = GetComponent<IPlayerController>();
             AnimatorController = GetComponentInChildren<IAnimatorController>();
+            Gold = GetComponent<Gold>();
         }
 
         // Update is called once per frame
@@ -53,6 +56,7 @@ namespace Character {
 
             Attack();
             Block();
+            CheckAttackedCharaterDeath();
         }
 
         public float GetReduceDamage()
@@ -102,7 +106,9 @@ namespace Character {
                 //damage them
                 foreach (var hitEnemy in hitEnemies)
                 {
-                    hitEnemy.GetComponent<CharacterStatus>().TakeDamage(Damage, HitBox.gameObject);
+                    var attackedEnemy = hitEnemy.GetComponent<EnemyStatus>();
+                    attackedEnemy?.TakeDamage(Damage, HitBox.gameObject);
+                    AttackedEnemies.Add(attackedEnemy);
                     DamageFrameCount++;
                 }
             }
@@ -142,6 +148,22 @@ namespace Character {
                 }
 
                 AnimatorController.SetBlock(IsBlocking);
+            }
+        }
+
+        private void CheckAttackedCharaterDeath()
+        {
+            var deathAttackedEnemies = AttackedEnemies.Where(x => x.IsDeath).ToList();
+            foreach(var deathAttackedEnemy in deathAttackedEnemies)
+            {
+                if(deathAttackedEnemy.GetIsCollectedGold() == false)
+                {
+                    Debug.Log($"Collect gold enemy : {deathAttackedEnemy.name}");
+                    Gold.Collect(deathAttackedEnemy.Type);
+                    deathAttackedEnemy.SetIsCollectedGold(true);
+                    AttackedEnemies.Remove(deathAttackedEnemy);
+                }
+
             }
         }
 

@@ -7,11 +7,13 @@ namespace Character
     {
         private IPlayerCombat PlayerCombat;
         private BlockFlashAnimatorController BlockFlashAnimatorController;
+        private Gold Gold;
 
         void Awake()
         {
             PlayerCombat = GetComponent<IPlayerCombat>();
             BlockFlashAnimatorController = GameObject.Find(GameObjectName.EffectBlock).GetComponent<BlockFlashAnimatorController>();
+            Gold = GetComponent<Gold>();
             base.BaseAwake();
         }
 
