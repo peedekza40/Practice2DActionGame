@@ -4,5 +4,6 @@ namespace Constants
     {
         public const string EffectBlock = "EffectBlock";
         public const string HitBox = "HitBox";
+        public const string ItemImage = "ItemImage";
     }
 }

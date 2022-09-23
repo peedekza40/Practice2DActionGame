@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Constants;
 using UnityEngine;
 
 namespace Character {
@@ -63,8 +64,8 @@ namespace Character {
             var input = new FrameInput();
             if(IsCanMove)
             {
-                input.JumpDown = UnityEngine.Input.GetButtonDown("Jump");
-                input.JumpUp = UnityEngine.Input.GetButtonUp("Jump");
+                input.JumpDown = UnityEngine.Input.GetButtonDown(InputName.Jump);
+                input.JumpUp = UnityEngine.Input.GetButtonUp(InputName.Jump);
                 input.X = UnityEngine.Input.GetAxisRaw("Horizontal");
             }
             else
@@ -78,10 +79,12 @@ namespace Character {
                 }
             }
 
-            input.AttackDown = UnityEngine.Input.GetButtonDown("Attack");
-            input.BlockDown = UnityEngine.Input.GetButtonDown("Block");
-            input.Blocking = UnityEngine.Input.GetButton("Block");
-            input.BlockUp = UnityEngine.Input.GetButtonUp("Block");
+            input.AttackDown = UnityEngine.Input.GetButtonDown(InputName.Atack);
+            input.BlockDown = UnityEngine.Input.GetButtonDown(InputName.Block);
+            input.Blocking = UnityEngine.Input.GetButton(InputName.Block);
+            input.BlockUp = UnityEngine.Input.GetButtonUp(InputName.Block);
+            input.Inventory = UnityEngine.Input.GetButtonDown(InputName.Inventory);
+            input.PickUp = UnityEngine.Input.GetButton(InputName.PickUp);
 
             if (input.JumpDown) {
                 _lastJumpPressed = Time.time;

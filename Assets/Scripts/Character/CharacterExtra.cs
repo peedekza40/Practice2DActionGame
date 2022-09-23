@@ -47,6 +47,8 @@ namespace Character
         public bool BlockDown;
         public bool Blocking;
         public bool BlockUp;
+        public bool Inventory;
+        public bool PickUp;
     }
 
     public struct RayRange 

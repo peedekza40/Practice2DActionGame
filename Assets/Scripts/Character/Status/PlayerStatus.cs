@@ -5,21 +5,33 @@ namespace Character
 {
     public class PlayerStatus : CharacterStatus, IDataPersistence
     {
+        [Header("Assets")]
+        public Gold Gold;
+        public Inventory Inventory;
+
         private IPlayerCombat PlayerCombat;
         private BlockFlashAnimatorController BlockFlashAnimatorController;
-        private Gold Gold;
 
         void Awake()
         {
             PlayerCombat = GetComponent<IPlayerCombat>();
             BlockFlashAnimatorController = GameObject.Find(GameObjectName.EffectBlock).GetComponent<BlockFlashAnimatorController>();
-            Gold = GetComponent<Gold>();
             base.BaseAwake();
         }
 
         void Update()
         {
             base.BaseUpdate();
+        }
+
+        private void OnTriggerEnter2D(Collider2D other) 
+        {
+            ItemWorld itemWorld = other.GetComponent<ItemWorld>();
+            if(itemWorld != null)
+            {
+                Inventory.AddItem(itemWorld.GetItem());
+                itemWorld.DestroySelf();
+            }
         }
 
         public override void TakeDamage(float damage, GameObject attackerHitBox)

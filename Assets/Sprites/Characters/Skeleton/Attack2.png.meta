@@ -1,19 +1,31 @@
 fileFormatVersion: 2
-guid: caca481b328eaa649ab9096c2cc08c31
+guid: 9025f61fa49fa8e479a3049f19563dba
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -7500690451134026123
-    second: Take Hit_0
+      213: 7441861488978599509
+    second: Attack2_0
   - first:
-      213: -889859373511162655
-    second: Take Hit_1
+      213: 8288915215451595207
+    second: Attack2_1
   - first:
-      213: -3088938797480143695
-    second: Take Hit_2
+      213: 4668938655123782945
+    second: Attack2_2
   - first:
-      213: -9206091644520726168
-    second: Take Hit_3
+      213: 5683539909772271658
+    second: Attack2_3
+  - first:
+      213: 5764228812365489207
+    second: Attack2_4
+  - first:
+      213: -1191510351576865934
+    second: Attack2_5
+  - first:
+      213: -8937499057154260928
+    second: Attack2_6
+  - first:
+      213: 5293088307283036655
+    second: Attack2_7
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -32,6 +44,7 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
@@ -75,6 +88,7 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -140,7 +154,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Take Hit_0
+      name: Attack2_0
       rect:
         serializedVersion: 2
         x: 0
@@ -154,14 +168,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 907caeaa72bb63b4889cbdea322b1806
-      internalID: -7500690451134026123
+      spriteID: 6503cf4494014e44ab1592d7d360362a
+      internalID: 7441861488978599509
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Take Hit_1
+      name: Attack2_1
       rect:
         serializedVersion: 2
         x: 150
@@ -175,14 +189,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3521b474b4771d248bafd64b5e250ddc
-      internalID: -889859373511162655
+      spriteID: 15e4d6028bb83714195985a68a9fae93
+      internalID: 8288915215451595207
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Take Hit_2
+      name: Attack2_2
       rect:
         serializedVersion: 2
         x: 300
@@ -196,14 +210,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3ddcad1e14386394caa85bbbfe25f5c7
-      internalID: -3088938797480143695
+      spriteID: 2549b14069a55ff49ba97079349c90c0
+      internalID: 4668938655123782945
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Take Hit_3
+      name: Attack2_3
       rect:
         serializedVersion: 2
         x: 450
@@ -217,8 +231,92 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4105aa489403ac6428c0ada73042563f
-      internalID: -9206091644520726168
+      spriteID: 5588c7fadb435e2458ae995206dfa8df
+      internalID: 5683539909772271658
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Attack2_4
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 0
+        width: 150
+        height: 150
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6a7b80ef54906ab4b8ee199b9d430fc0
+      internalID: 5764228812365489207
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Attack2_5
+      rect:
+        serializedVersion: 2
+        x: 750
+        y: 0
+        width: 150
+        height: 150
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c7c831ab24d37714f901e9f5e62435b7
+      internalID: -1191510351576865934
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Attack2_6
+      rect:
+        serializedVersion: 2
+        x: 900
+        y: 0
+        width: 150
+        height: 150
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 919a68d06db05d84799166f3cb51a455
+      internalID: -8937499057154260928
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Attack2_7
+      rect:
+        serializedVersion: 2
+        x: 1050
+        y: 0
+        width: 150
+        height: 150
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 816d9be1c1e117145aff2df56aac2568
+      internalID: 5293088307283036655
       vertices: []
       indices: 
       edges: []
@@ -234,13 +332,16 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Take Hit_2: -3088938797480143695
-      Take Hit_1: -889859373511162655
-      Take Hit_0: -7500690451134026123
-      Take Hit_3: -9206091644520726168
+      Attack2_5: -1191510351576865934
+      Attack2_6: -8937499057154260928
+      Attack2_4: 5764228812365489207
+      Attack2_2: 4668938655123782945
+      Attack2_7: 5293088307283036655
+      Attack2_1: 8288915215451595207
+      Attack2_3: 5683539909772271658
+      Attack2_0: 7441861488978599509
   spritePackingTag: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

@@ -1,4 +1,7 @@
-public enum EnemyType
+namespace Constants
 {
-    Skeleton
+    public enum EnemyType
+    {
+        Skeleton
+    }
 }

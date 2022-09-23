@@ -1,9 +1,10 @@
+using Constants;
 using TMPro;
 using UnityEngine;
 
 public class Gold : MonoBehaviour
 {
-    [Header("Display")]
+    [Header("UI")]
     public TextMeshProUGUI ValueText;
     [Range(0, 5)]
     public float LerpTime = 0f;

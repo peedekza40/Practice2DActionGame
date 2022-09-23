@@ -1,4 +1,7 @@
-public static class Formatter
+namespace Constants
 {
-    public const string Number = "N0";
+    public static class Formatter
+    {
+        public const string Number = "N0";
+    }
 }

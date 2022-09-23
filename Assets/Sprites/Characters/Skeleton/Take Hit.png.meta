@@ -1,19 +1,19 @@
 fileFormatVersion: 2
-guid: dd00be603ef4a95488e2709f17fe4d82
+guid: caca481b328eaa649ab9096c2cc08c31
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 6991849013916550155
-    second: Death_0
+      213: -7500690451134026123
+    second: Take Hit_0
   - first:
-      213: -276728812324164698
-    second: Death_1
+      213: -889859373511162655
+    second: Take Hit_1
   - first:
-      213: 3156895337291164288
-    second: Death_2
+      213: -3088938797480143695
+    second: Take Hit_2
   - first:
-      213: 1400002288684528572
-    second: Death_3
+      213: -9206091644520726168
+    second: Take Hit_3
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -32,6 +32,7 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
@@ -75,6 +76,7 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -140,7 +142,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Death_0
+      name: Take Hit_0
       rect:
         serializedVersion: 2
         x: 0
@@ -154,14 +156,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 818d372142db9904fb5b8c9d8ac3c052
-      internalID: 6991849013916550155
+      spriteID: 907caeaa72bb63b4889cbdea322b1806
+      internalID: -7500690451134026123
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Death_1
+      name: Take Hit_1
       rect:
         serializedVersion: 2
         x: 150
@@ -175,14 +177,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b905190fa9e03cb41a2761261fe7f52d
-      internalID: -276728812324164698
+      spriteID: 3521b474b4771d248bafd64b5e250ddc
+      internalID: -889859373511162655
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Death_2
+      name: Take Hit_2
       rect:
         serializedVersion: 2
         x: 300
@@ -196,14 +198,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 91015c19e2d9a0f4ca4403022a884960
-      internalID: 3156895337291164288
+      spriteID: 3ddcad1e14386394caa85bbbfe25f5c7
+      internalID: -3088938797480143695
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Death_3
+      name: Take Hit_3
       rect:
         serializedVersion: 2
         x: 450
@@ -217,8 +219,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f1ba1bf55966dc1479a9836f8411a871
-      internalID: 1400002288684528572
+      spriteID: 4105aa489403ac6428c0ada73042563f
+      internalID: -9206091644520726168
       vertices: []
       indices: 
       edges: []
@@ -234,13 +236,12 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Death_1: -276728812324164698
-      Death_0: 6991849013916550155
-      Death_2: 3156895337291164288
-      Death_3: 1400002288684528572
+      Take Hit_2: -3088938797480143695
+      Take Hit_1: -889859373511162655
+      Take Hit_0: -7500690451134026123
+      Take Hit_3: -9206091644520726168
   spritePackingTag: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

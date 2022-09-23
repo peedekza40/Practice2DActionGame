@@ -1,19 +1,19 @@
 fileFormatVersion: 2
-guid: 251089ad9e661ec41b9c86480b8063e2
+guid: 8722cf204f27175478017292b8fb4a0c
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 4723107735738678597
-    second: Idle_0
+      213: -6717884257390833292
+    second: Shield_0
   - first:
-      213: -7385789195546760866
-    second: Idle_1
+      213: -7947067082740497745
+    second: Shield_1
   - first:
-      213: 3234629978573100161
-    second: Idle_2
+      213: -4098029715399502762
+    second: Shield_2
   - first:
-      213: 6373048116405451881
-    second: Idle_3
+      213: -407368442477547055
+    second: Shield_3
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -32,6 +32,7 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
@@ -75,6 +76,7 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 1
+  swizzle: 50462976
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -140,7 +142,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Idle_0
+      name: Shield_0
       rect:
         serializedVersion: 2
         x: 0
@@ -154,14 +156,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 802b177a59371084e8e2057c30969394
-      internalID: 4723107735738678597
+      spriteID: cb749f073aa6a97468a005a99f04dcf6
+      internalID: -6717884257390833292
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Idle_1
+      name: Shield_1
       rect:
         serializedVersion: 2
         x: 150
@@ -175,14 +177,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 871540e7a5a9c664c9063eecbfeeec83
-      internalID: -7385789195546760866
+      spriteID: 42f1f3fea089248479a9f3bfc037116a
+      internalID: -7947067082740497745
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Idle_2
+      name: Shield_2
       rect:
         serializedVersion: 2
         x: 300
@@ -196,14 +198,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d02fbdcc14a2ef04c828db3d2813a8a5
-      internalID: 3234629978573100161
+      spriteID: 969fc3136cb61584781ea82e2ffdf0c8
+      internalID: -4098029715399502762
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Idle_3
+      name: Shield_3
       rect:
         serializedVersion: 2
         x: 450
@@ -217,8 +219,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: fc0b2926828522c4fba31bf182b5a6ae
-      internalID: 6373048116405451881
+      spriteID: 90383c25fff734d47a94a53a2b679bd5
+      internalID: -407368442477547055
       vertices: []
       indices: 
       edges: []
@@ -234,13 +236,12 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Idle_1: -7385789195546760866
-      Idle_3: 6373048116405451881
-      Idle_0: 4723107735738678597
-      Idle_2: 3234629978573100161
+      Shield_0: -6717884257390833292
+      Shield_2: -4098029715399502762
+      Shield_3: -407368442477547055
+      Shield_1: -7947067082740497745
   spritePackingTag: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 
