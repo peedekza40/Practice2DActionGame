@@ -40,4 +40,23 @@ public class Item
 
         return sprite;
     }
+
+    public bool IsStackable()
+    {
+        bool isStackable = false;
+        switch(Type)
+        {
+            case ItemType.HeathPotion : 
+                isStackable = true;
+                break;
+            case ItemType.ManaPotion : 
+                isStackable = true;
+                break;
+            case ItemType.Sword : 
+                isStackable = false;
+                break;
+        }
+
+        return isStackable;
+    }
 }

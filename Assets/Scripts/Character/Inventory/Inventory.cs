@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Character;
 using Constants;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -25,11 +27,9 @@ public class Inventory : MonoBehaviour
     private void Start() 
     {
         IsOpen = false;
-        AddItem(new Item(ItemType.HeathPotion, 1));
+        AddItem(new Item(ItemType.HeathPotion, 10000));
         AddItem(new Item(ItemType.Sword, 1));
         AddItem(new Item(ItemType.ManaPotion, 1));
-        AddItem(new Item(ItemType.HeathPotion, 1));
-        AddItem(new Item(ItemType.HeathPotion, 1));
     }
 
     private void Update() 
@@ -45,7 +45,23 @@ public class Inventory : MonoBehaviour
     {
         if(item != null)
         {
-            Items.Add(item);
+            if(item.IsStackable())
+            {
+                Item inventoryItem = Items.FirstOrDefault(x => x.Type == item.Type);
+                if(inventoryItem != null)
+                {
+                    inventoryItem.Amount += item.Amount;
+                }
+                else
+                {
+                    Items.Add(item);
+                }
+            }
+            else
+            {
+                Items.Add(item);
+            }
+
             RefreshInventory();
         }
     }
@@ -74,6 +90,18 @@ public class Inventory : MonoBehaviour
             //set image item
             Image image = slotRectTransform.Find(GameObjectName.ItemImage).GetComponent<Image>();
             image.sprite = item.GetSprite();
+
+            //set amount
+            TextMeshProUGUI amountText = slotRectTransform.Find(GameObjectName.ItemAmount).GetComponent<TextMeshProUGUI>();
+            if(item.IsStackable())
+            {
+                amountText.gameObject.SetActive(true);
+                amountText.SetText(item.Amount.ToString(Formatter.Number));
+            }
+            else
+            {
+                amountText.gameObject.SetActive(false);
+            }
 
             x++;
             if(x > 3)

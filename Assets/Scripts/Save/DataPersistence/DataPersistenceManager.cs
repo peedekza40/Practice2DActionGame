@@ -11,7 +11,7 @@ public class DataPersistenceManager : MonoBehaviour
     public string FileName;
     public bool UseEncryption; 
 
-    public static DataPersistenceManager instance { get; private set; }
+    public static DataPersistenceManager Instance { get; private set; }
 
     private GameData GameData;
     private List<IDataPersistence> DataPersistences;
@@ -19,14 +19,14 @@ public class DataPersistenceManager : MonoBehaviour
 
     private void Awake() 
     {
-        if(instance != null)
+        if(Instance != null)
         {
             Debug.LogError("Found more than one Data Persistence Manager in the scene. Destroy the newest one.");
             Destroy(this.gameObject);
             return;
         }
 
-        instance = this;
+        Instance = this;
         DontDestroyOnLoad(this.gameObject);
 
         this.FileDataHandler = new FileDataHandler(Application.persistentDataPath, FileName, UseEncryption);

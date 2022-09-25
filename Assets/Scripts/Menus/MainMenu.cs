@@ -11,7 +11,7 @@ public class MainMenu : MonoBehaviour, IDataPersistence
 
     private void Start() 
     {
-        if(DataPersistenceManager.instance.IsHasGameData())
+        if(DataPersistenceManager.Instance.IsHasGameData())
         {
             MainMenuNoSave.SetActive(false);
             MainMenuHasSave.SetActive(true);
@@ -26,7 +26,7 @@ public class MainMenu : MonoBehaviour, IDataPersistence
     public void NewGame(string sceneName)
     {
         //create a new game - which will initialize our game data
-        DataPersistenceManager.instance.NewGame();
+        DataPersistenceManager.Instance.NewGame();
 
         //load the gameplay scene - which will in turn save the game because of OnSceneUnloaded() in the DataPersistenceManager
         LevelLoader.LoadLevel(sceneName);

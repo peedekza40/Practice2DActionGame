@@ -6,6 +6,13 @@ public class ItemAssets : MonoBehaviour
 
     private void Awake()
     {
+        if(Instantce != null)
+        {
+            Debug.LogError("Found more than one Item Assets in the scene. Destroy the newest one.");
+            Destroy(this.gameObject);
+            return;
+        }
+
         Instantce = this;
         DontDestroyOnLoad(this.gameObject);
 

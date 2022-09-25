@@ -53,12 +53,12 @@ public class PauseMenu : MonoBehaviour
 
     public void Save()
     {
-        DataPersistenceManager.instance.SaveGame();
+        DataPersistenceManager.Instance.SaveGame();
     }
 
     public void Load()
     {
-        DataPersistenceManager.instance.LoadGame();
+        DataPersistenceManager.Instance.LoadGame();
     }
 
     public void Quit()

@@ -659,7 +659,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 678bb016ef198df469f9c4b0b62ca80e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Target: {fileID: 0}
+  Target: {fileID: 8511704446154591093, guid: a508220d80c5043408f44c17b2e802e7, type: 3}
   ActivateDistance: 30
   PathUpdateSecond: 1
   Speed: 500
@@ -771,7 +771,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5061608ba1fbaa543af465e9a711f685, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TemplateCharacter: {fileID: 8511704446154591096}
 --- !u!1 &8810307089241313093
 GameObject:
   m_ObjectHideFlags: 0
