@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Constants;
 using System.Linq;
+using UnityEngine.InputSystem;
 
 namespace Character {
     public class PlayerCombat : MonoBehaviour, IPlayerCombat
@@ -45,6 +46,10 @@ namespace Character {
             PlayerController = GetComponent<IPlayerController>();
             AnimatorController = GetComponentInChildren<IAnimatorController>();
             Gold = GetComponent<Gold>();
+
+            PlayerInputControl.Instance.AttackInput.performed += StartAttack;
+            PlayerInputControl.Instance.BlockInput.performed += StartBlock;
+            PlayerInputControl.Instance.BlockInput.canceled += FinishBlock;
         }
 
         // Update is called once per frame
@@ -54,8 +59,8 @@ namespace Character {
             Input = PlayerController.Input;
             SetIsAttacking(CountAttack);
 
-            Attack();
-            Block();
+            Attacking();
+            Blocking();
             CheckAttackedCharaterDeath();
         }
 
@@ -69,13 +74,9 @@ namespace Character {
             IsParry = isParry;
         }
 
-        private void Attack()
+        private void StartAttack(InputAction.CallbackContext context)
         {
-            // Increase timer that controls attack combo
-            TimeSinceAttack += Time.deltaTime;
-
             if(IsBlocking == false 
-                && Input.AttackDown 
                 && ((CountAttack < 3 && TimeSinceAttack > TimeBetweenAttack)
                 || (CountAttack == 3 && TimeSinceAttack > TimeBetweenAttack + TimeBetweenCombo)))
             {
@@ -93,6 +94,12 @@ namespace Character {
                 TimeSinceAttack = 0f;
                 DamageFrameCount = 0;
             }
+        }
+
+        private void Attacking()
+        {
+            // Increase timer that controls attack combo
+            TimeSinceAttack += Time.deltaTime;
 
             //damage enemy
             if(IsAttacking && DamageFrameCount == 0)
@@ -118,7 +125,22 @@ namespace Character {
             }
         }
 
-        private void Block()
+        private void StartBlock(InputAction.CallbackContext context)
+        {
+            if(IsAttacking == false && TimeSinceBlocked > 0.1f)
+            {   
+                TimeSinceBlocked = 0f;
+                TimeSincePressBlock = 0f;
+                IsBlocking = true;
+            }
+        }
+
+        private void FinishBlock(InputAction.CallbackContext context)
+        {
+            IsBlocking = false;
+        }
+
+        private void Blocking()
         {
             PressBlockThisFrame = false;
             IsParry = false;
@@ -133,22 +155,7 @@ namespace Character {
                 PressBlockThisFrame = true;
             }
 
-            if(IsAttacking == false)
-            {
-                if(Input.Blocking && TimeSinceBlocked > 0.1f)
-                {   
-                    TimeSinceBlocked = 0f;
-                    TimeSincePressBlock = 0f;
-                    IsBlocking = true;
-                }
-
-                if(Input.BlockUp)
-                {
-                    IsBlocking = false;
-                }
-
-                AnimatorController.SetBlock(IsBlocking);
-            }
+            AnimatorController.SetBlock(IsBlocking);
         }
 
         private void CheckAttackedCharaterDeath()

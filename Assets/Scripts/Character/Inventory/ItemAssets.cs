@@ -2,18 +2,18 @@ using UnityEngine;
 
 public class ItemAssets : MonoBehaviour
 {
-    public static ItemAssets Instantce { get; private set; }
+    public static ItemAssets Instance { get; private set; }
 
     private void Awake()
     {
-        if(Instantce != null)
+        if(Instance != null)
         {
             Debug.LogError("Found more than one Item Assets in the scene. Destroy the newest one.");
             Destroy(this.gameObject);
             return;
         }
 
-        Instantce = this;
+        Instance = this;
         DontDestroyOnLoad(this.gameObject);
 
         ItemWorld.SpawnItemWorld(new Vector3(2, -2.8f, 0), new Item(Constants.ItemType.HeathPotion, 1));

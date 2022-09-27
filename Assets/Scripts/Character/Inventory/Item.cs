@@ -23,19 +23,19 @@ public class Item
         switch(Type)
         {
             case ItemType.HeathPotion : 
-                sprite = ItemAssets.Instantce.HealthPotionSprite;
+                sprite = ItemAssets.Instance.HealthPotionSprite;
                 break;
             case ItemType.ManaPotion : 
-                sprite = ItemAssets.Instantce.ManaPotionSprite;
+                sprite = ItemAssets.Instance.ManaPotionSprite;
                 break;
             case ItemType.Sword : 
-                sprite = ItemAssets.Instantce.SwordSprite;
+                sprite = ItemAssets.Instance.SwordSprite;
                 break;
         }
 
         if(sprite == null)
         {
-            sprite = ItemAssets.Instantce.DefaultSprite;
+            sprite = ItemAssets.Instance.DefaultSprite;
         }
 
         return sprite;

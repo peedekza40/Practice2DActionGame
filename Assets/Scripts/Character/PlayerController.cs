@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Constants;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 namespace Character {
     /// <summary>
@@ -19,7 +21,6 @@ namespace Character {
         public bool LandingThisFrame { get; private set; }
         public Vector3 RawMovement { get; private set; }
         public bool Grounded => _colDown;
-        public float LastAttackPressed { get; private set; }
 
         private Vector3 _lastPosition;
         private float _currentHorizontalSpeed, _currentVerticalSpeed;
@@ -29,13 +30,21 @@ namespace Character {
 
         // This is horrible, but for some reason colliders are not fully established when update starts...
         private bool _active;
-        void Awake() => Invoke(nameof(Activate), 0.5f);
         void Activate() =>  _active = true;
+
+        private void Awake() 
+        {
+            Invoke(nameof(Activate), 0.5f);
+        }
         
         private void Start()
         {
             PlayerCombat = GetComponent<IPlayerCombat>();
             KnockBack = GetComponent<KnockBack>();
+
+            //bind jump control
+            PlayerInputControl.Instance.JumpInput.performed += StartJump;
+            PlayerInputControl.Instance.JumpInput.canceled += FinishJump;
         }
 
         private void Update() {
@@ -64,35 +73,22 @@ namespace Character {
             var input = new FrameInput();
             if(IsCanMove)
             {
-                input.JumpDown = UnityEngine.Input.GetButtonDown(InputName.Jump);
-                input.JumpUp = UnityEngine.Input.GetButtonUp(InputName.Jump);
-                input.X = UnityEngine.Input.GetAxisRaw("Horizontal");
+                input.X = PlayerInputControl.Instance.Move.x;
             }
             else
             {
-                input.JumpDown = false;
-                input.JumpUp = false;
                 input.X = 0f;
                 if(Grounded == false)
                 {
-                    input.X = RawMovement.x > 0 ? 1 : -1;
+                    if(RawMovement.x != 0)
+                    {
+                        input.X = RawMovement.x > 0 ? 1 : -1;
+                    }
+                    else
+                    {
+                        input.X = 0;
+                    }
                 }
-            }
-
-            input.AttackDown = UnityEngine.Input.GetButtonDown(InputName.Atack);
-            input.BlockDown = UnityEngine.Input.GetButtonDown(InputName.Block);
-            input.Blocking = UnityEngine.Input.GetButton(InputName.Block);
-            input.BlockUp = UnityEngine.Input.GetButtonUp(InputName.Block);
-            input.Inventory = UnityEngine.Input.GetButtonDown(InputName.Inventory);
-            input.PickUp = UnityEngine.Input.GetButton(InputName.PickUp);
-
-            if (input.JumpDown) {
-                _lastJumpPressed = Time.time;
-            }
-            
-            if(input.AttackDown)
-            {
-                LastAttackPressed = Time.time;
             }
 
             Input = input;
@@ -271,26 +267,35 @@ namespace Character {
         }
 
         private void CalculateJump() {
+            if (!(CanUseCoyote || HasBufferedJump)) {
+                JumpingThisFrame = false;
+            }
+
+            if (_colUp) {
+                if (_currentVerticalSpeed > 0) _currentVerticalSpeed = 0;
+            }
+        }
+
+        private void StartJump(InputAction.CallbackContext context)
+        {
+            _lastJumpPressed = Time.time;
+
             // Jump if: grounded or within coyote threshold || sufficient jump buffer
-            if (Input.JumpDown && CanUseCoyote || HasBufferedJump) {
+            if ((CanUseCoyote || HasBufferedJump) && IsCanMove) {
                 _currentVerticalSpeed = _jumpHeight;
                 _endedJumpEarly = false;
                 _coyoteUsable = false;
                 _timeLeftGrounded = float.MinValue;
                 JumpingThisFrame = true;
             }
-            else {
-                JumpingThisFrame = false;
-            }
+        }
 
+        private void FinishJump(InputAction.CallbackContext context)
+        {
             // End the jump early if button released
-            if (!_colDown && Input.JumpUp && !_endedJumpEarly && Velocity.y > 0) {
+            if (!_colDown && !_endedJumpEarly && Velocity.y > 0) {
                 // _currentVerticalSpeed = 0;
                 _endedJumpEarly = true;
-            }
-
-            if (_colUp) {
-                if (_currentVerticalSpeed > 0) _currentVerticalSpeed = 0;
             }
         }
 

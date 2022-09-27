@@ -4,7 +4,7 @@ public class ItemWorld : MonoBehaviour
 {
     public static ItemWorld SpawnItemWorld(Vector3 position, Item item)
     {
-        ItemWorld itemWorld = Instantiate(ItemAssets.Instantce.PrefabItemWorld, position, Quaternion.identity);
+        ItemWorld itemWorld = Instantiate(ItemAssets.Instance.PrefabItemWorld, position, Quaternion.identity);
         itemWorld.SetItem(item);
 
         return  itemWorld;

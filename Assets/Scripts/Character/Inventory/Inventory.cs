@@ -5,6 +5,7 @@ using Character;
 using Constants;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class Inventory : MonoBehaviour
@@ -30,15 +31,13 @@ public class Inventory : MonoBehaviour
         AddItem(new Item(ItemType.HeathPotion, 10000));
         AddItem(new Item(ItemType.Sword, 1));
         AddItem(new Item(ItemType.ManaPotion, 1));
+
+        PlayerInputControl.Instance.ToggleInventoryInput.performed += ToggleInventory;
     }
 
     private void Update() 
     {
-        if(PlayerController.Input.Inventory)
-        {
-            IsOpen = !IsOpen;
-            InvetoryContainer.SetActive(IsOpen);
-        }
+        Cursor.visible = IsOpen;
     }
 
     public void AddItem(Item item)
@@ -64,6 +63,12 @@ public class Inventory : MonoBehaviour
 
             RefreshInventory();
         }
+    }
+
+    private void ToggleInventory(InputAction.CallbackContext context)
+    {
+        IsOpen = !IsOpen;
+        InvetoryContainer.SetActive(IsOpen);
     }
 
     private void RefreshInventory()
@@ -96,7 +101,7 @@ public class Inventory : MonoBehaviour
             if(item.IsStackable())
             {
                 amountText.gameObject.SetActive(true);
-                amountText.SetText(item.Amount.ToString(Formatter.Number));
+                amountText.SetText(item.Amount.ToString(Formatter.Amount));
             }
             else
             {

@@ -9,18 +9,18 @@ public class Gold : MonoBehaviour
     [Range(0, 5)]
     public float LerpTime = 0f;
 
-    private int Value = 0;
-    private int RunningValue = 0;
+    private int Amount = 0;
+    private int RunningAmount = 0;
 
     private void Start() 
     {
-        ValueText.SetText(Value.ToString(Formatter.Number));    
+        ValueText.SetText(Amount.ToString(Formatter.Amount));    
     }
 
     private void Update() 
     {
-        RunningValue = (int)Mathf.Ceil(Mathf.Lerp(RunningValue, Value, LerpTime * Time.deltaTime));
-        ValueText.SetText(RunningValue.ToString(Formatter.Number));
+        RunningAmount = (int)Mathf.Ceil(Mathf.Lerp(RunningAmount, Amount, LerpTime * Time.deltaTime));
+        ValueText.SetText(RunningAmount.ToString(Formatter.Amount));
     }
 
     public void Collect(EnemyType attackedEnemyType)
@@ -28,7 +28,7 @@ public class Gold : MonoBehaviour
         switch(attackedEnemyType)
         {
             case EnemyType.Skeleton :
-                Value += Random.Range(50, 70);;
+                Amount += Random.Range(50, 70);;
                 break; 
             default :
                 break;

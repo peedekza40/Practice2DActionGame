@@ -603,8 +603,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.045128465, y: -0.006707102}
-  m_Size: {x: 0.20983243, y: 0.53733605}
+  m_Offset: {x: 0.045128465, y: -0.004364382}
+  m_Size: {x: 0.20983243, y: 0.53265065}
   m_Direction: 0
 --- !u!114 &2857814233077467273
 MonoBehaviour:
@@ -659,7 +659,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 678bb016ef198df469f9c4b0b62ca80e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Target: {fileID: 8511704446154591093, guid: a508220d80c5043408f44c17b2e802e7, type: 3}
+  Target: {fileID: 0}
   ActivateDistance: 30
   PathUpdateSecond: 1
   Speed: 500
@@ -678,7 +678,7 @@ MonoBehaviour:
     m_Bits: 8
   FollowEnabled: 0
   JumpEnabled: 0
-  AttackEnabled: 0
+  AttackEnabled: 1
   DirectionLookEnabled: 1
 --- !u!114 &8072776276011549519
 MonoBehaviour:

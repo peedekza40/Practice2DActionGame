@@ -2,6 +2,6 @@ namespace Constants
 {
     public static class Formatter
     {
-        public const string Number = "N0";
+        public const string Amount = "N0";
     }
 }

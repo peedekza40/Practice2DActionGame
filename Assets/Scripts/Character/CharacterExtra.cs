@@ -11,7 +11,6 @@ namespace Character
         bool LandingThisFrame { get; }
         Vector3 RawMovement { get; }
         bool Grounded { get; }
-        float LastAttackPressed { get; }
     }
 
     public interface IPlayerCombat
@@ -41,14 +40,6 @@ namespace Character
     public struct FrameInput 
     {
         public float X;
-        public bool JumpDown;
-        public bool JumpUp;
-        public bool AttackDown;
-        public bool BlockDown;
-        public bool Blocking;
-        public bool BlockUp;
-        public bool Inventory;
-        public bool PickUp;
     }
 
     public struct RayRange 
