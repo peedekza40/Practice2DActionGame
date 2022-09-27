@@ -2998,6 +2998,17 @@ PrefabInstance:
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 10a6bdf48b116a64f936a1494330b49a, type: 3}
+--- !u!114 &1502324275 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1407810947, guid: a508220d80c5043408f44c17b2e802e7, type: 3}
+  m_PrefabInstance: {fileID: 1154909048}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63153c9376db9224e86f8e897801a852, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1548347145
 GameObject:
   m_ObjectHideFlags: 0
@@ -3351,6 +3362,17 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1765636758 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8296302714711458257, guid: 58198263282d7d2479d6e262e5727192, type: 3}
+  m_PrefabInstance: {fileID: 5557359411356743087}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63153c9376db9224e86f8e897801a852, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1796234040 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8441723458737396292, guid: a508220d80c5043408f44c17b2e802e7, type: 3}
@@ -3369,6 +3391,14 @@ PrefabInstance:
     serializedVersion: 2
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1416217864002022806, guid: a53537feb983cab44ba0578d0e2f00f5, type: 3}
+      propertyPath: UIMouseEvents.Array.data[0]
+      value: 
+      objectReference: {fileID: 1502324275}
+    - target: {fileID: 1416217864002022806, guid: a53537feb983cab44ba0578d0e2f00f5, type: 3}
+      propertyPath: UIMouseEvents.Array.data[1]
+      value: 
+      objectReference: {fileID: 1765636758}
     - target: {fileID: 4953488538966651540, guid: a53537feb983cab44ba0578d0e2f00f5, type: 3}
       propertyPath: m_Name
       value: PlayerInputControl
@@ -3593,6 +3623,10 @@ PrefabInstance:
     - target: {fileID: 8285803808218965806, guid: 895a4ff6f69ec654784df124a1466a62, type: 3}
       propertyPath: m_Name
       value: Main Camera
+      objectReference: {fileID: 0}
+    - target: {fileID: 8285803808218965806, guid: 895a4ff6f69ec654784df124a1466a62, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8285803808218965970, guid: 895a4ff6f69ec654784df124a1466a62, type: 3}
       propertyPath: m_RootOrder

@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Character;
@@ -8,15 +7,16 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-public class Inventory : MonoBehaviour
+public class Inventory : MonoBehaviour, IUIPersistence
 {
     [Header("UI")]
-    public GameObject InvetoryContainer;
+    public GameObject InventoryObject;
     public Transform ItemContainer;
     public Transform SlotTemplate;
     
     private List<Item> Items { get; set; } = new List<Item>();
-    private bool IsOpen { get; set; }
+    public UINumber Number => UINumber.Inventory;
+    public bool IsOpen { get; private set; }
 
     private IPlayerController PlayerController;
 
@@ -28,16 +28,7 @@ public class Inventory : MonoBehaviour
     private void Start() 
     {
         IsOpen = false;
-        AddItem(new Item(ItemType.HeathPotion, 10000));
-        AddItem(new Item(ItemType.Sword, 1));
-        AddItem(new Item(ItemType.ManaPotion, 1));
-
         PlayerInputControl.Instance.ToggleInventoryInput.performed += ToggleInventory;
-    }
-
-    private void Update() 
-    {
-        Cursor.visible = IsOpen;
     }
 
     public void AddItem(Item item)
@@ -68,7 +59,7 @@ public class Inventory : MonoBehaviour
     private void ToggleInventory(InputAction.CallbackContext context)
     {
         IsOpen = !IsOpen;
-        InvetoryContainer.SetActive(IsOpen);
+        InventoryObject.SetActive(IsOpen);
     }
 
     private void RefreshInventory()
@@ -117,4 +108,13 @@ public class Inventory : MonoBehaviour
         }
     }
 
+    private void UseItem(Item item)
+    {
+
+    }
+
+    private void DropItem(Item item)
+    {
+
+    }
 }

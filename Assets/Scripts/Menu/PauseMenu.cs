@@ -1,22 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using Character;
+using Constants;
 using UnityEngine;
 
-public class PauseMenu : MonoBehaviour
+public class PauseMenu : MonoBehaviour, IUIPersistence
 {
     public GameObject MenuPanel;
     public GameObject Player;
 
     private DeathScript DeathScript;
-    private PlayerCombat PlayerCombat;
+    public UINumber Number => UINumber.PauseMenu;
+    public bool IsOpen { get; private set; }
 
     // Start is called before the first frame update
     void Start()
     {
         Cursor.visible = false;
         DeathScript = Player.GetComponent<DeathScript>();
-        PlayerCombat = Player.GetComponent<PlayerCombat>();
     }
 
     // Update is called once per frame
@@ -39,16 +40,14 @@ public class PauseMenu : MonoBehaviour
     {
         Time.timeScale = 0f;
         MenuPanel.SetActive(true);
-        PlayerCombat.enabled = false;
-        Cursor.visible = true;
+        IsOpen = true;
     }
 
     public void Resume()
     {
         Time.timeScale = 1f;
         MenuPanel.SetActive(false);
-        PlayerCombat.enabled = true;
-        Cursor.visible = false;
+        IsOpen = false;
     }
 
     public void Save()

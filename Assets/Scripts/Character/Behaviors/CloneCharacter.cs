@@ -6,10 +6,12 @@ public class CloneCharacter : MonoBehaviour
 {
     private GameObject TemplateCharacter;
     private EnemyStatus EnemyStatus;
+    private EnemyAI EnemyAI;
 
     private void Awake() 
     {
         EnemyStatus = GetComponent<EnemyStatus>();
+        EnemyAI = GetComponent<EnemyAI>();
     }
 
     private void Start() 
@@ -21,6 +23,7 @@ public class CloneCharacter : MonoBehaviour
     {
         Debug.Log("Clone character : " + gameObject.name);
         GameObject newCharacter = Instantiate(TemplateCharacter, new Vector3(5.13f, 5.13f, 0f), Quaternion.identity);
+        newCharacter.GetComponent<EnemyAI>().Target = EnemyAI.Target;
         newCharacter.SetActive(true);
     }
 

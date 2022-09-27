@@ -1,11 +1,16 @@
+using System.Collections.Generic;
+using System.Linq;
+using Constants;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerInputControl : MonoBehaviour
 {
     public static PlayerInputControl Instance { get; private set; }
-
     public Vector2 Move => MoveInput.ReadValue<Vector2>();
+
+    public List<MouseEvent> UIMouseEvents;
+    public List<IUIPersistence> UIPersistences;
 
     private PlayerInputAction PlayerInput;
     public InputAction MoveInput { get; private set; }
@@ -27,6 +32,8 @@ public class PlayerInputControl : MonoBehaviour
         DontDestroyOnLoad(this.gameObject);
 
         PlayerInput = new PlayerInputAction();
+
+        UIPersistences = FindAllUIPersistenceObjects();
     }
 
     private void OnEnable() 
@@ -55,4 +62,36 @@ public class PlayerInputControl : MonoBehaviour
         BlockInput.Disable();
         ToggleInventoryInput.Disable();
     }
+
+    private void Update() 
+    {
+        if(UIMouseEvents.Any(x => x.IsHover))
+        {
+            AttackInput.Disable();
+            BlockInput.Disable();
+        }
+        else
+        {
+            AttackInput.Enable();
+            BlockInput.Enable();
+        }
+
+        //set cursur visible
+        if(UIPersistences.Any(x => x.IsOpen))
+        {
+            Cursor.visible = true;
+        }
+        else
+        {
+            Cursor.visible = false;
+        }
+    }
+
+    private List<IUIPersistence> FindAllUIPersistenceObjects()
+    {
+        IEnumerable<IUIPersistence> uiPersistences = FindObjectsOfType<MonoBehaviour>().OfType<IUIPersistence>();
+
+        return new List<IUIPersistence>(uiPersistences);
+    }
+
 }
