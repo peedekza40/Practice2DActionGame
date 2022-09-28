@@ -4,6 +4,7 @@ using Character;
 using Constants;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
@@ -13,6 +14,7 @@ public class Inventory : MonoBehaviour, IUIPersistence
     public GameObject InventoryObject;
     public Transform ItemContainer;
     public Transform SlotTemplate;
+    public UnityAction<Item> UseItemAction;
     
     private List<Item> Items { get; set; } = new List<Item>();
     public UINumber Number => UINumber.Inventory;
@@ -29,6 +31,9 @@ public class Inventory : MonoBehaviour, IUIPersistence
     {
         IsOpen = false;
         PlayerInputControl.Instance.ToggleInventoryInput.performed += ToggleInventory;
+
+        AddItem(new Item(ItemType.HeathPotion, 1));
+        AddItem(new Item(ItemType.ManaPotion, 1));
     }
 
     public void AddItem(Item item)
@@ -99,6 +104,10 @@ public class Inventory : MonoBehaviour, IUIPersistence
                 amountText.gameObject.SetActive(false);
             }
 
+            //set on click
+            slotRectTransform.GetComponent<MouseEvent>().OnLeftClick.AddListener(() => { UseItem(item); });
+            slotRectTransform.GetComponent<MouseEvent>().OnRightClick.AddListener(() => { DropItem(item); });
+
             x++;
             if(x > 3)
             {
@@ -110,11 +119,48 @@ public class Inventory : MonoBehaviour, IUIPersistence
 
     private void UseItem(Item item)
     {
+        //remove item in inventory
+        RemoveItem(item);
 
+        UseItemAction?.Invoke(item);
     }
 
     private void DropItem(Item item)
     {
+        //remove item in inventory
+        Item removeItem = RemoveItem(item);
 
+        //control physic
+        Vector2 dropDirection = new Vector2(1, 1);
+        Vector2 dropPostion = new Vector2(0, 0.5f);
+        if(transform.localScale.x < 0)
+        {
+            dropDirection.x *= -1;
+        }
+
+        ItemWorld dropItem = ItemWorld.SpawnItemWorld((Vector2)transform.position + dropPostion, new Item(removeItem.Type, 1));
+        dropItem.GetComponent<Rigidbody2D>().AddForce(dropDirection * 2f, ForceMode2D.Impulse);
+
+    }
+
+    private Item RemoveItem(Item item)
+    {
+        Item removeItem = Items.FirstOrDefault(x => x.Type == item.Type);
+        if(removeItem.IsStackable())
+        {
+            removeItem.Amount--;
+            if(removeItem.Amount == 0)
+            {
+                Items.Remove(removeItem);
+            }
+        }
+        else
+        {
+            Items.Remove(removeItem);
+        }
+
+        RefreshInventory();
+        
+        return removeItem;
     }
 }

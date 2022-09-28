@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
@@ -12,14 +13,17 @@ public class MouseEvent : MonoBehaviour,
 {
     public bool IsHover { get; private set; }
 
+    [Header("Left")]
     public UnityEvent OnLeftClick;
     public UnityEvent OnLeftDown;
     public UnityEvent OnLeftUp;
 
+    [Header("Right")]
     public UnityEvent OnRightClick;
     public UnityEvent OnRightDown;
     public UnityEvent OnRightUp;
 
+    [Header("Middle")]
     public UnityEvent OnMiddleClick;
     public UnityEvent OnMiddleDown;
     public UnityEvent OnMiddleUp;

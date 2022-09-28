@@ -65,6 +65,7 @@ public class PlayerInputControl : MonoBehaviour
 
     private void Update() 
     {
+        //disabled attack
         if(UIMouseEvents.Any(x => x.IsHover))
         {
             AttackInput.Disable();
@@ -76,13 +77,28 @@ public class PlayerInputControl : MonoBehaviour
             BlockInput.Enable();
         }
 
+        //disabled movement & inventory
+        if(UIPersistences.Any(x => x.Number == UINumber.PauseMenu && x.IsOpen))
+        {
+            MoveInput.Disable();
+            ToggleInventoryInput.Disable();
+        }
+        else
+        {
+            MoveInput.Enable();
+            ToggleInventoryInput.Enable();
+        }
+
+
         //set cursur visible
         if(UIPersistences.Any(x => x.IsOpen))
         {
+            Debug.Log("visible true");
             Cursor.visible = true;
         }
         else
         {
+            Debug.Log("visible false");
             Cursor.visible = false;
         }
     }

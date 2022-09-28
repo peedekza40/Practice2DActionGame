@@ -1,5 +1,53 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1734273965
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1734273966}
+  - component: {fileID: 1734273967}
+  m_Layer: 11
+  m_Name: TriggerCollider
+  m_TagString: Player
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1734273966
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1734273965}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8511704446154591093}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!70 &1734273967
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1734273965}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.0038749278, y: -0.7936654}
+  m_Size: {x: 0.57013017, y: 1.289803}
+  m_Direction: 0
 --- !u!1 &117451169185925189
 GameObject:
   m_ObjectHideFlags: 0
@@ -1277,7 +1325,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &7612814235305893598
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1313,13 +1361,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63153c9376db9224e86f8e897801a852, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OnClick:
+  OnLeftClick:
     m_PersistentCalls:
       m_Calls: []
-  OnDown:
+  OnLeftDown:
     m_PersistentCalls:
       m_Calls: []
-  OnUp:
+  OnLeftUp:
+    m_PersistentCalls:
+      m_Calls: []
+  OnRightClick:
+    m_PersistentCalls:
+      m_Calls: []
+  OnRightDown:
+    m_PersistentCalls:
+      m_Calls: []
+  OnRightUp:
+    m_PersistentCalls:
+      m_Calls: []
+  OnMiddleClick:
+    m_PersistentCalls:
+      m_Calls: []
+  OnMiddleDown:
+    m_PersistentCalls:
+      m_Calls: []
+  OnMiddleUp:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1 &5979440562787728208
@@ -1782,7 +1848,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &360683820651989979
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1816,13 +1882,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63153c9376db9224e86f8e897801a852, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OnClick:
+  OnLeftClick:
     m_PersistentCalls:
       m_Calls: []
-  OnDown:
+  OnLeftDown:
     m_PersistentCalls:
       m_Calls: []
-  OnUp:
+  OnLeftUp:
+    m_PersistentCalls:
+      m_Calls: []
+  OnRightClick:
+    m_PersistentCalls:
+      m_Calls: []
+  OnRightDown:
+    m_PersistentCalls:
+      m_Calls: []
+  OnRightUp:
+    m_PersistentCalls:
+      m_Calls: []
+  OnMiddleClick:
+    m_PersistentCalls:
+      m_Calls: []
+  OnMiddleDown:
+    m_PersistentCalls:
+      m_Calls: []
+  OnMiddleUp:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1 &8511704446057734089
@@ -1946,6 +2030,7 @@ GameObject:
   - component: {fileID: 5187863493397715742}
   - component: {fileID: 6648175399296352733}
   - component: {fileID: 7121550602702918623}
+  - component: {fileID: 2002054853377171066}
   - component: {fileID: 1757245925762325566}
   - component: {fileID: 6174013470434346754}
   - component: {fileID: 7115965896707701500}
@@ -1972,8 +2057,9 @@ Transform:
   - {fileID: 182378858016780511}
   - {fileID: 8441723458737396292}
   - {fileID: 7965432485438765565}
+  - {fileID: 1734273966}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &6224632845274552669
 Rigidbody2D:
@@ -2057,7 +2143,7 @@ MonoBehaviour:
   _coyoteTimeThreshold: 0.1
   _jumpBuffer: 0.1
   _jumpEndEarlyGravityModifier: 3
-  _freeColliderIterations: 10
+  _freeColliderIterations: 15
 --- !u!114 &6648175399296352733
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2130,6 +2216,19 @@ MonoBehaviour:
   OnDied:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &2002054853377171066
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8511704446154591096}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d44378c3ab6ec8b40b7742355657f912, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Status: {fileID: 7121550602702918623}
   Gold: {fileID: 7115965896707701500}
   Inventory: {fileID: 6174013470434346754}
 --- !u!114 &1757245925762325566

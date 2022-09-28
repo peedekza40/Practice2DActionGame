@@ -8,7 +8,7 @@ namespace Character
     {
 
         public float MaxHP = 100;
-        public float CurrentHP;
+        public float CurrentHP { get; protected set; }
         public HealthBar HealthBar;
         public UnityEvent OnDamaged;
         public UnityEvent<GameObject> OnDamagedPassHitBox;
@@ -39,6 +39,12 @@ namespace Character
         public void SetCurrentHP(float hp)
         {
             this.CurrentHP = hp;
+            HealthBar.SetHealth(CurrentHP);
+        }
+
+        public void AddCurrentHP(float hp)
+        {
+            this.CurrentHP += hp;
             HealthBar.SetHealth(CurrentHP);
         }
 
