@@ -1,39 +1,46 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Character;
 using Constants;
-using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
-using UnityEngine.UI;
 
 public class Inventory : MonoBehaviour, IUIPersistence
 {
     [Header("UI")]
-    public GameObject InventoryObject;
+    public GameObject InventoryContainer;
     public Transform ItemContainer;
-    public Transform SlotTemplate;
+    public ItemSlot SlotTemplate;
+
+    [Header("Function")]
     public UnityAction<Item> UseItemAction;
     
+    private int SlotAmount = 16;
+    private List<ItemSlot> Slots { get; set; } = new List<ItemSlot>();
     private List<Item> Items { get; set; } = new List<Item>();
     public UINumber Number => UINumber.Inventory;
     public bool IsOpen { get; private set; }
+    private bool IsDrewSlot { get; set; }
 
     private IPlayerController PlayerController;
 
     private void Awake() 
     {
         PlayerController = GetComponent<IPlayerController>();
+        DrawItemSlot();
     }
 
     private void Start() 
     {
         IsOpen = false;
         PlayerInputControl.Instance.ToggleInventoryInput.performed += ToggleInventory;
+    }
 
-        AddItem(new Item(ItemType.HeathPotion, 1));
-        AddItem(new Item(ItemType.ManaPotion, 1));
+    public Item GetItem(Guid id)
+    {
+        return Items.FirstOrDefault(x => x.ID == id);
     }
 
     public void AddItem(Item item)
@@ -61,72 +68,20 @@ public class Inventory : MonoBehaviour, IUIPersistence
         }
     }
 
-    private void ToggleInventory(InputAction.CallbackContext context)
+    public void UseItem(Item item)
     {
-        IsOpen = !IsOpen;
-        InventoryObject.SetActive(IsOpen);
-    }
+        Debug.Log("Use item : " + item.Type);
 
-    private void RefreshInventory()
-    {
-        //destroy complex items
-        foreach(Transform child in ItemContainer)
-        {
-            if(child != SlotTemplate)
-            {
-                Destroy(child.gameObject);
-            }
-        }
-
-        int x = 0;
-        int y = 0;
-        float slotCellSize = 87f;
-        Vector2 startAnchoredPosition = SlotTemplate.GetComponent<RectTransform>().anchoredPosition;
-        foreach(var item in Items)
-        {
-            RectTransform slotRectTransform = Instantiate(SlotTemplate, ItemContainer).GetComponent<RectTransform>();
-            slotRectTransform.gameObject.SetActive(true);
-            slotRectTransform.anchoredPosition = new Vector2((x * slotCellSize) + startAnchoredPosition.x, -(y * slotCellSize) + startAnchoredPosition.y);
-
-            //set image item
-            Image image = slotRectTransform.Find(GameObjectName.ItemImage).GetComponent<Image>();
-            image.sprite = item.GetSprite();
-
-            //set amount
-            TextMeshProUGUI amountText = slotRectTransform.Find(GameObjectName.ItemAmount).GetComponent<TextMeshProUGUI>();
-            if(item.IsStackable())
-            {
-                amountText.gameObject.SetActive(true);
-                amountText.SetText(item.Amount.ToString(Formatter.Amount));
-            }
-            else
-            {
-                amountText.gameObject.SetActive(false);
-            }
-
-            //set on click
-            slotRectTransform.GetComponent<MouseEvent>().OnLeftClick.AddListener(() => { UseItem(item); });
-            slotRectTransform.GetComponent<MouseEvent>().OnRightClick.AddListener(() => { DropItem(item); });
-
-            x++;
-            if(x > 3)
-            {
-                x = 0;
-                y++;
-            }
-        }
-    }
-
-    private void UseItem(Item item)
-    {
         //remove item in inventory
         RemoveItem(item);
 
         UseItemAction?.Invoke(item);
     }
 
-    private void DropItem(Item item)
+    public void DropItem(Item item)
     {
+        Debug.Log("Drop item : " + item.Type);
+
         //remove item in inventory
         Item removeItem = RemoveItem(item);
 
@@ -162,5 +117,55 @@ public class Inventory : MonoBehaviour, IUIPersistence
         RefreshInventory();
         
         return removeItem;
+    }
+
+    private void ToggleInventory(InputAction.CallbackContext context)
+    {
+        IsOpen = !IsOpen;
+        InventoryContainer.SetActive(IsOpen);
+    }
+
+    private void RefreshInventory()
+    {
+        var cleanSlots = Slots.Where(slot => !Items.Any(item => item.ID == slot.ItemID));
+        var haveItemSlots = Slots.Except(cleanSlots);
+
+        foreach(var cleanSlot in cleanSlots)
+        {
+            cleanSlot.ClearItemGUI();
+            Item item = Items.FirstOrDefault(item => !haveItemSlots.Any(slot => slot.ItemID == item.ID));
+            if(item != null)
+            {
+                cleanSlot.SetItemGUI(item);
+            }
+        }
+    }
+
+    private void DrawItemSlot()
+    {
+        InventoryContainer.SetActive(true);
+
+        int x = 0;
+        int y = 0;
+        float slotCellSize = 86.2f;
+        Vector2 startAnchoredPosition = SlotTemplate.GetComponent<RectTransform>().anchoredPosition;
+
+        for(int i = 0; i < SlotAmount; i++)
+        {
+            ItemSlot slot = Instantiate(SlotTemplate, ItemContainer);
+            slot.gameObject.SetActive(true);
+            slot.SlotTransform.anchoredPosition = new Vector2((x * slotCellSize) + startAnchoredPosition.x, -(y * slotCellSize) + startAnchoredPosition.y);
+            Slots.Add(slot);
+
+            x++;
+            if(x > 3)
+            {
+                x = 0;
+                y++;
+            }
+        }
+
+        IsDrewSlot = true;
+        InventoryContainer.SetActive(IsOpen);
     }
 }

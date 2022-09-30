@@ -630,7 +630,7 @@ GameObject:
   - component: {fileID: 5557359411653089709}
   - component: {fileID: 5557359411653089710}
   - component: {fileID: 5557359411653089711}
-  - component: {fileID: 8296302714711458257}
+  - component: {fileID: 2666015936889478317}
   m_Layer: 5
   m_Name: PauseMenu
   m_TagString: Untagged
@@ -735,7 +735,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MenuPanel: {fileID: 5557359410341946825}
   Player: {fileID: 0}
---- !u!114 &8296302714711458257
+--- !u!114 &2666015936889478317
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -747,6 +747,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63153c9376db9224e86f8e897801a852, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnLeftClick:
+    m_PersistentCalls:
+      m_Calls: []
+  OnLeftDown:
+    m_PersistentCalls:
+      m_Calls: []
+  OnLeftUp:
+    m_PersistentCalls:
+      m_Calls: []
+  OnRightClick:
+    m_PersistentCalls:
+      m_Calls: []
+  OnRightDown:
+    m_PersistentCalls:
+      m_Calls: []
+  OnRightUp:
+    m_PersistentCalls:
+      m_Calls: []
+  OnMiddleClick:
+    m_PersistentCalls:
+      m_Calls: []
+  OnMiddleDown:
+    m_PersistentCalls:
+      m_Calls: []
+  OnMiddleUp:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &7458704124064519302
 GameObject:
   m_ObjectHideFlags: 0

@@ -2,6 +2,11 @@ using UnityEngine;
 
 public class ItemWorld : MonoBehaviour
 {
+    public SpriteRenderer SpriteRenderer;
+
+    private Item Item;
+    private Rigidbody2D Rb;
+
     public static ItemWorld SpawnItemWorld(Vector3 position, Item item)
     {
         ItemWorld itemWorld = Instantiate(ItemAssets.Instance.PrefabItemWorld, position, Quaternion.identity);
@@ -10,12 +15,9 @@ public class ItemWorld : MonoBehaviour
         return  itemWorld;
     }
 
-    private Item Item;
-    private SpriteRenderer SpriteRenderer;
-
     private void Awake() 
     {
-        SpriteRenderer = GetComponent<SpriteRenderer>();    
+        Rb = GetComponent<Rigidbody2D>();
     }
 
     public void SetItem(Item item)

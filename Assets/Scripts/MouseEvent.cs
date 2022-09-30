@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
@@ -27,7 +26,6 @@ public class MouseEvent : MonoBehaviour,
     public UnityEvent OnMiddleClick;
     public UnityEvent OnMiddleDown;
     public UnityEvent OnMiddleUp;
-
 
     public void OnPointerEnter(PointerEventData eventData)
     {

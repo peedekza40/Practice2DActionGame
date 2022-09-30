@@ -1,21 +1,20 @@
+using System;
 using Constants;
 using UnityEngine;
 
 public class Item
 {
+    public Guid ID;
     public ItemType Type;
     public int Amount;
 
     public Item(ItemType type, int amount = 1)
     {
+        ID = Guid.NewGuid();
         Type = type;
         Amount = amount;
     }
-
-    public Item()
-    {
-    }
-
+    
     public Sprite GetSprite()
     {
         Sprite sprite = null;

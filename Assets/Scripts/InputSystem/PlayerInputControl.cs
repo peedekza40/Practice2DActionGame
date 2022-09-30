@@ -93,12 +93,10 @@ public class PlayerInputControl : MonoBehaviour
         //set cursur visible
         if(UIPersistences.Any(x => x.IsOpen))
         {
-            Debug.Log("visible true");
             Cursor.visible = true;
         }
         else
         {
-            Debug.Log("visible false");
             Cursor.visible = false;
         }
     }
