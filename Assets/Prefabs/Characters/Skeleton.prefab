@@ -543,6 +543,7 @@ GameObject:
   - component: {fileID: 8072776276011549519}
   - component: {fileID: 8950884111431860641}
   - component: {fileID: 1787282014}
+  - component: {fileID: 172844013}
   m_Layer: 7
   m_Name: Skeleton
   m_TagString: Enemy
@@ -678,7 +679,7 @@ MonoBehaviour:
     m_Bits: 8
   FollowEnabled: 0
   JumpEnabled: 0
-  AttackEnabled: 1
+  AttackEnabled: 0
   DirectionLookEnabled: 1
 --- !u!114 &8072776276011549519
 MonoBehaviour:
@@ -693,7 +694,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MaxHP: 100
-  CurrentHP: 0
   HealthBar: {fileID: 7643319597143774133}
   OnDamaged:
     m_PersistentCalls:
@@ -743,6 +743,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 172844013}
+        m_TargetAssemblyTypeName: ObjectDropItems, Assembly-CSharp
+        m_MethodName: DropItems
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   Type: 0
 --- !u!114 &8950884111431860641
 MonoBehaviour:
@@ -771,6 +783,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5061608ba1fbaa543af465e9a711f685, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &172844013
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8511704446154591096}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e0e84012868a9645bf51ae560bad999, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Items:
+    list:
+    - item:
+        Type: 0
+        Amount: 1
+      weight: 7
+    - item:
+        Type: 1
+        Amount: 1
+      weight: 5
+    - item:
+        Type: 2
+        Amount: 1
+      weight: 1
+  DropAmount: 2
 --- !u!1 &8810307089241313093
 GameObject:
   m_ObjectHideFlags: 0

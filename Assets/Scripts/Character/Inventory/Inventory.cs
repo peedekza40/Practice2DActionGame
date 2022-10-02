@@ -36,6 +36,10 @@ public class Inventory : MonoBehaviour, IUIPersistence
     {
         IsOpen = false;
         PlayerInputControl.Instance.ToggleInventoryInput.performed += ToggleInventory;
+
+        AddItem(new Item(ItemType.HeathPotion, 10));
+        AddItem(new Item(ItemType.ManaPotion, 1));
+        AddItem(new Item(ItemType.Sword, 1));
     }
 
     public Item GetItem(Guid id)
@@ -87,7 +91,7 @@ public class Inventory : MonoBehaviour, IUIPersistence
 
         //control physic
         Vector2 dropDirection = new Vector2(1, 1);
-        Vector2 dropPostion = new Vector2(0, 0.5f);
+        Vector2 dropPostion = new Vector2(0, 0.1f);
         if(transform.localScale.x < 0)
         {
             dropDirection.x *= -1;
@@ -138,6 +142,14 @@ public class Inventory : MonoBehaviour, IUIPersistence
             {
                 cleanSlot.SetItemGUI(item);
             }
+        }
+
+        foreach(var haveItemSlot in haveItemSlots)
+        {
+            Item item = Items.FirstOrDefault(item => item.ID == haveItemSlot.ItemID);
+            haveItemSlot.ClearItemGUI();
+            haveItemSlot.SetItemGUI(item);
+            
         }
     }
 

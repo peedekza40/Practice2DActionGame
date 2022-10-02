@@ -2,6 +2,7 @@ using System;
 using Constants;
 using UnityEngine;
 
+[Serializable]
 public class Item
 {
     public Guid ID;

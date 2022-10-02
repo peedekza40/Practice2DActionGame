@@ -19,7 +19,7 @@ namespace Character
         private void OnTriggerEnter2D(Collider2D other) 
         {
             ItemWorld itemWorld = other.GetComponent<ItemWorld>();
-            if(itemWorld != null)
+            if(itemWorld != null && itemWorld.IsCanCollect)
             {
                 Inventory.AddItem(itemWorld.GetItem());
                 itemWorld.DestroySelf();

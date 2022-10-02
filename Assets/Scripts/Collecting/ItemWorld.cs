@@ -1,9 +1,11 @@
+using System.Collections;
 using UnityEngine;
 
 public class ItemWorld : MonoBehaviour
 {
     public SpriteRenderer SpriteRenderer;
 
+    public bool IsCanCollect { get; private set; }
     private Item Item;
     private Rigidbody2D Rb;
 
@@ -18,6 +20,7 @@ public class ItemWorld : MonoBehaviour
     private void Awake() 
     {
         Rb = GetComponent<Rigidbody2D>();
+        StartCoroutine(WaitSetIsCanCollect());
     }
 
     public void SetItem(Item item)
@@ -34,5 +37,11 @@ public class ItemWorld : MonoBehaviour
     public void DestroySelf()
     {
         Destroy(gameObject);
+    }
+
+    private IEnumerator WaitSetIsCanCollect()
+    {
+        yield return new WaitForSeconds(2);
+        IsCanCollect = true;
     }
 }

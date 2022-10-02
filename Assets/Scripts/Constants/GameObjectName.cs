@@ -8,5 +8,6 @@ namespace Constants
         public const string Item = "Item";
         public const string ItemImage = "ItemImage";
         public const string ItemAmount = "ItemAmount";
+        public const string TriggerCollider = "TriggerCollider";
     }
 }

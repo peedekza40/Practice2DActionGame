@@ -15,9 +15,6 @@ public class ItemAssets : MonoBehaviour
 
         Instance = this;
         DontDestroyOnLoad(this.gameObject);
-
-        ItemWorld.SpawnItemWorld(new Vector3(2, -2.8f, 0), new Item(Constants.ItemType.HeathPotion, 1));
-        ItemWorld.SpawnItemWorld(new Vector3(4, -2.8f, 0), new Item(Constants.ItemType.ManaPotion, 1));
     }
 
     public ItemWorld PrefabItemWorld;
