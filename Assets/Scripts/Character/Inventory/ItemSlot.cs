@@ -26,6 +26,16 @@ public class ItemSlot : MonoBehaviour, IDropHandler
         Inventory = GetComponentInParent<Inventory>();
     }
 
+    private void Update() 
+    {
+        GetComponent<DragDropItem>().enabled = ItemID != Guid.Empty;
+    }
+
+    private void OnDestroy() 
+    {
+        ClearItemGUI();
+    }
+
     public void SetItemGUI(Item item)
     {
         ItemID = item.ID;
@@ -87,4 +97,5 @@ public class ItemSlot : MonoBehaviour, IDropHandler
             }
         }
     }
+
 }

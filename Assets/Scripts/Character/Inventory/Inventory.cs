@@ -13,11 +13,11 @@ public class Inventory : MonoBehaviour, IUIPersistence
     public GameObject InventoryContainer;
     public Transform ItemContainer;
     public ItemSlot SlotTemplate;
+    public int SlotAmount = 16;
 
     [Header("Function")]
     public UnityAction<Item> UseItemAction;
     
-    private int SlotAmount = 16;
     private List<ItemSlot> Slots { get; set; } = new List<ItemSlot>();
     private List<Item> Items { get; set; } = new List<Item>();
     public UINumber Number => UINumber.Inventory;

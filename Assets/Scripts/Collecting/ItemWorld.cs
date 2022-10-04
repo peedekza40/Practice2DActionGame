@@ -4,6 +4,7 @@ using UnityEngine;
 public class ItemWorld : MonoBehaviour
 {
     public SpriteRenderer SpriteRenderer;
+    public float WaitCollectingTime = 2f;
 
     public bool IsCanCollect { get; private set; }
     private Item Item;
@@ -41,7 +42,7 @@ public class ItemWorld : MonoBehaviour
 
     private IEnumerator WaitSetIsCanCollect()
     {
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(WaitCollectingTime);
         IsCanCollect = true;
     }
 }
