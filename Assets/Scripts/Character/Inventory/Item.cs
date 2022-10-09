@@ -59,4 +59,23 @@ public class Item
 
         return isStackable;
     }
+
+    public bool IsCanUse()
+    {
+        bool isCanUse = false;
+        switch(Type)
+        {
+            case ItemType.HeathPotion : 
+                isCanUse = true;
+                break;
+            case ItemType.ManaPotion : 
+                isCanUse = true;
+                break;
+            case ItemType.Sword : 
+                isCanUse = false;
+                break;
+        }
+
+        return isCanUse;
+    }
 }

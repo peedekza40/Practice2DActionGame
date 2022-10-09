@@ -1,5 +1,6 @@
 using System;
 using Constants;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -10,6 +11,7 @@ public class DragDropItem : MonoBehaviour,
     IDragHandler,
     IEndDragHandler
 {
+    public Transform InventoryContainer;
     public Transform InstantiateContainer;
     public CanvasGroup ItemCanvasGroup;
 
@@ -27,11 +29,17 @@ public class DragDropItem : MonoBehaviour,
     public void OnBeginDrag(PointerEventData eventData)
     {
         Debug.Log("OnBeginDrag Item");
-        
         DragItemTransform = Instantiate(SlotTransform, InstantiateContainer);
-        DragItemTransform.Find(GameObjectName.SlotFrame).gameObject.SetActive(false);            
         DragItemCanvasGroup = DragItemTransform.GetComponent<CanvasGroup>();
         DragItemTransform.GetComponent<LayoutElement>().ignoreLayout = true;
+        DragItemTransform.Find(GameObjectName.SlotFrame).gameObject.SetActive(false);
+
+        //disable masking
+        Transform item = DragItemTransform.Find(GameObjectName.Item);
+        Transform itemImage = item.Find(GameObjectName.ItemImage);
+        Transform itemAmount = item.Find(GameObjectName.ItemAmount);
+        DisableMasking(itemImage);
+        DisableMasking(itemAmount);
 
         //set rect transform
         DragItemTransform.anchoredPosition = SlotTransform.anchoredPosition;
@@ -56,5 +64,12 @@ public class DragDropItem : MonoBehaviour,
         DragItemCanvasGroup.blocksRaycasts = true;
 
         Destroy(DragItemTransform.gameObject);
+    }
+
+    private void DisableMasking(Transform targetTransform)
+    {
+        MaskableGraphic maskableGraphic = targetTransform.GetComponent<MaskableGraphic>();
+        maskableGraphic.maskable = false;
+        maskableGraphic.RecalculateClipping();
     }
 }

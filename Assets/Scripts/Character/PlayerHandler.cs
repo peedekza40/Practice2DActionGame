@@ -18,6 +18,16 @@ namespace Character
 
         private void OnTriggerEnter2D(Collider2D other) 
         {
+            CollectItem(other);
+        }
+        
+        private void OnTriggerStay2D(Collider2D other) 
+        {
+            CollectItem(other);
+        }
+
+        private void CollectItem(Collider2D other)
+        {
             ItemWorld itemWorld = other.GetComponent<ItemWorld>();
             if(itemWorld != null && itemWorld.IsCanCollect)
             {

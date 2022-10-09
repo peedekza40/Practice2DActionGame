@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Character;
@@ -42,7 +41,7 @@ public class Inventory : MonoBehaviour, IUIPersistence
         AddItem(new Item(ItemType.Sword, 1));
     }
 
-    public Item GetItem(Guid id)
+    public Item GetItem(System.Guid id)
     {
         return Items.FirstOrDefault(x => x.ID == id);
     }
@@ -74,12 +73,14 @@ public class Inventory : MonoBehaviour, IUIPersistence
 
     public void UseItem(Item item)
     {
-        Debug.Log("Use item : " + item.Type);
+        if(item.IsCanUse())
+        {
+            Debug.Log("Use item : " + item.Type);
+            UseItemAction?.Invoke(item);
+            //remove item in inventory
+            RemoveItem(item);
+        }
 
-        //remove item in inventory
-        RemoveItem(item);
-
-        UseItemAction?.Invoke(item);
     }
 
     public void DropItem(Item item)
@@ -90,7 +91,7 @@ public class Inventory : MonoBehaviour, IUIPersistence
         Item removeItem = RemoveItem(item);
 
         //control physic
-        Vector2 dropDirection = new Vector2(1, 1);
+        Vector2 dropDirection = new Vector2(1, Random.Range(0.2f, 1f));
         Vector2 dropPostion = new Vector2(0, 0.1f);
         if(transform.localScale.x < 0)
         {
@@ -159,7 +160,7 @@ public class Inventory : MonoBehaviour, IUIPersistence
 
         int x = 0;
         int y = 0;
-        float slotCellSize = 86.2f;
+        float slotCellSize = 144.3f;
         Vector2 startAnchoredPosition = SlotTemplate.GetComponent<RectTransform>().anchoredPosition;
 
         for(int i = 0; i < SlotAmount; i++)
