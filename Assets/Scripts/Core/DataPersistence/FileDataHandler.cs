@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using System;
 using System.IO;
@@ -73,7 +71,7 @@ public class FileDataHandler
                 dataToStore = EncryptDecrypt(dataToStore);
             }
 
-            //write sthe serialized data to the file
+            //write the serialized data to the file
             using (FileStream stream = new FileStream(fullPath, FileMode.Create))
             {
                 using (StreamWriter writer = new StreamWriter(stream))
