@@ -1,4 +1,8 @@
-public class FileConfigHandler
+namespace Core.Configs
 {
-    private string FileName { get; set; }
+    public class FileConfigHandler
+    {
+        private string FileName { get; set; }
+    }
 }
+

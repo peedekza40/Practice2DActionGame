@@ -1,14 +1,18 @@
+using System.Data.Common;
 using Mono.Data.Sqlite;
+using UnityEngine;
 
-namespace Entity
+namespace Infrastructure.Entity
 {
     public class DbContextBuilder
     {
-        private string DbName = "URI=file:PlatformRPG.db";
+        public SqliteConnection Connection;
 
-        public SqliteConnection GetConnection()
+        private string DbName = $"URI=file:{Application.dataPath}/Database/PlatformRPG.db";
+
+        public DbContextBuilder()
         {
-            return new SqliteConnection(DbName);
+            Connection = new SqliteConnection(DbName);
         }
     }
 }

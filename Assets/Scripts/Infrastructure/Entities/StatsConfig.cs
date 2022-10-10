@@ -1,5 +1,4 @@
-using System.Security.Cryptography.X509Certificates;
-namespace Entity
+namespace Infrastructure.Entity
 {
     public class StatsConfig
     {

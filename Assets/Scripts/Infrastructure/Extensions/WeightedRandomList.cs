@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Extensions
+namespace Infrastructure.Extensions
 {
     [System.Serializable]
     public class WeightedRandomList<T>

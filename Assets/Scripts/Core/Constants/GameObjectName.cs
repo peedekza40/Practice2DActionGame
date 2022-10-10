@@ -1,4 +1,4 @@
-namespace Constants
+namespace Core.Constants
 {
     public static class GameObjectName
     {

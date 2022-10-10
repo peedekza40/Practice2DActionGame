@@ -1,7 +1,11 @@
-using Constants;
+using Core.Constants;
 
-public interface IUIPersistence
+namespace Infrastructure.InputSystem
 {
-    UINumber Number { get; }
-    bool IsOpen { get; }
+    public interface IUIPersistence
+    {
+        UINumber Number { get; }
+        bool IsOpen { get; }
+    }
 }
+

@@ -1,6 +1,12 @@
-public interface IDataPersistence
-{
-    void LoadData(GameData data);
+using Core.DataPersistence.Data;
 
-    void SaveData(ref GameData data);
+namespace Core.DataPersistence
+{
+    public interface IDataPersistence
+    {
+        void LoadData(GameData data);
+
+        void SaveData(ref GameData data);
+    }
 }
+

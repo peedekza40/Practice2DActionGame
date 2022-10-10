@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace Constants
+namespace Core.Constants
 {
     public static class AnimationName
     {

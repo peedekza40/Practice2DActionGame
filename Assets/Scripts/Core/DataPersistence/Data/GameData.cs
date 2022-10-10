@@ -1,19 +1,23 @@
 using UnityEngine;
 
-[System.Serializable]
-public class GameData
+namespace Core.DataPersistence.Data
 {
-    public float PlayerHP;
-    public Vector3 PlayerPosition;
-    public Vector3 Scale;
-    
-    public Vector3 CameraPosition;
-    public string CurrentScene;
-
-    public GameData()
+    [System.Serializable]
+    public class GameData
     {
-        this.PlayerHP = 0;
-        this.PlayerPosition = Vector3.zero;
-        this.CameraPosition = Vector3.zero;
+        public float PlayerHP;
+        public Vector3 PlayerPosition;
+        public Vector3 Scale;
+        
+        public Vector3 CameraPosition;
+        public string CurrentScene;
+
+        public GameData()
+        {
+            this.PlayerHP = 0;
+            this.PlayerPosition = Vector3.zero;
+            this.CameraPosition = Vector3.zero;
+        }
     }
 }
+
