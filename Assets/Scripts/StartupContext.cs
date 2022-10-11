@@ -1,7 +1,9 @@
 using Core.DataPersistence;
+using Core.Repositories;
 using Infrastructure.Dependency;
 using Infrastructure.Entity;
 using Infrastructure.InputSystem;
+using Infrastructure.Repositories;
 using UnityEngine;
 
 public class StartupContext : MonoBehaviour

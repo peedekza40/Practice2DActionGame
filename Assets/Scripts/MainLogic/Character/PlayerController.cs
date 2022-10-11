@@ -42,12 +42,12 @@ namespace Character
             Invoke(nameof(Activate), 0.5f);
             PlayerCombat = GetComponent<IPlayerCombat>();
             KnockBack = GetComponent<KnockBack>();
-            PlayerInputControl = DependenciesContext.Dependencies.Get<PlayerInputControl>();
         }
         
         private void Start()
         {
             //bind jump control
+            PlayerInputControl = DependenciesContext.Dependencies.Get<PlayerInputControl>();
             PlayerInputControl.JumpInput.performed += StartJump;
             PlayerInputControl.JumpInput.canceled += FinishJump;
         }

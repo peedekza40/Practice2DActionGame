@@ -41,7 +41,6 @@ namespace Character {
         void Awake()
         {
             CountAttack = 0;
-            PlayerInputControl = DependenciesContext.Dependencies.Get<PlayerInputControl>();
             PlayerController = GetComponent<IPlayerController>();
             AnimatorController = GetComponentInChildren<IAnimatorController>();
             Gold = GetComponent<Gold>();
@@ -50,6 +49,7 @@ namespace Character {
         // Start is called before the first frame update
         void Start()
         {
+            PlayerInputControl = DependenciesContext.Dependencies.Get<PlayerInputControl>();
             PlayerInputControl.AttackInput.performed += StartAttack;
             PlayerInputControl.BlockInput.performed += StartBlock;
             PlayerInputControl.BlockInput.canceled += FinishBlock;

@@ -14,11 +14,11 @@ public class CloneCharacter : MonoBehaviour
     {
         EnemyStatus = GetComponent<EnemyStatus>();
         EnemyAI = GetComponent<EnemyAI>();
-        CharacterTemplates = DependenciesContext.Dependencies.Get<CharacterTemplates>();
     }
 
     private void Start() 
     {
+        CharacterTemplates = DependenciesContext.Dependencies.Get<CharacterTemplates>();
         TemplateCharacter = GetTemplate();
     }
 

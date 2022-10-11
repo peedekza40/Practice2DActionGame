@@ -39,6 +39,7 @@ namespace Infrastructure.Dependency
             }
         }
 
+        //if use in monobehavior class. call this function on Start() event
         public T Get<T>()
         {
             return (T)Get(typeof(T));

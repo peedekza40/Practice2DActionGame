@@ -19,7 +19,7 @@ namespace Core.DataPersistence
 
         private void Awake() 
         {
-        this.FileDataHandler = new FileDataHandler(Application.persistentDataPath, FileName, UseEncryption);
+            this.FileDataHandler = new FileDataHandler(Application.persistentDataPath, FileName, UseEncryption);
         }
 
         private void OnEnable() 

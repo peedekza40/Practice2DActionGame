@@ -21,28 +21,29 @@ public class Inventory : MonoBehaviour, IUIPersistence
     
     private List<ItemSlot> Slots { get; set; } = new List<ItemSlot>();
     private List<Item> Items { get; set; } = new List<Item>();
-    public UINumber Number => UINumber.Inventory;
-    public bool IsOpen { get; private set; }
-    private bool IsDrewSlot { get; set; }
 
     private PlayerInputControl PlayerInputControl;
     private IPlayerController PlayerController;
 
+    #region IUIPersistence
+    public UINumber Number => UINumber.Inventory;
+    public bool IsOpen { get; private set; }
+    public MouseEvent MouseEvent { get; private set; }
+    #endregion
+
     private void Awake() 
     {
         PlayerController = GetComponent<IPlayerController>();
-        PlayerInputControl = DependenciesContext.Dependencies.Get<PlayerInputControl>();
+        MouseEvent = InventoryContainer.GetComponentInParent<MouseEvent>();
         DrawItemSlot();
     }
 
     private void Start() 
     {
-        IsOpen = false;
+        PlayerInputControl = DependenciesContext.Dependencies.Get<PlayerInputControl>();
         PlayerInputControl.ToggleInventoryInput.performed += ToggleInventory;
-
-        AddItem(new Item(ItemType.HeathPotion, 10));
-        AddItem(new Item(ItemType.ManaPotion, 1));
-        AddItem(new Item(ItemType.Sword, 1));
+        
+        IsOpen = false;
     }
 
     public Item GetItem(System.Guid id)
@@ -182,7 +183,6 @@ public class Inventory : MonoBehaviour, IUIPersistence
             }
         }
 
-        IsDrewSlot = true;
         InventoryContainer.SetActive(IsOpen);
     }
 }

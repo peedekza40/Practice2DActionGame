@@ -10,8 +10,8 @@ namespace Infrastructure.InputSystem
     {
         public Vector2 Move => MoveInput.ReadValue<Vector2>();
 
-        public List<MouseEvent> UIMouseEvents;
         public List<IUIPersistence> UIPersistences;
+        private List<MouseEvent> UIMouseEvents { get; set; } = new List<MouseEvent>();
 
         private PlayerInputAction PlayerInput;
         public InputAction MoveInput { get; private set; }
@@ -19,6 +19,7 @@ namespace Infrastructure.InputSystem
         public InputAction AttackInput { get; private set; }
         public InputAction BlockInput { get; private set; }
         public InputAction ToggleInventoryInput { get; private set; }
+        public InputAction InteractInput { get; private set; }
 
         private void Awake() 
         {
@@ -42,6 +43,9 @@ namespace Infrastructure.InputSystem
 
             ToggleInventoryInput = PlayerInput.Player.ToggleInventory;
             ToggleInventoryInput.Enable();
+
+            InteractInput = PlayerInput.Player.Interact;
+            InteractInput.Enable();
         }
 
         private void OnDisable() 
@@ -51,11 +55,17 @@ namespace Infrastructure.InputSystem
             AttackInput.Disable();
             BlockInput.Disable();
             ToggleInventoryInput.Disable();
+            InteractInput.Disable();
+        }
+
+        private void Start() 
+        {
+            UIMouseEvents = UIPersistences.Select(x => x.MouseEvent).ToList();
         }
 
         private void Update() 
         {
-            //disabled attack
+            //disabled combat
             if(UIMouseEvents.Any(x => x.IsHover))
             {
                 AttackInput.Disable();
@@ -67,8 +77,10 @@ namespace Infrastructure.InputSystem
                 BlockInput.Enable();
             }
 
-            //disabled movement & inventory
-            if(UIPersistences.Any(x => x.Number == UINumber.PauseMenu && x.IsOpen))
+            //disabled movement && inventory
+            bool pauseMenuIsOpen = UIPersistences.Any(x => x.Number == UINumber.PauseMenu && x.IsOpen);
+            bool statisticIsOpen = UIPersistences.Any(x => x.Number == UINumber.Statistic && x.IsOpen);
+            if(pauseMenuIsOpen || statisticIsOpen)
             {
                 MoveInput.Disable();
                 ToggleInventoryInput.Disable();

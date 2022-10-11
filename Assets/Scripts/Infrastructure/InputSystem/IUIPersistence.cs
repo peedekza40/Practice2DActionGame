@@ -6,6 +6,7 @@ namespace Infrastructure.InputSystem
     {
         UINumber Number { get; }
         bool IsOpen { get; }
+        MouseEvent MouseEvent { get; }
     }
 }
 

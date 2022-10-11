@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Enemy
   - Item
+  - Inventory
   layers:
   - Default
   - TransparentFX
@@ -48,6 +49,12 @@ TagManager:
     locked: 0
   - name: Platform
     uniqueID: 1946180281
+    locked: 0
+  - name: CheckPoint
+    uniqueID: 424771295
+    locked: 0
+  - name: Character
+    uniqueID: 899153479
     locked: 0
   - name: UI
     uniqueID: 216390949
