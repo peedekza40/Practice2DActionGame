@@ -8,10 +8,10 @@ public class ItemWorld : MonoBehaviour
     public float WaitCollectingTime = 2f;
 
     public bool IsCanCollect { get; private set; }
-    private Item Item;
+    private ItemModel Item;
     private Rigidbody2D Rb;
 
-    public static ItemWorld SpawnItemWorld(Vector3 position, Item item)
+    public static ItemWorld SpawnItemWorld(Vector3 position, ItemModel item)
     {
         ItemAssets itemAssets = DependenciesContext.Dependencies.Get<ItemAssets>();
         ItemWorld itemWorld = Instantiate(itemAssets.PrefabItemWorld, position, Quaternion.identity);
@@ -26,13 +26,13 @@ public class ItemWorld : MonoBehaviour
         StartCoroutine(WaitSetIsCanCollect());
     }
 
-    public void SetItem(Item item)
+    public void SetItem(ItemModel item)
     {
         Item = item;
         SpriteRenderer.sprite = item.GetSprite();
     }
 
-    public Item GetItem()
+    public ItemModel GetItem()
     {
         return Item;
     }

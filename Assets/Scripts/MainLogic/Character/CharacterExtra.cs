@@ -20,7 +20,7 @@ namespace Character
         bool IsBlocking { get; }
         bool PressBlockThisFrame { get; }
         bool IsParry { get; }
-        float GetReduceDamage();
+        float GetReduceDamagePercent();
         void SetIsParry(bool isParry);
         
     }

@@ -34,7 +34,7 @@ namespace Character
                 }
                 else
                 {
-                    reduceDamage = PlayerCombat.GetReduceDamage();
+                    reduceDamage = (PlayerCombat.GetReduceDamagePercent()/100) * damage;
                 }
 
                 damage -= reduceDamage;
@@ -50,14 +50,15 @@ namespace Character
             base.Die();
         }
 
-        public void LoadData(GameData data)
+        public void LoadData(GameDataModel data)
         {
-            SetCurrentHP(data.PlayerHP);
+            SetCurrentHP(data.PlayerData.CurrentHP);
         }
 
-        public void SaveData(ref GameData data)
+        public void SaveData(GameDataModel data)
         {
-            data.PlayerHP = this.CurrentHP;
+            data.PlayerData.CurrentHP = this.CurrentHP;
+            data.PlayerData.MaxHP = this.MaxHP;
         }
     }
 }

@@ -6,15 +6,17 @@ using System.Linq;
 using UnityEngine.InputSystem;
 using Infrastructure.Dependency;
 using Infrastructure.InputSystem;
+using Core.DataPersistence;
+using Core.DataPersistence.Data;
 
 namespace Character {
-    public class PlayerCombat : MonoBehaviour, IPlayerCombat
+    public class PlayerCombat : MonoBehaviour, IPlayerCombat, IDataPersistence
     {
         [Header("Attack")]
         public float TimeBetweenCombo = 0.45f;
-        public float TimeBetweenAttack = 0.4f;
+        public float TimeBetweenAttack = 0.3f;
         public float TimeBetweenNextMove = 0.35f;
-        public float Damage = 20f;
+        public float Damage = 10f;
         public Collider2D HitBox;
         public LayerMask EnemyLayers;
         public int? CountAttack { get; private set; }
@@ -23,7 +25,8 @@ namespace Character {
         private int DamageFrameCount = 0;
 
         [Header("Block")]
-        public float ReduceDamage = 5f;
+        [Range(0, 100)]
+        public float ReduceDamagePercent = 5f;
         public bool IsBlocking { get; private set; }
         public bool PressBlockThisFrame { get; private set; }
         public bool IsParry { get; private set; }
@@ -32,11 +35,14 @@ namespace Character {
 
         private IPlayerController PlayerController;
         private IAnimatorController AnimatorController;
-        private PlayerInputControl PlayerInputControl;
         private Gold Gold;
         private AnimatorStateInfo AnimationState;
         private FrameInput Input;
         private List<EnemyStatus> AttackedEnemies = new List<EnemyStatus>();
+
+        #region Dependencies
+        private PlayerInputControl PlayerInputControl;
+        #endregion
 
         void Awake()
         {
@@ -67,9 +73,9 @@ namespace Character {
             CheckAttackedCharaterDeath();
         }
 
-        public float GetReduceDamage()
+        public float GetReduceDamagePercent()
         {
-            return ReduceDamage;
+            return ReduceDamagePercent;
         }
 
         public void SetIsParry(bool isParry)
@@ -81,7 +87,7 @@ namespace Character {
         {
             if(IsBlocking == false 
                 && ((CountAttack < 3 && TimeSinceAttack > TimeBetweenAttack)
-                || (CountAttack == 3 && TimeSinceAttack > TimeBetweenAttack + TimeBetweenCombo)))
+                    || (CountAttack == 3 && TimeSinceAttack > TimeBetweenAttack + TimeBetweenCombo)))
             {
                 CountAttack++;
                 // Loop back to one after third attack or Reset Attack combo if time since last attack is too large
@@ -186,7 +192,18 @@ namespace Character {
             }
         }
 
+        public void LoadData(GameDataModel data)
+        {
+            Damage = data.PlayerData.AttackDamage;
+            ReduceDamagePercent = data.PlayerData.ReduceDamagePercent;
+            TimeBetweenAttack = data.PlayerData.TimeBetweenAttack;
+        }
 
-
+        public void SaveData(GameDataModel data)
+        {
+            data.PlayerData.AttackDamage = Damage;
+            data.PlayerData.ReduceDamagePercent = ReduceDamagePercent;
+            data.PlayerData.TimeBetweenAttack = TimeBetweenAttack;
+        }
     }
 }

@@ -8,7 +8,10 @@ public class CloneCharacter : MonoBehaviour
     private GameObject TemplateCharacter;
     private EnemyStatus EnemyStatus;
     private EnemyAI EnemyAI;
+
+    #region Dependencies
     private CharacterTemplates CharacterTemplates;
+    #endregion
 
     private void Awake() 
     {

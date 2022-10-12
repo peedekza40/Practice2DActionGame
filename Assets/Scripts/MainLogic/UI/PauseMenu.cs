@@ -9,9 +9,11 @@ public class PauseMenu : MonoBehaviour, IUIPersistence
     public GameObject MenuPanel;
     public GameObject Player;
 
-    private DataPersistenceManager DataPersistenceManager { get; set; }
     private DeathScript DeathScript;
 
+    #region Dependencies
+    private DataPersistenceManager DataPersistenceManager { get; set; }
+    #endregion
 
     #region IUIPersistence
     public UINumber Number => UINumber.PauseMenu;

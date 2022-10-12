@@ -19,11 +19,11 @@ namespace Core.DataPersistence
             this.UseEncryption = useEncryption;
         }
 
-        public GameData Load()
+        public GameDataModel Load()
         {
             //use Path.Combine to account for different OS's having different path separators 
             string fullPath = Path.Combine(DataDirPath, DataFileName);
-            GameData loadedData = null;
+            GameDataModel loadedData = null;
             if(File.Exists(fullPath))
             {
                 try
@@ -45,7 +45,7 @@ namespace Core.DataPersistence
                     }
 
                     //deserialize the data from Json back into the C# object
-                    loadedData = JsonUtility.FromJson<GameData>(dataToLoad);
+                    loadedData = JsonUtility.FromJson<GameDataModel>(dataToLoad);
                 }
                 catch (Exception ex)
                 {
@@ -56,7 +56,7 @@ namespace Core.DataPersistence
             return loadedData;
         }
 
-        public void Save(GameData data)
+        public void Save(GameDataModel data)
         {
             //use Path.Combine to account for different OS's having different path separators 
             string fullPath = Path.Combine(DataDirPath, DataFileName);

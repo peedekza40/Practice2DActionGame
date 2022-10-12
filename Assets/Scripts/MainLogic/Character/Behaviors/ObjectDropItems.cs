@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class ObjectDropItems : MonoBehaviour
 {
-    public WeightedRandomList<Item> Items;
+    public WeightedRandomList<ItemModel> Items;
     public int DropAmount;
     
     public void DropItems()
@@ -11,7 +11,7 @@ public class ObjectDropItems : MonoBehaviour
         int sumDropedAmount = 0;
         while(sumDropedAmount < DropAmount)
         {
-            Item dropItem = Items.GetRandom();
+            ItemModel dropItem = Items.GetRandom();
             if(dropItem.Amount > 0)
             {
                 dropItem.Amount--;
@@ -21,7 +21,7 @@ public class ObjectDropItems : MonoBehaviour
                 Vector2 dropDirection = RandomVectorDirection();
                 Vector2 dropPostion = new Vector2(0, 0.5f);
 
-                ItemWorld dropItemWorld = ItemWorld.SpawnItemWorld((Vector2)transform.position + dropPostion, new Item(dropItem.Type, 1));
+                ItemWorld dropItemWorld = ItemWorld.SpawnItemWorld((Vector2)transform.position + dropPostion, new ItemModel(dropItem.Type, 1));
                 dropItemWorld.GetComponent<Rigidbody2D>().AddForce(dropDirection * 2.5f, ForceMode2D.Impulse);
             }
         }

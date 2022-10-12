@@ -34,12 +34,12 @@ namespace Character
             transform.position =  Vector3.Slerp(transform.position, newPos, FollowSpeed * Time.deltaTime);
         }
 
-        public void LoadData(GameData data)
+        public void LoadData(GameDataModel data)
         {
             transform.position = data.CameraPosition;
         }
 
-        public void SaveData(ref GameData data)
+        public void SaveData(GameDataModel data)
         {
             data.CameraPosition = transform.position;
         }

@@ -10,7 +10,10 @@ public class MainMenu : MonoBehaviour, IDataPersistence
     public GameObject MainMenuHasSave;
 
     private string ContinueScene; 
+
+    #region Dependencies
     private DataPersistenceManager DataPersistenceManager { get; set; }
+    #endregion
 
     private void Start() 
     {
@@ -47,12 +50,12 @@ public class MainMenu : MonoBehaviour, IDataPersistence
         Application.Quit();
     }
 
-    public void LoadData(GameData data)
+    public void LoadData(GameDataModel data)
     {
         ContinueScene = data.CurrentScene; 
     }
 
-    public void SaveData(ref GameData data)
+    public void SaveData(GameDataModel data)
     {
     }
 }

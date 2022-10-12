@@ -12,18 +12,21 @@ public class Inventory : MonoBehaviour, IUIPersistence
 {
     [Header("UI")]
     public GameObject InventoryContainer;
-    public Transform ItemContainer;
+    public Transform ItemContainerTransform;
     public ItemSlot SlotTemplate;
     public int SlotAmount = 16;
 
     [Header("Function")]
-    public UnityAction<Item> UseItemAction;
+    public UnityAction<ItemModel> UseItemAction;
     
     private List<ItemSlot> Slots { get; set; } = new List<ItemSlot>();
-    private List<Item> Items { get; set; } = new List<Item>();
+    private List<ItemModel> Items { get; set; } = new List<ItemModel>();
 
-    private PlayerInputControl PlayerInputControl;
     private IPlayerController PlayerController;
+
+    #region Dependencies
+    private PlayerInputControl PlayerInputControl;
+    #endregion
 
     #region IUIPersistence
     public UINumber Number => UINumber.Inventory;
@@ -46,18 +49,18 @@ public class Inventory : MonoBehaviour, IUIPersistence
         IsOpen = false;
     }
 
-    public Item GetItem(System.Guid id)
+    public ItemModel GetItem(System.Guid id)
     {
         return Items.FirstOrDefault(x => x.ID == id);
     }
 
-    public void AddItem(Item item)
+    public void AddItem(ItemModel item)
     {
         if(item != null)
         {
             if(item.IsStackable())
             {
-                Item inventoryItem = Items.FirstOrDefault(x => x.Type == item.Type);
+                ItemModel inventoryItem = Items.FirstOrDefault(x => x.Type == item.Type);
                 if(inventoryItem != null)
                 {
                     inventoryItem.Amount += item.Amount;
@@ -76,7 +79,7 @@ public class Inventory : MonoBehaviour, IUIPersistence
         }
     }
 
-    public void UseItem(Item item)
+    public void UseItem(ItemModel item)
     {
         if(item.IsCanUse())
         {
@@ -88,12 +91,12 @@ public class Inventory : MonoBehaviour, IUIPersistence
 
     }
 
-    public void DropItem(Item item)
+    public void DropItem(ItemModel item)
     {
         Debug.Log("Drop item : " + item.Type);
 
         //remove item in inventory
-        Item removeItem = RemoveItem(item);
+        ItemModel removeItem = RemoveItem(item);
 
         //control physic
         Vector2 dropDirection = new Vector2(1, Random.Range(0.2f, 1f));
@@ -103,14 +106,14 @@ public class Inventory : MonoBehaviour, IUIPersistence
             dropDirection.x *= -1;
         }
 
-        ItemWorld dropItem = ItemWorld.SpawnItemWorld((Vector2)transform.position + dropPostion, new Item(removeItem.Type, 1));
+        ItemWorld dropItem = ItemWorld.SpawnItemWorld((Vector2)transform.position + dropPostion, new ItemModel(removeItem.Type, 1));
         dropItem.GetComponent<Rigidbody2D>().AddForce(dropDirection * 2f, ForceMode2D.Impulse);
 
     }
 
-    private Item RemoveItem(Item item)
+    private ItemModel RemoveItem(ItemModel item)
     {
-        Item removeItem = Items.FirstOrDefault(x => x.Type == item.Type);
+        ItemModel removeItem = Items.FirstOrDefault(x => x.Type == item.Type);
         if(removeItem.IsStackable())
         {
             removeItem.Amount--;
@@ -143,7 +146,7 @@ public class Inventory : MonoBehaviour, IUIPersistence
         foreach(var cleanSlot in cleanSlots)
         {
             cleanSlot.ClearItemGUI();
-            Item item = Items.FirstOrDefault(item => !haveItemSlots.Any(slot => slot.ItemID == item.ID));
+            ItemModel item = Items.FirstOrDefault(item => !haveItemSlots.Any(slot => slot.ItemID == item.ID));
             if(item != null)
             {
                 cleanSlot.SetItemGUI(item);
@@ -152,7 +155,7 @@ public class Inventory : MonoBehaviour, IUIPersistence
 
         foreach(var haveItemSlot in haveItemSlots)
         {
-            Item item = Items.FirstOrDefault(item => item.ID == haveItemSlot.ItemID);
+            ItemModel item = Items.FirstOrDefault(item => item.ID == haveItemSlot.ItemID);
             haveItemSlot.ClearItemGUI();
             haveItemSlot.SetItemGUI(item);
             
@@ -170,7 +173,7 @@ public class Inventory : MonoBehaviour, IUIPersistence
 
         for(int i = 0; i < SlotAmount; i++)
         {
-            ItemSlot slot = Instantiate(SlotTemplate, ItemContainer);
+            ItemSlot slot = Instantiate(SlotTemplate, ItemContainerTransform);
             slot.gameObject.SetActive(true);
             slot.SlotTransform.anchoredPosition = new Vector2((x * slotCellSize) + startAnchoredPosition.x, -(y * slotCellSize) + startAnchoredPosition.y);
             Slots.Add(slot);

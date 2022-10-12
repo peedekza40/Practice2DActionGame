@@ -31,7 +31,9 @@ namespace Character
         private KnockBack KnockBack;
         private bool IsCanMove;
 
+        #region Dependencies
         private PlayerInputControl PlayerInputControl;
+        #endregion
 
         // This is horrible, but for some reason colliders are not fully established when update starts...
         private bool _active;
@@ -352,16 +354,16 @@ namespace Character
 
         #endregion
 
-        public void LoadData(GameData data)
+        public void LoadData(GameDataModel data)
         {
-            transform.position = data.PlayerPosition;
-            transform.localScale = data.Scale;
+            transform.position = data.PlayerData.Position;
+            transform.localScale = data.PlayerData.Scale;
         }
 
-        public void SaveData(ref GameData data)
+        public void SaveData(GameDataModel data)
         {
-            data.PlayerPosition = _lastPosition;
-            data.Scale = transform.localScale;
+            data.PlayerData.Position = _lastPosition;
+            data.PlayerData.Scale = transform.localScale;
         }
     }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using Core.Repositories;
 using Infrastructure.Dependency;
 using Infrastructure.Entity;
+using Infrastructure.Extensions;
 using Mono.Data.Sqlite;
 using UnityEngine;
 
@@ -31,9 +32,9 @@ namespace Infrastructure.Repositories
                         {
                             Id = reader.GetInt32(0),
                             Code = reader.GetString(1),
-                            Name = reader.GetString(2),
-                            MainIconPath = reader.GetString(3),
-                            SubIconPath = reader.GetString(4)
+                            Name = reader.GetNullableString(2),
+                            MainIconPath = reader.GetNullableString(3),
+                            SubIconPath = reader.GetNullableString(4)
                         };
 
                         statsConfigs.Add(statsConfig);

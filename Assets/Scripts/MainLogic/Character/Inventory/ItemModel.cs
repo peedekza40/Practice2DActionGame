@@ -4,15 +4,17 @@ using Infrastructure.Dependency;
 using UnityEngine;
 
 [Serializable]
-public class Item
+public class ItemModel
 {
     public Guid ID;
     public ItemType Type;
     public int Amount;
 
+    #region Dependencies
     private ItemAssets ItemAssets;
+    #endregion
 
-    public Item(ItemType type, int amount = 1)
+    public ItemModel(ItemType type, int amount = 1)
     {
         ID = Guid.NewGuid();
         Type = type;

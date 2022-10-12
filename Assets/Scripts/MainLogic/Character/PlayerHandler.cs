@@ -1,4 +1,5 @@
 using Character;
+using Core.Constant;
 using Core.Constants;
 using UnityEngine;
 
@@ -8,6 +9,7 @@ namespace Character
     {
         [Header("Assets")]
         public PlayerStatus Status;
+        public PlayerCombat Combat;
         public Gold Gold;
         public Inventory Inventory;
 
@@ -36,7 +38,7 @@ namespace Character
             }
         }
 
-        private void UseItem(Item item)
+        private void UseItem(ItemModel item)
         {
             switch(item.Type)
             {

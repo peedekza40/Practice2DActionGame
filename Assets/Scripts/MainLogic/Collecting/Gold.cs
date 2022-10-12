@@ -1,8 +1,10 @@
 using Core.Constants;
+using Core.DataPersistence;
+using Core.DataPersistence.Data;
 using TMPro;
 using UnityEngine;
 
-public class Gold : MonoBehaviour
+public class Gold : MonoBehaviour, IDataPersistence
 {
     [Header("UI")]
     public TextMeshProUGUI ValueText;
@@ -33,5 +35,15 @@ public class Gold : MonoBehaviour
             default :
                 break;
         }
+    }
+
+    public void LoadData(GameDataModel data)
+    {
+        Amount = data.PlayerData.GoldAmount;
+    }
+
+    public void SaveData(GameDataModel data)
+    {
+        data.PlayerData.GoldAmount = Amount;
     }
 }

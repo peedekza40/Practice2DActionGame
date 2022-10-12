@@ -4,9 +4,9 @@ namespace Core.DataPersistence
 {
     public interface IDataPersistence
     {
-        void LoadData(GameData data);
+        void LoadData(GameDataModel data);
 
-        void SaveData(ref GameData data);
+        void SaveData(GameDataModel data);
     }
 }
 

@@ -3,19 +3,18 @@ using UnityEngine;
 namespace Core.DataPersistence.Data
 {
     [System.Serializable]
-    public class GameData
+    public class GameDataModel
     {
-        public float PlayerHP;
-        public Vector3 PlayerPosition;
-        public Vector3 Scale;
+        [Header("Player Data")]
+        public PlayerDataModel PlayerData;
         
+        [Header("Scene")]
         public Vector3 CameraPosition;
         public string CurrentScene;
 
-        public GameData()
+        public GameDataModel()
         {
-            this.PlayerHP = 0;
-            this.PlayerPosition = Vector3.zero;
+            this.PlayerData = new PlayerDataModel();
             this.CameraPosition = Vector3.zero;
         }
     }

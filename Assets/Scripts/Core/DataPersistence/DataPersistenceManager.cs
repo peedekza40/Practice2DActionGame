@@ -13,7 +13,7 @@ namespace Core.DataPersistence
         public string FileName;
         public bool UseEncryption; 
 
-        private GameData GameData;
+        private GameDataModel GameData;
         private List<IDataPersistence> DataPersistences;
         private FileDataHandler FileDataHandler;
 
@@ -55,9 +55,14 @@ namespace Core.DataPersistence
         public void NewGame()
         {
             var playerStatus = FindObjectsOfType<PlayerStatus>(true).FirstOrDefault();
-            this.GameData = new GameData();
-            GameData.PlayerHP = playerStatus?.MaxHP ?? 0;
-            GameData.Scale = playerStatus?.transform.localScale ?? Vector3.zero;
+            var playerCombat = FindObjectsOfType<PlayerCombat>(true).FirstOrDefault();
+            this.GameData = new GameDataModel();
+            GameData.PlayerData.CurrentHP = playerStatus?.MaxHP ?? 0;
+            GameData.PlayerData.Scale = playerStatus?.transform.localScale ?? Vector3.zero;
+            GameData.PlayerData.MaxHP = playerStatus?.MaxHP ?? 0;
+            GameData.PlayerData.AttackDamage = playerCombat?.Damage ?? 0;
+            GameData.PlayerData.ReduceDamagePercent = playerCombat?.ReduceDamagePercent ?? 0;
+            GameData.PlayerData.TimeBetweenAttack = playerCombat?.TimeBetweenAttack ?? 0;
         }
 
         public void LoadGame()
@@ -93,7 +98,7 @@ namespace Core.DataPersistence
             //pass the data to other scripts so they can update it
             foreach(IDataPersistence dataPersistence in DataPersistences)
             {
-                dataPersistence.SaveData(ref GameData);
+                dataPersistence.SaveData(GameData);
             }
 
             //save current scene

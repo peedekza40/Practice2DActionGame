@@ -36,7 +36,7 @@ public class ItemSlot : MonoBehaviour, IDropHandler
         ClearItemGUI();
     }
 
-    public void SetItemGUI(Item item)
+    public void SetItemGUI(ItemModel item)
     {
         ItemID = item.ID;
         ItemTransform.gameObject.SetActive(true);
