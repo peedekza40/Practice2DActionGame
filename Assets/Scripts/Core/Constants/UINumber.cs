@@ -4,6 +4,7 @@ namespace Core.Constants
     {
         Inventory,
         Statistic,
+        MainMenu,
         PauseMenu
     }
 }

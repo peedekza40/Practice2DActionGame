@@ -36,14 +36,12 @@ namespace Core.DataPersistence
 
         public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
-            Debug.Log("OnSceneLoaded Called");
             this.DataPersistences = FindAllDataPersistenceObjects();
-            // LoadGame();
+            LoadGame();
         }
 
         public void OnSceneUnloaded(Scene scene)
         {
-            Debug.Log("OnSceneUnloaded Called");
             SaveGame();
         }
 

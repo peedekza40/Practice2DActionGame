@@ -1,39 +1,43 @@
 using UnityEngine;
-using Infrastructure.Dependency;
 using Core.DataPersistence;
 using Core.DataPersistence.Data;
+using Core.Constants;
+using Infrastructure.InputSystem;
+using Zenject;
 
-public class MainMenu : MonoBehaviour, IDataPersistence
+public class MainMenu : MonoBehaviour, IDataPersistence, IUIPersistence
 {
     public LevelLoader LevelLoader;
-    public GameObject MainMenuNoSave;
-    public GameObject MainMenuHasSave;
+    public Transform MainMenuTransform;
 
     private string ContinueScene; 
 
     #region Dependencies
-    private DataPersistenceManager DataPersistenceManager { get; set; }
+    [Inject]
+    private DataPersistenceManager dataPersistenceManager;
     #endregion
+
+    #region IUIPersistence
+    public UINumber Number => UINumber.MainMenu;
+    public bool IsOpen { get; private set; }
+    public MouseEvent MouseEvent { get; private set; }
+    #endregion
+
+    private void Awake() 
+    {
+        MouseEvent = GetComponent<MouseEvent>();
+    }
 
     private void Start() 
     {
-        DataPersistenceManager = DependenciesContext.Dependencies.Get<DataPersistenceManager>();    
-        if(DataPersistenceManager.IsHasGameData())
-        {
-            MainMenuNoSave.SetActive(false);
-            MainMenuHasSave.SetActive(true);
-        }
-        else
-        {
-            MainMenuNoSave.SetActive(true);
-            MainMenuHasSave.SetActive(false);
-        }
+        MainMenuTransform.Find(GameObjectName.ContinueButton).gameObject.SetActive(dataPersistenceManager.IsHasGameData());
+        IsOpen = true;
     }
 
     public void NewGame(string sceneName)
     {
         //create a new game - which will initialize our game data
-        DataPersistenceManager.NewGame();
+        dataPersistenceManager.NewGame();
 
         //load the gameplay scene - which will in turn save the game because of OnSceneUnloaded() in the DataPersistenceManager
         LevelLoader.LoadLevel(sceneName);

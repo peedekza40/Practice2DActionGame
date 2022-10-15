@@ -1,7 +1,8 @@
 using Character;
 using Core.Constants;
-using Infrastructure.Dependency;
+using Unity.VisualScripting;
 using UnityEngine;
+using Zenject;
 
 public class CloneCharacter : MonoBehaviour
 {
@@ -10,8 +11,18 @@ public class CloneCharacter : MonoBehaviour
     private EnemyAI EnemyAI;
 
     #region Dependencies
-    private CharacterTemplates CharacterTemplates;
+    private CharacterTemplates characterTemplates;
+    private IInstantiator instantiator;
     #endregion
+
+    [Inject]
+    public void Init(
+        CharacterTemplates characterTemplates,
+        IInstantiator instantiator)
+    {
+        this.characterTemplates = characterTemplates;
+        this.instantiator = instantiator;
+    }
 
     private void Awake() 
     {
@@ -21,14 +32,13 @@ public class CloneCharacter : MonoBehaviour
 
     private void Start() 
     {
-        CharacterTemplates = DependenciesContext.Dependencies.Get<CharacterTemplates>();
         TemplateCharacter = GetTemplate();
     }
 
     public void Clone()
     {
         Debug.Log("Clone character : " + gameObject.name);
-        GameObject newCharacter = Instantiate(TemplateCharacter, new Vector3(5.13f, 5.13f, 0f), Quaternion.identity);
+        GameObject newCharacter = instantiator.InstantiatePrefab(TemplateCharacter, new Vector3(5.13f, 5.13f, 0f), Quaternion.identity, null);
         newCharacter.GetComponent<EnemyAI>().Target = EnemyAI.Target;
         newCharacter.SetActive(true);
     }
@@ -39,7 +49,7 @@ public class CloneCharacter : MonoBehaviour
         switch(EnemyStatus.Type)
         {
             case EnemyType.Skeleton : 
-                template = CharacterTemplates.PrefabSkeleton;
+                template = characterTemplates.PrefabSkeleton;
                 break;
             default : 
                 break;

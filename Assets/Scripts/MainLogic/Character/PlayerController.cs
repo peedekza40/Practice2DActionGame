@@ -2,10 +2,10 @@ using System.Collections.Generic;
 using System.Linq;
 using Core.DataPersistence;
 using Core.DataPersistence.Data;
-using Infrastructure.Dependency;
 using Infrastructure.InputSystem;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Zenject;
 
 namespace Character
 {
@@ -32,7 +32,8 @@ namespace Character
         private bool IsCanMove;
 
         #region Dependencies
-        private PlayerInputControl PlayerInputControl;
+        [Inject]
+        private PlayerInputControl playerInputControl;
         #endregion
 
         // This is horrible, but for some reason colliders are not fully established when update starts...
@@ -49,9 +50,8 @@ namespace Character
         private void Start()
         {
             //bind jump control
-            PlayerInputControl = DependenciesContext.Dependencies.Get<PlayerInputControl>();
-            PlayerInputControl.JumpInput.performed += StartJump;
-            PlayerInputControl.JumpInput.canceled += FinishJump;
+            playerInputControl.JumpInput.performed += StartJump;
+            playerInputControl.JumpInput.canceled += FinishJump;
         }
 
         private void Update() {
@@ -80,7 +80,7 @@ namespace Character
             var input = new FrameInput();
             if(IsCanMove)
             {
-                input.X = PlayerInputControl.Move.x;
+                input.X = playerInputControl.Move.x;
             }
             else
             {

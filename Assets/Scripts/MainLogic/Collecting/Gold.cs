@@ -1,18 +1,27 @@
 using Core.Constants;
 using Core.DataPersistence;
 using Core.DataPersistence.Data;
+using Infrastructure.Extensions;
+using Infrastructure.InputSystem;
 using TMPro;
 using UnityEngine;
+using Zenject;
 
 public class Gold : MonoBehaviour, IDataPersistence
 {
     [Header("UI")]
+    public Transform GoldLabelTransform;
     public TextMeshProUGUI ValueText;
     [Range(0, 5)]
     public float LerpTime = 0f;
 
-    private int Amount = 0;
+    public int Amount { get; private set; } = 0;
     private int RunningAmount = 0;
+
+    #region Dependencies
+    [Inject]
+    private PlayerInputControl playerInputControl;
+    #endregion
 
     private void Start() 
     {
@@ -21,8 +30,21 @@ public class Gold : MonoBehaviour, IDataPersistence
 
     private void Update() 
     {
-        RunningAmount = (int)Mathf.Ceil(Mathf.Lerp(RunningAmount, Amount, LerpTime * Time.deltaTime));
+        float tempRunnigAmount = Mathf.Lerp(RunningAmount, Amount, LerpTime * Time.deltaTime);
+        if(RunningAmount <= Amount)
+        {
+            RunningAmount = Mathf.CeilToInt(tempRunnigAmount);
+        }
+        else
+        {
+            RunningAmount = Mathf.FloorToInt(tempRunnigAmount);
+        }
+
         ValueText.SetText(RunningAmount.ToString(Formatter.Amount));
+
+        //hide when statistics ui is open
+        bool statisticIsOpen = playerInputControl.UIPersistences.GetByUiNumber(UINumber.Statistic).IsOpen;
+        GoldLabelTransform.gameObject.SetActive(!statisticIsOpen);
     }
 
     public void Collect(EnemyType attackedEnemyType)
@@ -35,6 +57,11 @@ public class Gold : MonoBehaviour, IDataPersistence
             default :
                 break;
         }
+    }
+
+    public void SetGoldAmount(int amount)
+    {
+        Amount = amount;
     }
 
     public void LoadData(GameDataModel data)

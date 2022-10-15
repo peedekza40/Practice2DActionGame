@@ -1,12 +1,8 @@
 using System.Collections.Generic;
-using System.Data;
-using System.Linq;
 using Core.Repositories;
-using Infrastructure.Dependency;
 using Infrastructure.Entity;
-using Infrastructure.Extensions;
-using Mono.Data.Sqlite;
-using UnityEngine;
+using SqlCipher4Unity3D;
+using Zenject;
 
 namespace Infrastructure.Repositories
 {
@@ -14,43 +10,14 @@ namespace Infrastructure.Repositories
     {
         public List<StatsConfig> Get()
         {
-            return GetAll().ToList();
+            return Connection.Table<StatsConfig>().ToList();
         }
 
-        private IQueryable<StatsConfig> GetAll()
+        private SQLiteConnection Connection;
+        
+        public StatsConfigRepository(DbContextBuilder dbContextBuilder)
         {
-            List<StatsConfig> statsConfigs = new List<StatsConfig>();
-            Connection.Open();
-            using(var command = Connection.CreateCommand())
-            {
-                command.CommandText = "SELECT * FROM StatsConfig;";
-                using(IDataReader reader = command.ExecuteReader())
-                {
-                    while(reader.Read())
-                    {
-                        StatsConfig statsConfig = new StatsConfig()
-                        {
-                            Id = reader.GetInt32(0),
-                            Code = reader.GetString(1),
-                            Name = reader.GetNullableString(2),
-                            MainIconPath = reader.GetNullableString(3),
-                            SubIconPath = reader.GetNullableString(4)
-                        };
-
-                        statsConfigs.Add(statsConfig);
-                    }
-                }
-            }
-            Connection.Close();
-
-            return statsConfigs.AsQueryable();
-        }
-
-        private SqliteConnection Connection;
-
-        public StatsConfigRepository()
-        {
-            Connection = DependenciesContext.Dependencies.Get<DbContextBuilder>().Connection;
+            Connection = dbContextBuilder.Connection;
         }
     }
 }

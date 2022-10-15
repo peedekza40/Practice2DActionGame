@@ -1,6 +1,8 @@
+using System;
 using UnityEngine;
 
-public class CharacterTemplates : MonoBehaviour
+[Serializable]
+public class CharacterTemplates
 {
     public GameObject PrefabSkeleton;
 }

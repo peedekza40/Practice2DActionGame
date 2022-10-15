@@ -4,15 +4,16 @@ using Character;
 using Core.Constant;
 using Core.Constants;
 using Core.Repositories;
+using Infrastructure.Attributes;
 using Infrastructure.Dependency;
 using Infrastructure.Entity;
 using Infrastructure.InputSystem;
 using TMPro;
-using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using Zenject;
 
 public class StatisticsManagement : MonoBehaviour, IUIPersistence
 {
@@ -21,14 +22,35 @@ public class StatisticsManagement : MonoBehaviour, IUIPersistence
     public Transform StatsListContainerTransform;
     public StatsRow StatsRowTemplate;
     public Transform InteractDisplayTransform;
+    public Transform CurrentGoldTransform; 
+    public Transform UseGoldTransform; 
+    public Button SubmitButton;
+    public Button ClearButton;
 
     private List<StatsRow> StatsRows { get; set; } = new List<StatsRow>();
     private PlayerHandler PlayerHandler;
-    private const int TimeBetweenAttackRatio = 10;
+
+    #region Caculate Stats
+    private const float DefaultTimeBetweenAttack = 0.4f;
+    private const float MaxDecreasaeTimeBetweenAttack = 0.2f;
+    private Dictionary<string, StatsActionModel> StatsActions = new Dictionary<string, StatsActionModel>();
+    private float? ResultValueAction { get; set; }
+    #endregion
+
+    #region Caculate Gold
+    private int CurrentGoldAmount { get; set; }
+    private int UseGoldAmount { get; set; }
+    private int UsingGoldAmount = 0;
+    private int TempLevel { get; set; }
+    private const int UseGoldPerLevel = 150;
+    #endregion
 
     #region Dependencies
+    [Inject]
     private IStatsConfigRepository statsConfigRepository;
-    private PlayerInputControl PlayerInputControl;
+    
+    [Inject]
+    private PlayerInputControl playerInputControl;
     #endregion
 
     #region IUIPersistence
@@ -51,9 +73,10 @@ public class StatisticsManagement : MonoBehaviour, IUIPersistence
 
     private void Start() 
     {
-        statsConfigRepository = DependenciesContext.Dependencies.Get<IStatsConfigRepository>();
-        PlayerInputControl = DependenciesContext.Dependencies.Get<PlayerInputControl>();
         DrawStatsRow();
+
+        ClearButton.onClick.AddListener(() => ClearNextStats());
+        SubmitButton.onClick.AddListener(() => SubmitNextStats());
 
         IsOpen = false;
     }
@@ -63,7 +86,7 @@ public class StatisticsManagement : MonoBehaviour, IUIPersistence
         PlayerHandler playerHandler = other.GetComponent<PlayerHandler>();
         if(playerHandler != null)
         {
-            PlayerInputControl.InteractInput.performed += ToggleStatisticsUI;
+            playerInputControl.InteractInput.performed += ToggleStatisticsUI;
             InteractDisplayTransform.gameObject.SetActive(true);
         }
     }
@@ -73,13 +96,17 @@ public class StatisticsManagement : MonoBehaviour, IUIPersistence
         PlayerHandler playerStatus = other.GetComponent<PlayerHandler>();
         if(playerStatus != null)
         {
-            PlayerInputControl.InteractInput.performed -= ToggleStatisticsUI;
+            playerInputControl.InteractInput.performed -= ToggleStatisticsUI;
             InteractDisplayTransform.gameObject.SetActive(false);
         }
     }
 
     private void ToggleStatisticsUI(InputAction.CallbackContext context)
     {
+        TempLevel = PlayerHandler.Status.Level;
+        SetUseGold(CalculateUseGold());
+        SetCurrentGold(PlayerHandler.Gold.Amount);
+
         IsOpen = !IsOpen;
         StatsContainerTransform.gameObject.SetActive(IsOpen);
     }
@@ -90,35 +117,199 @@ public class StatisticsManagement : MonoBehaviour, IUIPersistence
         foreach(var statsConfig in statsConfigs)
         {
             StatsRow newStatsRow = Instantiate(StatsRowTemplate, StatsListContainerTransform);
+            StatsActions.Add(statsConfig.Code, InitialStatsActionModel(statsConfig.Code));
             newStatsRow.gameObject.SetActive(true);
-            newStatsRow.SetGUI(statsConfig, GetCurrentStats(statsConfig.Code), UpStats);
+            newStatsRow.SetGUI(statsConfig, GetCurrentStatsValue(statsConfig.Code), IncreaseStatsPreview, DecreaseStatsPreview);
             StatsRows.Add(newStatsRow);
+
         }
     }
 
-    private void UpStats(string statsCode)
+    private StatsActionModel InitialStatsActionModel(string statsCode)
     {
-        Debug.Log("Up : " + statsCode);
-    }
+        UnityAction calculateIncreaseStatsAction = null;
+        UnityAction calculateDecreaseStatsAction = null;
+        UnityAction calculateGetCurrentStatsValueAction = null;
+        UnityAction<float> setStatsAction = null;
 
-    private float GetCurrentStats(string statsCode)
-    {
-        float result = 0f;
+        //add stats action
+        UnityAction<StatsRow> addStatsAction = (statsRow) => { 
+            ResultValueAction = null;
+            ResultValueAction = statsRow.NextStatsValue ?? statsRow.CurrentStatsValue;
+            calculateIncreaseStatsAction();
+            statsRow.SetNextStatsValue(ResultValueAction);
+            
+            IncreaseTempLevel();
+        };
+
+        //minus stats action
+        UnityAction<StatsRow> minusStatsAction = (statsRow) => { 
+            ResultValueAction = null;
+            ResultValueAction = statsRow.NextStatsValue;
+            calculateDecreaseStatsAction();
+
+            if(ResultValueAction <= statsRow.CurrentStatsValue)
+            {
+                ResultValueAction = null;
+            }
+
+            statsRow.SetNextStatsValue(ResultValueAction);
+
+            DecreaseTempLevel();
+        };
+        
+        //get current stats value action
+        UnityAction getCurrentStatsValue = () => { 
+            ResultValueAction = 0f;
+            calculateGetCurrentStatsValueAction();
+        };
+
+        //up stats action
+        UnityAction<StatsRow> upStatsAction = (statsRow) => { 
+            if(statsRow.NextStatsValue != null)
+            {
+                setStatsAction(statsRow.NextStatsValue ?? 0);
+                statsRow.SetNextStatsValue(null);
+            }
+        };
+
         switch(statsCode)
         {
             case StatsCode.MaxHealth :
-                result = PlayerHandler.Status.MaxHP;
+                calculateIncreaseStatsAction = () => { ResultValueAction += 50f; };
+                calculateDecreaseStatsAction = () => { ResultValueAction -= 50f; };
+                calculateGetCurrentStatsValueAction = () => { ResultValueAction = PlayerHandler.Status.MaxHP; };
+                setStatsAction = (newStatsValue) => { PlayerHandler.Status.SetMaxHealth(newStatsValue); };
                 break;
             case StatsCode.Damage :
-                result = PlayerHandler.Combat.Damage;
+                calculateIncreaseStatsAction = () => { ResultValueAction += 5f; };
+                calculateDecreaseStatsAction = () => { ResultValueAction -= 5f; };
+                calculateGetCurrentStatsValueAction = () => { ResultValueAction = PlayerHandler.Combat.Damage; };
+                setStatsAction = (newStatsValue) => { PlayerHandler.Combat.Damage = newStatsValue; };
                 break;
             case StatsCode.AttackSpeed :
-                result = PlayerHandler.Combat.TimeBetweenAttack * TimeBetweenAttackRatio;
+                calculateIncreaseStatsAction = () => { ResultValueAction += 10f; };
+                calculateDecreaseStatsAction = () => { ResultValueAction -= 10f; };
+                calculateGetCurrentStatsValueAction = () => { 
+                    ResultValueAction = (DefaultTimeBetweenAttack - PlayerHandler.Combat.TimeBetweenAttack) / MaxDecreasaeTimeBetweenAttack * 100; 
+                };
+                setStatsAction = (newStatsValue) => { 
+                    float newTimeBetweenAttack = DefaultTimeBetweenAttack - ((newStatsValue * MaxDecreasaeTimeBetweenAttack) / 100);
+                    PlayerHandler.Combat.TimeBetweenAttack = newTimeBetweenAttack;
+                };
                 break;
             case StatsCode.BlockDefense :
-                result = PlayerHandler.Combat.ReduceDamagePercent;
+                calculateIncreaseStatsAction = () => { ResultValueAction += 3f; };
+                calculateDecreaseStatsAction = () => { ResultValueAction -= 3f; };
+                calculateGetCurrentStatsValueAction = () => { 
+                    ResultValueAction = PlayerHandler.Combat.ReduceDamagePercent; 
+                };
+                setStatsAction = (newStatsValue) => { 
+                    PlayerHandler.Combat.ReduceDamagePercent = newStatsValue;
+                };
                 break;
         }
-        return result;
+
+        return new StatsActionModel(addStatsAction, minusStatsAction, getCurrentStatsValue, upStatsAction);
+    }
+
+    private void IncreaseStatsPreview(StatsRow statsRow)
+    {
+        if(IsCanUpStats())
+        {
+            StatsActions[statsRow.StatsCode].IncreaseStats(statsRow);
+        }
+    }
+
+    private void DecreaseStatsPreview(StatsRow statsRow)
+    {
+        StatsActions[statsRow.StatsCode].DecreaseStats(statsRow);
+    }
+
+    private float GetCurrentStatsValue(string statsCode)
+    {
+        StatsActions[statsCode].GetCurrentStatsValue();
+        return ResultValueAction ?? 0;
+    }
+
+    private void ClearNextStats()
+    {
+        foreach(StatsRow statsRow in StatsRows)
+        {
+            statsRow.SetNextStatsValue(null);
+        }
+
+        TempLevel = PlayerHandler.Status.Level;
+        SetUseGold(CalculateUseGold());
+        SetUsingGold(0);
+    }
+
+    private void SubmitNextStats()
+    {
+        foreach(StatsRow statsRow in StatsRows)
+        {
+            StatsActions[statsRow.StatsCode].UpStats(statsRow);
+            statsRow.SetCurrentStatsValue(GetCurrentStatsValue(statsRow.StatsCode));
+        }
+        
+        //set new level & gold
+        PlayerHandler.Status.SetLevel(TempLevel);
+        PlayerHandler.Gold.SetGoldAmount(CurrentGoldAmount - UsingGoldAmount);
+
+        //reset
+        SetUsingGold(0);
+        SetCurrentGold(PlayerHandler.Gold.Amount);
+    }
+
+    private int CalculateUseGold()
+    {
+        return TempLevel * UseGoldPerLevel;
+    }
+
+    private void SetUseGold(int useGoldAmount)
+    {
+        UseGoldAmount = useGoldAmount;
+        UseGoldTransform.Find(GameObjectName.Amount).GetComponent<TextMeshProUGUI>().SetText(UseGoldAmount.ToString(Formatter.Amount));
+    }
+
+    private void SetUsingGold(int usingGoldAmount)
+    {
+        UsingGoldAmount = usingGoldAmount;
+        TextMeshProUGUI usingGoldAmountText = CurrentGoldTransform.Find(GameObjectName.UsingAmount).GetComponent<TextMeshProUGUI>();
+        if(UsingGoldAmount > 0)
+        {
+            usingGoldAmountText.gameObject.SetActive(true);
+            usingGoldAmountText.SetText("-" + UsingGoldAmount.ToString(Formatter.Amount));
+        }
+        else
+        {
+            usingGoldAmountText.gameObject.SetActive(false);
+            usingGoldAmountText.SetText("0");
+        }
+    }
+
+    private void SetCurrentGold(int currentGoldAmount)
+    {
+        CurrentGoldAmount = currentGoldAmount;
+        CurrentGoldTransform.Find(GameObjectName.Amount).GetComponent<TextMeshProUGUI>().SetText(CurrentGoldAmount.ToString(Formatter.Amount));
+    }
+
+    private void IncreaseTempLevel()
+    {
+        SetUsingGold(UsingGoldAmount + UseGoldAmount);
+        TempLevel++;
+        SetUseGold(CalculateUseGold());
+    }
+
+    private void DecreaseTempLevel()
+    {
+        TempLevel--;
+        SetUseGold(CalculateUseGold());
+        SetUsingGold(UsingGoldAmount - UseGoldAmount);
+    }
+
+    private bool IsCanUpStats()
+    {
+        return (CurrentGoldAmount - UsingGoldAmount) >= UseGoldAmount;
     }
 }

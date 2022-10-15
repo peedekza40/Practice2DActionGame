@@ -1,15 +1,15 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Core.Constants;
 using System.Linq;
 using UnityEngine.InputSystem;
-using Infrastructure.Dependency;
 using Infrastructure.InputSystem;
 using Core.DataPersistence;
 using Core.DataPersistence.Data;
+using Zenject;
 
-namespace Character {
+namespace Character
+{
     public class PlayerCombat : MonoBehaviour, IPlayerCombat, IDataPersistence
     {
         [Header("Attack")]
@@ -41,7 +41,8 @@ namespace Character {
         private List<EnemyStatus> AttackedEnemies = new List<EnemyStatus>();
 
         #region Dependencies
-        private PlayerInputControl PlayerInputControl;
+        [Inject]
+        private PlayerInputControl playerInputControl;
         #endregion
 
         void Awake()
@@ -55,10 +56,9 @@ namespace Character {
         // Start is called before the first frame update
         void Start()
         {
-            PlayerInputControl = DependenciesContext.Dependencies.Get<PlayerInputControl>();
-            PlayerInputControl.AttackInput.performed += StartAttack;
-            PlayerInputControl.BlockInput.performed += StartBlock;
-            PlayerInputControl.BlockInput.canceled += FinishBlock;
+            playerInputControl.AttackInput.performed += StartAttack;
+            playerInputControl.BlockInput.performed += StartBlock;
+            playerInputControl.BlockInput.canceled += FinishBlock;
         }
 
         // Update is called once per frame

@@ -1,6 +1,6 @@
 using System.Collections;
-using Infrastructure.Dependency;
 using UnityEngine;
+using Zenject;
 
 public class ItemWorld : MonoBehaviour
 {
@@ -11,9 +11,8 @@ public class ItemWorld : MonoBehaviour
     private ItemModel Item;
     private Rigidbody2D Rb;
 
-    public static ItemWorld SpawnItemWorld(Vector3 position, ItemModel item)
+    public static ItemWorld SpawnItemWorld(Vector3 position, ItemModel item, ItemAssets itemAssets)
     {
-        ItemAssets itemAssets = DependenciesContext.Dependencies.Get<ItemAssets>();
         ItemWorld itemWorld = Instantiate(itemAssets.PrefabItemWorld, position, Quaternion.identity);
         itemWorld.SetItem(item);
 
@@ -29,7 +28,7 @@ public class ItemWorld : MonoBehaviour
     public void SetItem(ItemModel item)
     {
         Item = item;
-        SpriteRenderer.sprite = item.GetSprite();
+        SpriteRenderer.sprite = item.Sprite;
     }
 
     public ItemModel GetItem()

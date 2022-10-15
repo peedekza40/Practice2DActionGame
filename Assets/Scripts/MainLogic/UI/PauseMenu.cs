@@ -1,8 +1,8 @@
 using Core.Constants;
 using Core.DataPersistence;
-using Infrastructure.Dependency;
 using Infrastructure.InputSystem;
 using UnityEngine;
+using Zenject;
 
 public class PauseMenu : MonoBehaviour, IUIPersistence
 {
@@ -12,7 +12,8 @@ public class PauseMenu : MonoBehaviour, IUIPersistence
     private DeathScript DeathScript;
 
     #region Dependencies
-    private DataPersistenceManager DataPersistenceManager { get; set; }
+    [Inject]
+    private DataPersistenceManager dataPersistenceManager;
     #endregion
 
     #region IUIPersistence
@@ -30,8 +31,6 @@ public class PauseMenu : MonoBehaviour, IUIPersistence
     // Start is called before the first frame update
     void Start()
     {
-        DataPersistenceManager = DependenciesContext.Dependencies.Get<DataPersistenceManager>();
-        
         Cursor.visible = false;
     }
 
@@ -67,12 +66,12 @@ public class PauseMenu : MonoBehaviour, IUIPersistence
 
     public void Save()
     {
-        DataPersistenceManager.SaveGame();
+        dataPersistenceManager.SaveGame();
     }
 
     public void Load()
     {
-        DataPersistenceManager.LoadGame();
+        dataPersistenceManager.LoadGame();
     }
 
     public void Quit()

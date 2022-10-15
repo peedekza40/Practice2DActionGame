@@ -2,8 +2,8 @@ namespace Core.Constants
 {
     public enum ItemType
     {
-        HeathPotion,
-        ManaPotion,
-        Sword
+        HeathPotion = 1,
+        ManaPotion = 2,
+        Sword = 3
     }
 }

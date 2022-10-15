@@ -1,11 +1,27 @@
+using Core.Repositories;
 using Infrastructure.Extensions;
 using UnityEngine;
+using Zenject;
 
 public class ObjectDropItems : MonoBehaviour
 {
     public WeightedRandomList<ItemModel> Items;
     public int DropAmount;
     
+    #region Dependencies
+    private ItemAssets itemAssets;
+    private DiContainer diContainer;
+    #endregion
+
+    [Inject]
+    public void Init(
+        ItemAssets itemAssets,
+        DiContainer diContainer)
+    {
+        this.itemAssets = itemAssets;
+        this.diContainer = diContainer;
+    }
+
     public void DropItems()
     {
         int sumDropedAmount = 0;
@@ -21,7 +37,10 @@ public class ObjectDropItems : MonoBehaviour
                 Vector2 dropDirection = RandomVectorDirection();
                 Vector2 dropPostion = new Vector2(0, 0.5f);
 
-                ItemWorld dropItemWorld = ItemWorld.SpawnItemWorld((Vector2)transform.position + dropPostion, new ItemModel(dropItem.Type, 1));
+
+                ItemModel newItem = diContainer.Instantiate<ItemModel>();
+                newItem.Setup(dropItem.Type, 1);
+                ItemWorld dropItemWorld = ItemWorld.SpawnItemWorld((Vector2)transform.position + dropPostion, newItem, itemAssets);
                 dropItemWorld.GetComponent<Rigidbody2D>().AddForce(dropDirection * 2.5f, ForceMode2D.Impulse);
             }
         }

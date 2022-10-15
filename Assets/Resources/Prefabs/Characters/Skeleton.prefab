@@ -493,7 +493,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 899153479
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: 1
   m_Sprite: {fileID: 4723107735738678597, guid: 251089ad9e661ec41b9c86480b8063e2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -568,7 +568,7 @@ Transform:
   - {fileID: 5124606033839770905}
   - {fileID: 3197656211200406714}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &8009742133586685725
 Rigidbody2D:
@@ -731,9 +731,9 @@ MonoBehaviour:
   OnDied:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1787282014}
-        m_TargetAssemblyTypeName: CloneCharacter, Assembly-CSharp
-        m_MethodName: Clone
+      - m_Target: {fileID: 172844013}
+        m_TargetAssemblyTypeName: ObjectDropItems, Assembly-CSharp
+        m_MethodName: DropItems
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -743,9 +743,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 172844013}
-        m_TargetAssemblyTypeName: ObjectDropItems, Assembly-CSharp
-        m_MethodName: DropItems
+      - m_Target: {fileID: 1787282014}
+        m_TargetAssemblyTypeName: CloneCharacter, Assembly-CSharp
+        m_MethodName: Clone
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -798,7 +798,7 @@ MonoBehaviour:
   Items:
     list:
     - item:
-        Type: 0
+        Type: 3
         Amount: 1
       weight: 7
     - item:

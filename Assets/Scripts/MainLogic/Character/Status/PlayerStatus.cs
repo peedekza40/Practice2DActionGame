@@ -7,6 +7,8 @@ namespace Character
 {
     public class PlayerStatus : CharacterStatus, IDataPersistence
     {
+        public int Level { get; private set; }
+
         private IPlayerCombat PlayerCombat;
         private BlockFlashAnimatorController BlockFlashAnimatorController;
 
@@ -14,6 +16,7 @@ namespace Character
         {
             PlayerCombat = GetComponent<IPlayerCombat>();
             BlockFlashAnimatorController = GameObject.Find(GameObjectName.EffectBlock).GetComponent<BlockFlashAnimatorController>();
+            Level = 1;
             base.BaseAwake();
         }
 
@@ -50,15 +53,23 @@ namespace Character
             base.Die();
         }
 
+        public void SetLevel(int level)
+        {
+            Level = level;
+        }
+
         public void LoadData(GameDataModel data)
         {
             SetCurrentHP(data.PlayerData.CurrentHP);
+            SetMaxHealth(data.PlayerData.MaxHP);
+            Level = data.PlayerData.Level;
         }
 
         public void SaveData(GameDataModel data)
         {
-            data.PlayerData.CurrentHP = this.CurrentHP;
-            data.PlayerData.MaxHP = this.MaxHP;
+            data.PlayerData.CurrentHP = CurrentHP;
+            data.PlayerData.MaxHP = MaxHP;
+            data.PlayerData.Level = Level;
         }
     }
 }

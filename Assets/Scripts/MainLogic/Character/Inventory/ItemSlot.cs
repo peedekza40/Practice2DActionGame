@@ -38,15 +38,15 @@ public class ItemSlot : MonoBehaviour, IDropHandler
 
     public void SetItemGUI(ItemModel item)
     {
-        ItemID = item.ID;
+        ItemID = item.Id;
         ItemTransform.gameObject.SetActive(true);
 
         //set image item
-        ItemImage.sprite = item.GetSprite();
+        ItemImage.sprite = item.Sprite;
         ItemImage.gameObject.SetActive(true);
 
         //set amount
-        if(item.IsStackable())
+        if(item.IsStackable)
         {
             ItemAmountText.SetText(item.Amount.ToString(Formatter.Amount));
             ItemAmountText.gameObject.SetActive(true);

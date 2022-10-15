@@ -2,13 +2,16 @@ using System.Collections.Generic;
 using System.Linq;
 using Character;
 using Core.Constants;
-using Infrastructure.Dependency;
+using Core.DataPersistence;
+using Core.DataPersistence.Data;
+using Core.Repositories;
 using Infrastructure.InputSystem;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
+using Zenject;
 
-public class Inventory : MonoBehaviour, IUIPersistence
+public class Inventory : MonoBehaviour, IUIPersistence, IDataPersistence
 {
     [Header("UI")]
     public GameObject InventoryContainer;
@@ -25,7 +28,9 @@ public class Inventory : MonoBehaviour, IUIPersistence
     private IPlayerController PlayerController;
 
     #region Dependencies
-    private PlayerInputControl PlayerInputControl;
+    private PlayerInputControl playerInputControl;
+    private ItemAssets itemAssets;
+    private DiContainer diContainer;
     #endregion
 
     #region IUIPersistence
@@ -34,31 +39,41 @@ public class Inventory : MonoBehaviour, IUIPersistence
     public MouseEvent MouseEvent { get; private set; }
     #endregion
 
+    [Inject]
+    public void Init(
+        PlayerInputControl playerInputControl,
+        ItemAssets itemAssets,
+        DiContainer diContainer)
+    {
+        this.playerInputControl = playerInputControl;
+        this.itemAssets = itemAssets;
+        this.diContainer = diContainer;
+    }
+
     private void Awake() 
     {
         PlayerController = GetComponent<IPlayerController>();
         MouseEvent = InventoryContainer.GetComponentInParent<MouseEvent>();
+
+        IsOpen = false;
         DrawItemSlot();
     }
 
     private void Start() 
     {
-        PlayerInputControl = DependenciesContext.Dependencies.Get<PlayerInputControl>();
-        PlayerInputControl.ToggleInventoryInput.performed += ToggleInventory;
-        
-        IsOpen = false;
+        playerInputControl.ToggleInventoryInput.performed += ToggleInventory;
     }
 
     public ItemModel GetItem(System.Guid id)
     {
-        return Items.FirstOrDefault(x => x.ID == id);
+        return Items.FirstOrDefault(x => x.Id == id);
     }
 
     public void AddItem(ItemModel item)
     {
         if(item != null)
         {
-            if(item.IsStackable())
+            if(item.IsStackable)
             {
                 ItemModel inventoryItem = Items.FirstOrDefault(x => x.Type == item.Type);
                 if(inventoryItem != null)
@@ -81,7 +96,7 @@ public class Inventory : MonoBehaviour, IUIPersistence
 
     public void UseItem(ItemModel item)
     {
-        if(item.IsCanUse())
+        if(item.IsCanUse)
         {
             Debug.Log("Use item : " + item.Type);
             UseItemAction?.Invoke(item);
@@ -106,7 +121,9 @@ public class Inventory : MonoBehaviour, IUIPersistence
             dropDirection.x *= -1;
         }
 
-        ItemWorld dropItem = ItemWorld.SpawnItemWorld((Vector2)transform.position + dropPostion, new ItemModel(removeItem.Type, 1));
+        ItemModel newItem = diContainer.Instantiate<ItemModel>();
+        newItem.Setup(removeItem.Type, 1);
+        ItemWorld dropItem = ItemWorld.SpawnItemWorld((Vector2)transform.position + dropPostion, newItem, itemAssets);
         dropItem.GetComponent<Rigidbody2D>().AddForce(dropDirection * 2f, ForceMode2D.Impulse);
 
     }
@@ -114,7 +131,7 @@ public class Inventory : MonoBehaviour, IUIPersistence
     private ItemModel RemoveItem(ItemModel item)
     {
         ItemModel removeItem = Items.FirstOrDefault(x => x.Type == item.Type);
-        if(removeItem.IsStackable())
+        if(removeItem.IsStackable)
         {
             removeItem.Amount--;
             if(removeItem.Amount == 0)
@@ -140,25 +157,28 @@ public class Inventory : MonoBehaviour, IUIPersistence
 
     private void RefreshInventory()
     {
-        var cleanSlots = Slots.Where(slot => !Items.Any(item => item.ID == slot.ItemID));
-        var haveItemSlots = Slots.Except(cleanSlots);
-
-        foreach(var cleanSlot in cleanSlots)
+        List<ItemSlot> tempSlots = new List<ItemSlot>();
+        foreach(var item in Items)
         {
-            cleanSlot.ClearItemGUI();
-            ItemModel item = Items.FirstOrDefault(item => !haveItemSlots.Any(slot => slot.ItemID == item.ID));
-            if(item != null)
+            ItemSlot currentItemInSlot = Slots.FirstOrDefault(x => x.ItemID == item.Id);
+            if(currentItemInSlot != null)
             {
-                cleanSlot.SetItemGUI(item);
+                currentItemInSlot.ClearItemGUI();
+                currentItemInSlot.SetItemGUI(item);
+                tempSlots.Add(currentItemInSlot);
+            }
+            else
+            {
+                ItemSlot slot = Slots.FirstOrDefault(x => x.ItemID == System.Guid.Empty);
+                slot.SetItemGUI(item);
+                tempSlots.Add(slot);
             }
         }
 
-        foreach(var haveItemSlot in haveItemSlots)
+        var clearSlots = Slots.Except(tempSlots);
+        foreach(var clearSlot in clearSlots)
         {
-            ItemModel item = Items.FirstOrDefault(item => item.ID == haveItemSlot.ItemID);
-            haveItemSlot.ClearItemGUI();
-            haveItemSlot.SetItemGUI(item);
-            
+            clearSlot.ClearItemGUI();
         }
     }
 
@@ -187,5 +207,21 @@ public class Inventory : MonoBehaviour, IUIPersistence
         }
 
         InventoryContainer.SetActive(IsOpen);
+    }
+
+    public void LoadData(GameDataModel data)
+    {
+        Items = data.PlayerData.Items
+                .Select(x => {
+                    x.Id = System.Guid.NewGuid();
+                    return x;
+                })
+                .ToList();
+        RefreshInventory();
+    }
+
+    public void SaveData(GameDataModel data)
+    {
+        data.PlayerData.Items = Items;
     }
 }

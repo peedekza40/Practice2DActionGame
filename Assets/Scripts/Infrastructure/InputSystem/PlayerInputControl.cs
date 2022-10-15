@@ -3,6 +3,7 @@ using System.Linq;
 using Core.Constants;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 namespace Infrastructure.InputSystem
 {
@@ -24,7 +25,6 @@ namespace Infrastructure.InputSystem
         private void Awake() 
         {
             PlayerInput = new PlayerInputAction();
-            UIPersistences = FindAllUIPersistenceObjects();
         }
 
         private void OnEnable() 
@@ -46,6 +46,8 @@ namespace Infrastructure.InputSystem
 
             InteractInput = PlayerInput.Player.Interact;
             InteractInput.Enable();
+
+            SceneManager.sceneLoaded += OnSceneLoaded;
         }
 
         private void OnDisable() 
@@ -56,10 +58,14 @@ namespace Infrastructure.InputSystem
             BlockInput.Disable();
             ToggleInventoryInput.Disable();
             InteractInput.Disable();
+
+            SceneManager.sceneLoaded -= OnSceneLoaded;
         }
 
-        private void Start() 
+        public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
+            Debug.Log("OnSceneLoaded Called");
+            UIPersistences = FindAllUIPersistenceObjects();
             UIMouseEvents = UIPersistences.Select(x => x.MouseEvent).ToList();
         }
 

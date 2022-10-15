@@ -8,7 +8,10 @@ namespace Core.Constants
         public const string Item = "Item";
         public const string ItemImage = "ItemImage";
         public const string ItemAmount = "ItemAmount";
+        public const string Amount = "Amount";
+        public const string UsingAmount = "UsingAmount";
         public const string TriggerCollider = "TriggerCollider";
         public const string Value = "Value";
+        public const string ContinueButton = "ContinueButton";
     }
 }

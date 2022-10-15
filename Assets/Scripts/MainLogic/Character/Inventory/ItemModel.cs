@@ -1,88 +1,52 @@
 using System;
 using Core.Constants;
-using Infrastructure.Dependency;
+using Core.Repositories;
+using Infrastructure.Entity;
 using UnityEngine;
+using Zenject;
 
 [Serializable]
 public class ItemModel
 {
-    public Guid ID;
+    public Guid Id;
     public ItemType Type;
     public int Amount;
+    public bool IsStackable { get; private set; }
+    public bool IsCanUse { get; private set; }
+    public Sprite Sprite { get; private set; }
 
     #region Dependencies
-    private ItemAssets ItemAssets;
+    private ItemAssets itemAssets;
+    private IItemConfigRepository itemConfigRepository;
     #endregion
 
-    public ItemModel(ItemType type, int amount = 1)
+    public ItemModel(
+        ItemAssets itemAssets,
+        IItemConfigRepository itemConfigRepository)
     {
-        ID = Guid.NewGuid();
+        this.itemAssets = itemAssets;
+        this.itemConfigRepository = itemConfigRepository;
+    }
+
+    public void Setup(ItemType type, int amount = 1)
+    {
+        Id = Guid.NewGuid();
         Type = type;
         Amount = amount;
 
-        ItemAssets = DependenciesContext.Dependencies.Get<ItemAssets>();
+        ItemConfig itemConfig = itemConfigRepository.GetByType(Type);
+        IsStackable = itemConfig.IsStackable;
+        IsCanUse = itemConfig.IsCanUse;
+        Sprite = GetSprite(itemConfig.SpritePath);
     }
     
-    public Sprite GetSprite()
+    private Sprite GetSprite(string spritePath)
     {
-        Sprite sprite = null;
-        
-        switch(Type)
-        {
-            case ItemType.HeathPotion : 
-                sprite = ItemAssets.HealthPotionSprite;
-                break;
-            case ItemType.ManaPotion : 
-                sprite = ItemAssets.ManaPotionSprite;
-                break;
-            case ItemType.Sword : 
-                sprite = ItemAssets.SwordSprite;
-                break;
-        }
-
+        Sprite sprite = Resources.Load<Sprite>(spritePath);
         if(sprite == null)
         {
-            sprite = ItemAssets.DefaultSprite;
+            sprite = itemAssets.DefaultSprite;
         }
-
         return sprite;
-    }
-
-    public bool IsStackable()
-    {
-        bool isStackable = false;
-        switch(Type)
-        {
-            case ItemType.HeathPotion : 
-                isStackable = true;
-                break;
-            case ItemType.ManaPotion : 
-                isStackable = true;
-                break;
-            case ItemType.Sword : 
-                isStackable = false;
-                break;
-        }
-
-        return isStackable;
-    }
-
-    public bool IsCanUse()
-    {
-        bool isCanUse = false;
-        switch(Type)
-        {
-            case ItemType.HeathPotion : 
-                isCanUse = true;
-                break;
-            case ItemType.ManaPotion : 
-                isCanUse = true;
-                break;
-            case ItemType.Sword : 
-                isCanUse = false;
-                break;
-        }
-
-        return isCanUse;
     }
 }

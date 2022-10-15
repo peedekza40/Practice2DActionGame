@@ -42,6 +42,12 @@ namespace Character
             HealthBar.SetHealth(CurrentHP);
         }
 
+        public void SetMaxHealth(float maxHp)
+        {
+            MaxHP = maxHp;
+            HealthBar.SetMaxHealth(MaxHP);
+        }
+
         public void AddCurrentHP(float hp)
         {
             this.CurrentHP += hp;
