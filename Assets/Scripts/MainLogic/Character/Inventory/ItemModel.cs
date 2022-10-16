@@ -20,7 +20,8 @@ public class ItemModel
     private IItemConfigRepository itemConfigRepository;
     #endregion
 
-    public ItemModel(
+    [Inject]
+    public void Init(
         ItemAssets itemAssets,
         IItemConfigRepository itemConfigRepository)
     {

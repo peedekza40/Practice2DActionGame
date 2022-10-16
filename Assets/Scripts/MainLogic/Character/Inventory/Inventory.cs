@@ -211,12 +211,12 @@ public class Inventory : MonoBehaviour, IUIPersistence, IDataPersistence
 
     public void LoadData(GameDataModel data)
     {
-        Items = data.PlayerData.Items
-                .Select(x => {
-                    x.Id = System.Guid.NewGuid();
-                    return x;
-                })
-                .ToList();
+        Items = data.PlayerData.Items;
+        foreach(var item in Items)
+        {
+            diContainer.Inject(item);
+            item.Setup(item.Type, item.Amount);
+        }
         RefreshInventory();
     }
 
