@@ -18,6 +18,11 @@ namespace Character
             Animator = GetComponentInChildren<Animator>();
             Clips = Animator.runtimeAnimatorController.animationClips.ToList();
         }
+
+        public virtual void SetIsAttacking(bool isAttacking)
+        {
+            Animator.SetBool($"{AnimationName.IsAttacking}", isAttacking);
+        }
         
         public virtual void TriggerAttack(int? countAttack){}
 

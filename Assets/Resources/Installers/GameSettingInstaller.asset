@@ -12,10 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f91ebd8bfe231b947bf0a10975a58603, type: 3}
   m_Name: GameSettingInstaller
   m_EditorClassIdentifier: 
-  DataPersistenceManager: {fileID: 5110815170872248541, guid: f4b3706133a6a694eb856c05168b72f5, type: 3}
-  PlayerInputControl: {fileID: 1416217864002022806, guid: a53537feb983cab44ba0578d0e2f00f5, type: 3}
   ItemAssets:
     PrefabItemWorld: {fileID: 5148103297499996025, guid: 3451ae4f4fc030544811015eea4ce16f, type: 3}
     DefaultSprite: {fileID: 21300000, guid: 0380f73ddbc66524ca26e1e8f56a0287, type: 3}
   CharacterTemplates:
     PrefabSkeleton: {fileID: 8511704446154591096, guid: 8dfa8f81e4684554099d8a7fbff3db43, type: 3}
+    Default: {fileID: 8511704446154591096, guid: 8dfa8f81e4684554099d8a7fbff3db43, type: 3}

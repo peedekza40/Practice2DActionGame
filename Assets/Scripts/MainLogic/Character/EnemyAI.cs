@@ -49,17 +49,20 @@ namespace Character
         private AnimatorStateInfo AnimationState;
         private AnimatorClipInfo[] AnimatorClip;
 
-        void Start()
+        private void Awake() 
         {
             Seeker = GetComponent<Seeker>();
             Rb = GetComponent<Rigidbody2D>();
             KnockBack = GetComponent<KnockBack>();
             AnimatorController = GetComponent<IAnimatorController>();
+        }
 
+        private void Start()
+        {
             InvokeRepeating(nameof(UpdatePath), 0f, PathUpdateSecond);
         }
 
-        void Update()
+        private void Update()
         {
             AnimationState = AnimatorController.Animator.GetCurrentAnimatorStateInfo(0);
             AnimatorClip = AnimatorController.Animator.GetCurrentAnimatorClipInfo(0);
@@ -211,6 +214,7 @@ namespace Character
             {
                 IsAttacking = AnimationState.IsName($"{AnimationName.Attack}{countAttack}");
             }
+            AnimatorController.SetIsAttacking(IsAttacking);
         }
 
         private float GetCurrentAttackingTime(int? countAttack)

@@ -64,7 +64,6 @@ namespace Infrastructure.InputSystem
 
         public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
-            Debug.Log("OnSceneLoaded Called");
             UIPersistences = FindAllUIPersistenceObjects();
             UIMouseEvents = UIPersistences.Select(x => x.MouseEvent).ToList();
         }

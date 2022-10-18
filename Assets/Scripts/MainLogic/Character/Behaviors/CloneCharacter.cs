@@ -1,5 +1,7 @@
 using Character;
 using Core.Constants;
+using Core.Repositories;
+using Infrastructure.Entity;
 using Unity.VisualScripting;
 using UnityEngine;
 using Zenject;
@@ -11,15 +13,18 @@ public class CloneCharacter : MonoBehaviour
     private EnemyAI EnemyAI;
 
     #region Dependencies
+    private IEnemyConfigRepository enemyConfigRepository;
     private CharacterTemplates characterTemplates;
     private IInstantiator instantiator;
     #endregion
 
     [Inject]
     public void Init(
+        IEnemyConfigRepository enemyConfigRepository,
         CharacterTemplates characterTemplates,
         IInstantiator instantiator)
     {
+        this.enemyConfigRepository = enemyConfigRepository;
         this.characterTemplates = characterTemplates;
         this.instantiator = instantiator;
     }
@@ -45,16 +50,12 @@ public class CloneCharacter : MonoBehaviour
 
     private GameObject GetTemplate()
     {
-        GameObject template = null;
-        switch(EnemyStatus.Type)
+        EnemyConfig enemyConfig = enemyConfigRepository.GetByType(EnemyStatus.Type);
+        GameObject template = Resources.Load<GameObject>(enemyConfig.PrefabPath);
+        if(template == null)
         {
-            case EnemyType.Skeleton : 
-                template = characterTemplates.PrefabSkeleton;
-                break;
-            default : 
-                break;
+            template = characterTemplates.Default;
         }
-
         return template;
     }
 }

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Character;
+using Core.Configs;
 using Core.Constant;
 using Core.Constants;
 using Core.Repositories;
@@ -31,8 +32,10 @@ public class StatisticsManagement : MonoBehaviour, IUIPersistence
     private PlayerHandler PlayerHandler;
 
     #region Caculate Stats
-    private const float DefaultTimeBetweenAttack = 0.4f;
-    private const float MaxDecreasaeTimeBetweenAttack = 0.2f;
+    private float DefaultTimeBetweenAttack { get; set; }
+    private float MaxDecreasaeTimeBetweenAttack { get; set; }
+    private float DefaultTimeBetweenBlock { get; set; }
+    private float MaxDecreasaeTimeBetweenBlock { get; set; }
     private Dictionary<string, StatsActionModel> StatsActions = new Dictionary<string, StatsActionModel>();
     private float? ResultValueAction { get; set; }
     #endregion
@@ -46,10 +49,8 @@ public class StatisticsManagement : MonoBehaviour, IUIPersistence
     #endregion
 
     #region Dependencies
-    [Inject]
+    private IAppSettingsContext appSettingsContext;
     private IStatsConfigRepository statsConfigRepository;
-    
-    [Inject]
     private PlayerInputControl playerInputControl;
     #endregion
 
@@ -59,11 +60,29 @@ public class StatisticsManagement : MonoBehaviour, IUIPersistence
     public MouseEvent MouseEvent { get; private set; }
     #endregion
 
+    [Inject]
+    public void Init(
+        IAppSettingsContext appSettingsContext,
+        IStatsConfigRepository statsConfigRepository,
+        PlayerInputControl playerInputControl
+    )
+    {
+        this.appSettingsContext = appSettingsContext;
+        this.statsConfigRepository = statsConfigRepository;
+        this.playerInputControl = playerInputControl;
+    }
+
+
     private void Awake() 
     {
         MouseEvent = StatsContainerTransform.GetComponentInParent<MouseEvent>();
         PlayerHandler = FindObjectsOfType<PlayerHandler>().FirstOrDefault();
-        
+
+        DefaultTimeBetweenAttack = appSettingsContext.Configure.Combat.Attacking.DefaultTimeBetweenAttack;
+        MaxDecreasaeTimeBetweenAttack = appSettingsContext.Configure.Combat.Attacking.MaxDecreasaeTimeBetweenAttack;
+        DefaultTimeBetweenBlock = appSettingsContext.Configure.Combat.Blocking.DefaultTimeBetweenBlock;
+        MaxDecreasaeTimeBetweenBlock = appSettingsContext.Configure.Combat.Blocking.MaxDecreasaeTimeBetweenBlock;
+
         if(PlayerHandler == null)
         {
             Debug.LogError("Can't find Player object on this scene.");
@@ -206,6 +225,17 @@ public class StatisticsManagement : MonoBehaviour, IUIPersistence
                 };
                 setStatsAction = (newStatsValue) => { 
                     PlayerHandler.Combat.ReduceDamagePercent = newStatsValue;
+                };
+                break;
+            case StatsCode.BlockSpeed :
+                calculateIncreaseStatsAction = () => { ResultValueAction += 10f; };
+                calculateDecreaseStatsAction = () => { ResultValueAction -= 10f; };
+                calculateGetCurrentStatsValueAction = () => { 
+                    ResultValueAction = (DefaultTimeBetweenBlock - PlayerHandler.Combat.TimeBetweenBlock) / MaxDecreasaeTimeBetweenBlock * 100; 
+                };
+                setStatsAction = (newStatsValue) => { 
+                    float newTimeBetweenBlock = DefaultTimeBetweenBlock - ((newStatsValue * MaxDecreasaeTimeBetweenBlock) / 100);
+                    PlayerHandler.Combat.TimeBetweenBlock = newTimeBetweenBlock;
                 };
                 break;
         }

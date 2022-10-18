@@ -25,7 +25,8 @@ public class ObjectDropItems : MonoBehaviour
     public void DropItems()
     {
         int sumDropedAmount = 0;
-        while(sumDropedAmount < DropAmount)
+        int randomsDropAmount = Random.Range(0, DropAmount);
+        while(sumDropedAmount < randomsDropAmount)
         {
             ItemModel dropItem = Items.GetRandom();
             if(dropItem.Amount > 0)

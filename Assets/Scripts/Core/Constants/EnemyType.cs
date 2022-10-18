@@ -2,6 +2,6 @@ namespace Core.Constants
 {
     public enum EnemyType
     {
-        Skeleton
+        Skeleton = 1
     }
 }

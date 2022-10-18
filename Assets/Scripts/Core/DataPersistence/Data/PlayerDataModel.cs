@@ -10,9 +10,10 @@ public class PlayerDataModel
     public float MaxHP;
     public int Level;
     public int GoldAmount;
-    public float ReduceDamagePercent;
     public float AttackDamage;
     public float TimeBetweenAttack;//Attack Speed
+    public float ReduceDamagePercent;
+    public float TimeBetweenBlock;//Block Speed
 
     public List<ItemModel> Items;
 
@@ -26,9 +27,10 @@ public class PlayerDataModel
         MaxHP = 0;
         Level = 1;
         GoldAmount = 0;
-        ReduceDamagePercent = 0;
         AttackDamage = 0;
         TimeBetweenAttack = 0;
+        ReduceDamagePercent = 0;
+        TimeBetweenBlock = 0;
         Position = Vector3.zero;
         Items = new List<ItemModel>();
     }

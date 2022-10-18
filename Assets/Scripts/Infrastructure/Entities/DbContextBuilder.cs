@@ -1,5 +1,4 @@
-using System.Data.Common;
-using System.IO;
+using Core.Configs;
 using SqlCipher4Unity3D;
 using UnityEngine;
 
@@ -9,12 +8,9 @@ namespace Infrastructure.Entity
     {
         public SQLiteConnection Connection;
 
-        private string PasswordDb = "Asdf+1234";
-        private string ConnectionString = $"{Application.streamingAssetsPath}/Database/PlatformRPG.db";
-
-        public DbContextBuilder()
+        public DbContextBuilder(AppSettingsModel configure)
         {
-            Connection = new SQLiteConnection(ConnectionString, PasswordDb);
+            Connection = new SQLiteConnection(Application.streamingAssetsPath + configure.Database.Path, configure.Database.Password);
         }
     }
 }

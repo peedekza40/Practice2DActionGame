@@ -28,6 +28,7 @@ namespace Character
     public interface IAnimatorController 
     {
         Animator Animator { get; set; }
+        void SetIsAttacking(bool isAttacking);
         void TriggerAttack(int? countAttack);
         void TriggerAttacked();
         void SetDeath();

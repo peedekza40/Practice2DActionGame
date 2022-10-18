@@ -5,6 +5,7 @@ namespace Core.Constants
 {
     public static class AnimationName
     {
+        public const string IsAttacking = "IsAttacking";
         public const string Attack = "Attack";
         public const string Idle = "Idle";
     }

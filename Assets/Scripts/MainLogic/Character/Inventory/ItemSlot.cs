@@ -13,7 +13,7 @@ public class ItemSlot : MonoBehaviour, IDropHandler
     public TextMeshProUGUI ItemAmountText { get; private set; }
     public MouseEvent ItemMouseEvent { get; private set; }
 
-    public Guid ItemID { get; private set; }
+    public Guid ItemId { get; private set; }
     private Inventory Inventory;
 
     private void Awake() 
@@ -28,7 +28,7 @@ public class ItemSlot : MonoBehaviour, IDropHandler
 
     private void Update() 
     {
-        GetComponent<DragDropItem>().enabled = ItemID != Guid.Empty;
+        GetComponent<DragDropItem>().enabled = ItemId != Guid.Empty;
     }
 
     private void OnDestroy() 
@@ -38,7 +38,7 @@ public class ItemSlot : MonoBehaviour, IDropHandler
 
     public void SetItemGUI(ItemModel item)
     {
-        ItemID = item.Id;
+        ItemId = item.Id;
         ItemTransform.gameObject.SetActive(true);
 
         //set image item
@@ -63,7 +63,7 @@ public class ItemSlot : MonoBehaviour, IDropHandler
 
     public void ClearItemGUI()
     {
-        ItemID = Guid.Empty;
+        ItemId = Guid.Empty;
         ItemTransform.gameObject.SetActive(false);
 
         //set image item
@@ -81,16 +81,14 @@ public class ItemSlot : MonoBehaviour, IDropHandler
 
     public void OnDrop(PointerEventData eventData)
     {
-        Debug.Log("OnDrop Item");
-
         ItemSlot slot = eventData.pointerDrag.GetComponent<ItemSlot>();
-        if(slot != null && slot?.ItemID != null)
+        if(slot != null && slot?.ItemId != null)
         {
-            if(ItemID == Guid.Empty)
+            if(ItemId == Guid.Empty)
             {
                 //set this item slot
                 ClearItemGUI();
-                SetItemGUI(Inventory.GetItem(slot.ItemID));
+                SetItemGUI(Inventory.GetItem(slot.ItemId));
 
                 //clear source item slot
                 slot.ClearItemGUI();

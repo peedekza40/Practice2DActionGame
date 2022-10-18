@@ -31,7 +31,7 @@ namespace Character
         private void CollectItem(Collider2D other)
         {
             ItemWorld itemWorld = other.GetComponent<ItemWorld>();
-            if(itemWorld != null && itemWorld.IsCanCollect)
+            if(itemWorld != null && itemWorld.IsCanCollect && !Inventory.IsFull(itemWorld.GetItem()))
             {
                 Inventory.AddItem(itemWorld.GetItem());
                 itemWorld.DestroySelf();

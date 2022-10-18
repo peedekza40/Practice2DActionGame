@@ -4,7 +4,6 @@ using Character;
 using Core.Constants;
 using Core.DataPersistence;
 using Core.DataPersistence.Data;
-using Core.Repositories;
 using Infrastructure.InputSystem;
 using UnityEngine;
 using UnityEngine.Events;
@@ -69,6 +68,17 @@ public class Inventory : MonoBehaviour, IUIPersistence, IDataPersistence
         return Items.FirstOrDefault(x => x.Id == id);
     }
 
+    public bool IsFull(ItemModel item)
+    {
+        bool isFull = Items.Count() >= SlotAmount;
+        ItemModel itemInventory = Items.FirstOrDefault(x => x.Type == item.Type);
+        if(itemInventory != null && itemInventory.IsStackable)
+        {
+            isFull = false;
+        }
+        return isFull;
+    }
+
     public void AddItem(ItemModel item)
     {
         if(item != null)
@@ -130,7 +140,7 @@ public class Inventory : MonoBehaviour, IUIPersistence, IDataPersistence
 
     private ItemModel RemoveItem(ItemModel item)
     {
-        ItemModel removeItem = Items.FirstOrDefault(x => x.Type == item.Type);
+        ItemModel removeItem = Items.FirstOrDefault(x => x.Id == item.Id);
         if(removeItem.IsStackable)
         {
             removeItem.Amount--;
@@ -160,7 +170,7 @@ public class Inventory : MonoBehaviour, IUIPersistence, IDataPersistence
         List<ItemSlot> tempSlots = new List<ItemSlot>();
         foreach(var item in Items)
         {
-            ItemSlot currentItemInSlot = Slots.FirstOrDefault(x => x.ItemID == item.Id);
+            ItemSlot currentItemInSlot = Slots.FirstOrDefault(x => x.ItemId == item.Id);
             if(currentItemInSlot != null)
             {
                 currentItemInSlot.ClearItemGUI();
@@ -169,7 +179,7 @@ public class Inventory : MonoBehaviour, IUIPersistence, IDataPersistence
             }
             else
             {
-                ItemSlot slot = Slots.FirstOrDefault(x => x.ItemID == System.Guid.Empty);
+                ItemSlot slot = Slots.FirstOrDefault(x => x.ItemId == System.Guid.Empty);
                 slot.SetItemGUI(item);
                 tempSlots.Add(slot);
             }
@@ -179,6 +189,14 @@ public class Inventory : MonoBehaviour, IUIPersistence, IDataPersistence
         foreach(var clearSlot in clearSlots)
         {
             clearSlot.ClearItemGUI();
+        }
+    }
+
+    private void ClearInventory()
+    {
+        foreach (var slot in Slots)
+        {
+            slot.ClearItemGUI();
         }
     }
 
@@ -217,6 +235,7 @@ public class Inventory : MonoBehaviour, IUIPersistence, IDataPersistence
             diContainer.Inject(item);
             item.Setup(item.Type, item.Amount);
         }
+        ClearInventory();
         RefreshInventory();
     }
 

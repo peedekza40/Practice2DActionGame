@@ -1,8 +1,10 @@
+using Core.Configs;
 using Core.DataPersistence;
 using Core.Repositories;
 using Infrastructure.Entity;
 using Infrastructure.InputSystem;
 using Infrastructure.Repositories;
+using UnityEngine;
 using Zenject;
 
 namespace Infrastructure.Dependency
@@ -14,9 +16,17 @@ namespace Infrastructure.Dependency
             Container.Bind<DataPersistenceManager>().FromComponentInHierarchy().AsSingle();
             Container.Bind<PlayerInputControl>().FromComponentInHierarchy().AsSingle();
 
-            Container.Bind<DbContextBuilder>().AsSingle();
+            AppSettingsModel configure = new AppSettingsModel();
+            Container.Bind<IAppSettingsContext>()
+                .FromInstance(new AppSettingsContext(configure))
+                .AsSingle()
+                .NonLazy();
+            Container.Bind<DbContextBuilder>()
+                .AsSingle()
+                .WithArguments(configure);
             Container.Bind<IStatsConfigRepository>().To<StatsConfigRepository>().AsSingle();
             Container.Bind<IItemConfigRepository>().To<ItemConfigRepository>().AsSingle();
+            Container.Bind<IEnemyConfigRepository>().To<EnemyConfigRepository>().AsSingle();
         }
     }
 }

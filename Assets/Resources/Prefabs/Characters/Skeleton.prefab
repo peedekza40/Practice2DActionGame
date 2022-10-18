@@ -755,7 +755,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  Type: 0
+  Type: 1
 --- !u!114 &8950884111431860641
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -798,18 +798,18 @@ MonoBehaviour:
   Items:
     list:
     - item:
-        Type: 3
+        Type: 1
         Amount: 1
       weight: 7
     - item:
-        Type: 1
+        Type: 2
         Amount: 1
       weight: 5
     - item:
-        Type: 2
+        Type: 3
         Amount: 1
       weight: 1
-  DropAmount: 2
+  DropAmount: 3
 --- !u!1 &8810307089241313093
 GameObject:
   m_ObjectHideFlags: 0
