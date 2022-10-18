@@ -35,21 +35,18 @@ namespace Core.Configs
     
     }
 
-    [Serializable]
     public class DatabaseStruct 
     {
         public string Path;
         public string Password;
     }
 
-    [Serializable]
     public class CombatStruct 
     {
         public AttackingStruct Attacking;
         public BlockingStruct Blocking;
     }
 
-    [Serializable]
     public class AttackingStruct 
     {
         public float DefaultDamage;
@@ -57,7 +54,6 @@ namespace Core.Configs
         public float MaxDecreasaeTimeBetweenAttack;
     }
     
-    [Serializable]
     public class BlockingStruct 
     {
         public float DefaultReduceDamagePercent;

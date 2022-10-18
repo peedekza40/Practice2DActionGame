@@ -56,7 +56,7 @@ namespace Core.DataPersistence
         {
             var playerStatus = FindObjectsOfType<PlayerStatus>(true).FirstOrDefault();
             var playerCombat = FindObjectsOfType<PlayerCombat>(true).FirstOrDefault();
-            this.GameData = new GameDataModel();
+            GameData = new GameDataModel();
             GameData.PlayerData.CurrentHP = playerStatus?.MaxHP ?? 0;
             GameData.PlayerData.Scale = playerStatus?.transform.localScale ?? Vector3.zero;
             GameData.PlayerData.MaxHP = playerStatus?.MaxHP ?? 0;
