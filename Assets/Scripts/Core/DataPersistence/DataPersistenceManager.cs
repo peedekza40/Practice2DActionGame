@@ -60,8 +60,8 @@ namespace Core.DataPersistence
             GameData.PlayerData.CurrentHP = playerStatus?.MaxHP ?? 0;
             GameData.PlayerData.Scale = playerStatus?.transform.localScale ?? Vector3.zero;
             GameData.PlayerData.MaxHP = playerStatus?.MaxHP ?? 0;
-            GameData.PlayerData.AttackDamage = playerCombat?.Damage ?? 0;
-            GameData.PlayerData.TimeBetweenAttack = playerCombat?.TimeBetweenAttack ?? 0;
+            GameData.PlayerData.AttackMaxDamage = playerCombat?.MaxDamage ?? 0;
+            GameData.PlayerData.AttackDuration = playerCombat?.AttackDuration ?? 0;
             GameData.PlayerData.ReduceDamagePercent = playerCombat?.ReduceDamagePercent ?? 0;
             GameData.PlayerData.TimeBetweenBlock = playerCombat?.TimeBetweenBlock ?? 0;
         }

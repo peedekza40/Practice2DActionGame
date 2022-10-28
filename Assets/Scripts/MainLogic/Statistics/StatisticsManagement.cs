@@ -32,7 +32,7 @@ public class StatisticsManagement : MonoBehaviour, IUIPersistence
     private PlayerHandler PlayerHandler;
 
     #region Caculate Stats
-    private float DefaultTimeBetweenAttack { get; set; }
+    private float DefaultAttackDuration { get; set; }
     private float MaxDecreasaeTimeBetweenAttack { get; set; }
     private float DefaultTimeBetweenBlock { get; set; }
     private float MaxDecreasaeTimeBetweenBlock { get; set; }
@@ -78,7 +78,7 @@ public class StatisticsManagement : MonoBehaviour, IUIPersistence
         MouseEvent = StatsContainerTransform.GetComponentInParent<MouseEvent>();
         PlayerHandler = FindObjectsOfType<PlayerHandler>().FirstOrDefault();
 
-        DefaultTimeBetweenAttack = appSettingsContext.Configure.Combat.Attacking.DefaultTimeBetweenAttack;
+        DefaultAttackDuration = appSettingsContext.Configure.Combat.Attacking.DefaultAttackDuration;
         MaxDecreasaeTimeBetweenAttack = appSettingsContext.Configure.Combat.Attacking.MaxDecreasaeTimeBetweenAttack;
         DefaultTimeBetweenBlock = appSettingsContext.Configure.Combat.Blocking.DefaultTimeBetweenBlock;
         MaxDecreasaeTimeBetweenBlock = appSettingsContext.Configure.Combat.Blocking.MaxDecreasaeTimeBetweenBlock;
@@ -203,18 +203,18 @@ public class StatisticsManagement : MonoBehaviour, IUIPersistence
             case StatsCode.Damage :
                 calculateIncreaseStatsAction = () => { ResultValueAction += 5f; };
                 calculateDecreaseStatsAction = () => { ResultValueAction -= 5f; };
-                calculateGetCurrentStatsValueAction = () => { ResultValueAction = PlayerHandler.Combat.Damage; };
-                setStatsAction = (newStatsValue) => { PlayerHandler.Combat.Damage = newStatsValue; };
+                calculateGetCurrentStatsValueAction = () => { ResultValueAction = PlayerHandler.Combat.MaxDamage; };
+                setStatsAction = (newStatsValue) => { PlayerHandler.Combat.MaxDamage = newStatsValue; };
                 break;
             case StatsCode.AttackSpeed :
                 calculateIncreaseStatsAction = () => { ResultValueAction += 10f; };
                 calculateDecreaseStatsAction = () => { ResultValueAction -= 10f; };
                 calculateGetCurrentStatsValueAction = () => { 
-                    ResultValueAction = (DefaultTimeBetweenAttack - PlayerHandler.Combat.TimeBetweenAttack) / MaxDecreasaeTimeBetweenAttack * 100; 
+                    ResultValueAction = (DefaultAttackDuration - PlayerHandler.Combat.AttackDuration) / MaxDecreasaeTimeBetweenAttack * 100; 
                 };
                 setStatsAction = (newStatsValue) => { 
-                    float newTimeBetweenAttack = DefaultTimeBetweenAttack - ((newStatsValue * MaxDecreasaeTimeBetweenAttack) / 100);
-                    PlayerHandler.Combat.TimeBetweenAttack = newTimeBetweenAttack;
+                    float newTimeBetweenAttack = DefaultAttackDuration - ((newStatsValue * MaxDecreasaeTimeBetweenAttack) / 100);
+                    PlayerHandler.Combat.AttackDuration = newTimeBetweenAttack;
                 };
                 break;
             case StatsCode.BlockDefense :

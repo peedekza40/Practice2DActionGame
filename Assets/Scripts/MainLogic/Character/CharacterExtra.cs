@@ -13,18 +13,6 @@ namespace Character
         bool Grounded { get; }
     }
 
-    public interface IPlayerCombat
-    {
-        int? CountAttack { get; }
-        bool IsAttacking { get; }
-        bool IsBlocking { get; }
-        bool PressBlockThisFrame { get; }
-        bool IsParry { get; }
-        float GetReduceDamagePercent();
-        void SetIsParry(bool isParry);
-        
-    }
-
     public interface IAnimatorController 
     {
         Animator Animator { get; set; }

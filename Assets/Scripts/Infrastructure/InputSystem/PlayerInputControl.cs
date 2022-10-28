@@ -88,11 +88,13 @@ namespace Infrastructure.InputSystem
             if(pauseMenuIsOpen || statisticIsOpen)
             {
                 MoveInput.Disable();
+                JumpInput.Disable();
                 ToggleInventoryInput.Disable();
             }
             else
             {
                 MoveInput.Enable();
+                JumpInput.Enable();
                 ToggleInventoryInput.Enable();
             }
 

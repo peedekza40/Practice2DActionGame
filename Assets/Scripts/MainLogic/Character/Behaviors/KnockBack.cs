@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class KnockBack : MonoBehaviour
 {
-    public float KnockBackRange = 8f;
+    public float KnockBackRange;
     public float KnockBackTime = 1f;
     public Transform CenterTransform;
     public bool IsKnockingBack { get; private set; }
@@ -18,6 +18,14 @@ public class KnockBack : MonoBehaviour
     public void Action(GameObject attackerHitBox)
     {
         var direction = (Vector3)CenterTransform.position - attackerHitBox.transform.position;
+        if(direction.x < 0)
+        {
+            direction.x = -1;
+        }
+        else if(direction.x > 0)
+        {
+            direction.x = 1;
+        }
         Rb.velocity = (Vector2)(direction.normalized * KnockBackRange);
         IsKnockingBack = true;
         StartCoroutine(UnKnockBack());

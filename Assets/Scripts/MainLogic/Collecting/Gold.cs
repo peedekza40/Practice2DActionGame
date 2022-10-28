@@ -12,11 +12,10 @@ public class Gold : MonoBehaviour, IDataPersistence
     [Header("UI")]
     public Transform GoldLabelTransform;
     public TextMeshProUGUI ValueText;
-    [Range(0, 5)]
-    public float LerpTime = 0f;
 
     public int Amount { get; private set; } = 0;
     private int RunningAmount = 0;
+    private float CurrentVelocity;
 
     #region Dependencies
     [Inject]
@@ -30,7 +29,7 @@ public class Gold : MonoBehaviour, IDataPersistence
 
     private void Update() 
     {
-        float tempRunnigAmount = Mathf.Lerp(RunningAmount, Amount, LerpTime * Time.deltaTime);
+        float tempRunnigAmount = Mathf.SmoothDamp(RunningAmount, Amount, ref CurrentVelocity, 80 * Time.deltaTime);
         if(RunningAmount <= Amount)
         {
             RunningAmount = Mathf.CeilToInt(tempRunnigAmount);

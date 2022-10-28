@@ -53,8 +53,14 @@ TagManager:
   - name: CheckPoint
     uniqueID: 424771295
     locked: 0
+  - name: BackCharacter
+    uniqueID: 692642847
+    locked: 0
   - name: Character
     uniqueID: 899153479
+    locked: 0
+  - name: FrontCharacter
+    uniqueID: 2548424911
     locked: 0
   - name: UI
     uniqueID: 216390949

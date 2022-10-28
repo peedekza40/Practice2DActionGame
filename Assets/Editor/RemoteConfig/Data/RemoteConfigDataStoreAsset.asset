@@ -12,18 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 469c24fdb3bd6431b92cc1465bd9166b, type: 3}
   m_Name: RemoteConfigDataStoreAsset
   m_EditorClassIdentifier: 
-  _rsKeyList: "[\r\n  {\r\n    \"metadata\": {\r\n      \"entityId\": \"95ba0891-b226-49c0-9fa6-4d594cac6608\"\r\n   
+  _rsKeyList: "[\r\n  {\r\n    \"metadata\": {\r\n      \"entityId\": \"c14783d1-4436-4b34-94c4-cc677ed5fb0a\"\r\n   
     },\r\n    \"rs\": {\r\n      \"key\": \"AppSettings\",\r\n      \"type\": \"json\",\r\n     
     \"schemaId\": null,\r\n      \"value\": {\r\n        \"Combat\": {\r\n         
-    \"Attacking\": {\r\n            \"DefaultDamage\": 10,\r\n            \"DefaultTimeBetweenAttack\":
+    \"Attacking\": {\r\n            \"DefaultDamage\": 10,\r\n            \"DefaultAttackDuration\":
     0.4,\r\n            \"MaxDecreasaeTimeBetweenAttack\": 0.2\r\n          },\r\n         
     \"Blocking\": {\r\n            \"DefaultReduceDamagePercent\": 5,\r\n           
     \"DefaultTimeBetweenBlock\": 0.6,\r\n            \"MaxDecreasaeTimeBetweenBlock\":
     0.4\r\n          }\r\n        }\r\n      }\r\n    }\r\n  }\r\n]"
-  _rsLastCachedKeyList: "[\r\n  {\r\n    \"metadata\": {\r\n      \"entityId\": \"95ba0891-b226-49c0-9fa6-4d594cac6608\"\r\n   
+  _rsLastCachedKeyList: "[\r\n  {\r\n    \"metadata\": {\r\n      \"entityId\": \"c14783d1-4436-4b34-94c4-cc677ed5fb0a\"\r\n   
     },\r\n    \"rs\": {\r\n      \"key\": \"AppSettings\",\r\n      \"type\": \"json\",\r\n     
     \"schemaId\": null,\r\n      \"value\": {\r\n        \"Combat\": {\r\n         
-    \"Attacking\": {\r\n            \"DefaultDamage\": 10,\r\n            \"DefaultTimeBetweenAttack\":
+    \"Attacking\": {\r\n            \"DefaultDamage\": 10,\r\n            \"DefaultAttackDuration\":
     0.4,\r\n            \"MaxDecreasaeTimeBetweenAttack\": 0.2\r\n          },\r\n         
     \"Blocking\": {\r\n            \"DefaultReduceDamagePercent\": 5,\r\n           
     \"DefaultTimeBetweenBlock\": 0.6,\r\n            \"MaxDecreasaeTimeBetweenBlock\":

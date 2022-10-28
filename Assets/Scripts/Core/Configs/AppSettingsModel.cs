@@ -21,8 +21,8 @@ namespace Core.Configs
                 Attacking = new AttackingStruct
                 {
                     DefaultDamage = 10f,
-                    DefaultTimeBetweenAttack = 0.4f,
-                    MaxDecreasaeTimeBetweenAttack = 0.2f
+                    DefaultAttackDuration = 0.6f,
+                    MaxDecreasaeTimeBetweenAttack = 0.35f
                 },
                 Blocking = new BlockingStruct
                 {
@@ -50,7 +50,7 @@ namespace Core.Configs
     public class AttackingStruct 
     {
         public float DefaultDamage;
-        public float DefaultTimeBetweenAttack;
+        public float DefaultAttackDuration;
         public float MaxDecreasaeTimeBetweenAttack;
     }
     

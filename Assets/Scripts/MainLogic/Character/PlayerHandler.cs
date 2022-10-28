@@ -1,9 +1,7 @@
-using Character;
-using Core.Constant;
 using Core.Constants;
 using UnityEngine;
 
-namespace Character 
+namespace Character
 {
     public class PlayerHandler : MonoBehaviour
     {

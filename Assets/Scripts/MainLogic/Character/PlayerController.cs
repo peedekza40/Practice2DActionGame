@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Constants;
 using Core.DataPersistence;
 using Core.DataPersistence.Data;
 using Infrastructure.InputSystem;
@@ -27,7 +28,7 @@ namespace Character
 
         private Vector3 _lastPosition;
         private float _currentHorizontalSpeed, _currentVerticalSpeed;
-        private IPlayerCombat PlayerCombat;
+        private StateMachine MeleeStateMachine;
         private KnockBack KnockBack;
         private bool IsCanMove;
 
@@ -43,7 +44,7 @@ namespace Character
         private void Awake() 
         {
             Invoke(nameof(Activate), 0.5f);
-            PlayerCombat = GetComponent<IPlayerCombat>();
+            MeleeStateMachine = GetComponents<StateMachine>().FirstOrDefault(x => x.Id == StateId.Combat);
             KnockBack = GetComponent<KnockBack>();
         }
         
@@ -60,7 +61,7 @@ namespace Character
             Velocity = (transform.position - _lastPosition) / Time.deltaTime;
             _lastPosition = transform.position;
 
-            IsCanMove = !(PlayerCombat.IsAttacking || PlayerCombat.IsBlocking || KnockBack.IsKnockingBack);
+            IsCanMove = MeleeStateMachine.CurrentState.GetType() == typeof(IdleCombatState);
 
             GatherInput();
             RunCollisionChecks();

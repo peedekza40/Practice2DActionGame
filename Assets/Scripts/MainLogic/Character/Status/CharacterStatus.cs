@@ -11,8 +11,8 @@ namespace Character
         public float CurrentHP { get; protected set; }
         public HealthBar HealthBar;
         public UnityEvent OnDamaged;
-        public UnityEvent<GameObject> OnDamagedPassHitBox;
         public UnityEvent<float> OnDamagedPassDamage;
+        public UnityEvent<GameObject> OnDamagedPassHitBox;
         public UnityEvent OnDied;
         public bool IsDeath { get; private set; }
 

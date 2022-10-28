@@ -7,7 +7,7 @@ AnimationClip:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: TakeHit
-  serializedVersion: 6
+  serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0
   m_UseHighQualityCurve: 1
@@ -22,7 +22,7 @@ AnimationClip:
     - time: 0
       value: {fileID: -7500690451134026123, guid: caca481b328eaa649ab9096c2cc08c31, type: 3}
     - time: 0.16666667
-      value: {fileID: -889859373511162655, guid: caca481b328eaa649ab9096c2cc08c31, type: 3}
+      value: {fileID: -7500690451134026123, guid: caca481b328eaa649ab9096c2cc08c31, type: 3}
     - time: 0.33333334
       value: {fileID: -3088938797480143695, guid: caca481b328eaa649ab9096c2cc08c31, type: 3}
     - time: 0.5
@@ -45,9 +45,10 @@ AnimationClip:
       typeID: 212
       customType: 23
       isPPtrCurve: 1
+      isIntCurve: 0
     pptrCurveMapping:
     - {fileID: -7500690451134026123, guid: caca481b328eaa649ab9096c2cc08c31, type: 3}
-    - {fileID: -889859373511162655, guid: caca481b328eaa649ab9096c2cc08c31, type: 3}
+    - {fileID: -7500690451134026123, guid: caca481b328eaa649ab9096c2cc08c31, type: 3}
     - {fileID: -3088938797480143695, guid: caca481b328eaa649ab9096c2cc08c31, type: 3}
     - {fileID: -9206091644520726168, guid: caca481b328eaa649ab9096c2cc08c31, type: 3}
   m_AnimationClipSettings:

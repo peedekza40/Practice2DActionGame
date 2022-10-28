@@ -9,13 +9,16 @@ namespace Character
     {
         public int Level { get; private set; }
 
-        private IPlayerCombat PlayerCombat;
+        private PlayerCombat PlayerCombat;
         private BlockFlashAnimatorController BlockFlashAnimatorController;
+        private StateMachine MeleeStateMachine;
 
         void Awake()
         {
-            PlayerCombat = GetComponent<IPlayerCombat>();
+            PlayerCombat = GetComponent<PlayerCombat>();
             BlockFlashAnimatorController = GameObject.Find(GameObjectName.EffectBlock).GetComponent<BlockFlashAnimatorController>();
+            MeleeStateMachine = GetComponent<StateMachine>();
+
             Level = 1;
             base.BaseAwake();
         }
@@ -28,16 +31,18 @@ namespace Character
         public override void TakeDamage(float damage, GameObject attackerHitBox)
         {
             var reduceDamage = 0f;
-            if(PlayerCombat.IsBlocking)
+            bool isBlocking = MeleeStateMachine.CurrentState.GetType() == typeof(BlockingState);
+            if(isBlocking)
             {
-                if(PlayerCombat.PressBlockThisFrame)
+                bool isPressBlockThisFrame = MeleeStateMachine.CurrentState.time <= 0.15;
+                if(isPressBlockThisFrame)
                 {
                     reduceDamage = damage;
-                    BlockFlashAnimatorController.TriggerParry();
+                    BlockFlashAnimatorController.TriggerParryEffect();
                 }
                 else
                 {
-                    reduceDamage = (PlayerCombat.GetReduceDamagePercent()/100) * damage;
+                    reduceDamage = (PlayerCombat.ReduceDamagePercent/100) * damage;
                 }
 
                 damage -= reduceDamage;
@@ -48,7 +53,7 @@ namespace Character
 
         public override void Die()
         {
-            GetComponent<PlayerCombat>().enabled = false;
+            PlayerCombat.enabled = false;
             GetComponent<PlayerController>().enabled = false;
             base.Die();
         }

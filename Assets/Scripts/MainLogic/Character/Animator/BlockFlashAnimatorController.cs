@@ -20,7 +20,7 @@ public class BlockFlashAnimatorController : MonoBehaviour
     {
     }
 
-    public void TriggerParry()
+    public void TriggerParryEffect()
     {
         transform.position = EffectBlockPoint.position;
         Animator.SetTrigger(AnimationParameter.Parry);
