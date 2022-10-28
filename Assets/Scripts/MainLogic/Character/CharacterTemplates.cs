@@ -1,9 +1,13 @@
 using System;
 using UnityEngine;
 
-[Serializable]
-public class CharacterTemplates
+namespace Character
 {
-    public GameObject PrefabSkeleton;
-    public GameObject Default;
+    [Serializable]
+    public class CharacterTemplates
+    {
+        public GameObject PrefabSkeleton;
+        public GameObject Default;
+    } 
 }
+

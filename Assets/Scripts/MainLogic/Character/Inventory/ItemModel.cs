@@ -5,49 +5,53 @@ using Infrastructure.Entity;
 using UnityEngine;
 using Zenject;
 
-[Serializable]
-public class ItemModel
+namespace Character.Inventory
 {
-    public Guid Id;
-    public ItemType Type;
-    public int Amount;
-    public bool IsStackable { get; private set; }
-    public bool IsCanUse { get; private set; }
-    public Sprite Sprite { get; private set; }
-
-    #region Dependencies
-    private ItemAssets itemAssets;
-    private IItemConfigRepository itemConfigRepository;
-    #endregion
-
-    [Inject]
-    public void Init(
-        ItemAssets itemAssets,
-        IItemConfigRepository itemConfigRepository)
+    [Serializable]
+    public class ItemModel
     {
-        this.itemAssets = itemAssets;
-        this.itemConfigRepository = itemConfigRepository;
-    }
+        public Guid Id;
+        public ItemType Type;
+        public int Amount;
+        public bool IsStackable { get; private set; }
+        public bool IsCanUse { get; private set; }
+        public Sprite Sprite { get; private set; }
 
-    public void Setup(ItemType type, int amount = 1)
-    {
-        Id = Guid.NewGuid();
-        Type = type;
-        Amount = amount;
+        #region Dependencies
+        private ItemAssets itemAssets;
+        private IItemConfigRepository itemConfigRepository;
+        #endregion
 
-        ItemConfig itemConfig = itemConfigRepository.GetByType(Type);
-        IsStackable = itemConfig.IsStackable;
-        IsCanUse = itemConfig.IsCanUse;
-        Sprite = GetSprite(itemConfig.SpritePath);
-    }
-    
-    private Sprite GetSprite(string spritePath)
-    {
-        Sprite sprite = Resources.Load<Sprite>(spritePath);
-        if(sprite == null)
+        [Inject]
+        public void Init(
+            ItemAssets itemAssets,
+            IItemConfigRepository itemConfigRepository)
         {
-            sprite = itemAssets.DefaultSprite;
+            this.itemAssets = itemAssets;
+            this.itemConfigRepository = itemConfigRepository;
         }
-        return sprite;
+
+        public void Setup(ItemType type, int amount = 1)
+        {
+            Id = Guid.NewGuid();
+            Type = type;
+            Amount = amount;
+
+            ItemConfig itemConfig = itemConfigRepository.GetByType(Type);
+            IsStackable = itemConfig.IsStackable;
+            IsCanUse = itemConfig.IsCanUse;
+            Sprite = GetSprite(itemConfig.SpritePath);
+        }
+        
+        private Sprite GetSprite(string spritePath)
+        {
+            Sprite sprite = Resources.Load<Sprite>(spritePath);
+            if(sprite == null)
+            {
+                sprite = itemAssets.DefaultSprite;
+            }
+            return sprite;
+        }
     }
+
 }

@@ -1,7 +1,7 @@
 using UnityEngine;
 using Core.Constants;
 
-namespace Character
+namespace Character.Animators
 {
     public class SkeletonAnimatorController : AnimatorController
     {

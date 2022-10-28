@@ -1,3 +1,7 @@
+using Character.Combat;
+using Character.Inventory;
+using Character.Status;
+using Collecting;
 using Core.Constants;
 using UnityEngine;
 
@@ -9,7 +13,7 @@ namespace Character
         public PlayerStatus Status;
         public PlayerCombat Combat;
         public Gold Gold;
-        public Inventory Inventory;
+        public InventoryManagement Inventory;
 
         private void Awake() 
         {

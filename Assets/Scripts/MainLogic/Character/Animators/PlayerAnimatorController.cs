@@ -1,9 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Core.Constants;
+using Character.Interfaces;
 
-namespace Character 
+namespace Character.Animators
 {
     public class PlayerAnimatorController : AnimatorController
     {

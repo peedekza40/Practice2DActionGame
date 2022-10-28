@@ -1,49 +1,53 @@
 using System.Collections;
+using Character.Inventory;
 using UnityEngine;
-using Zenject;
 
-public class ItemWorld : MonoBehaviour
+namespace Collecting
 {
-    public SpriteRenderer SpriteRenderer;
-    public float WaitCollectingTime = 2f;
-
-    public bool IsCanCollect { get; private set; }
-    private ItemModel Item;
-    private Rigidbody2D Rb;
-
-    public static ItemWorld SpawnItemWorld(Vector3 position, ItemModel item, ItemAssets itemAssets)
+    public class ItemWorld : MonoBehaviour
     {
-        ItemWorld itemWorld = Instantiate(itemAssets.PrefabItemWorld, position, Quaternion.identity);
-        itemWorld.SetItem(item);
+        public SpriteRenderer SpriteRenderer;
+        public float WaitCollectingTime = 2f;
 
-        return  itemWorld;
-    }
+        public bool IsCanCollect { get; private set; }
+        private ItemModel Item;
+        private Rigidbody2D Rb;
 
-    private void Awake() 
-    {
-        Rb = GetComponent<Rigidbody2D>();
-        StartCoroutine(WaitSetIsCanCollect());
-    }
+        public static ItemWorld SpawnItemWorld(Vector3 position, ItemModel item, ItemAssets itemAssets)
+        {
+            ItemWorld itemWorld = Instantiate(itemAssets.PrefabItemWorld, position, Quaternion.identity);
+            itemWorld.SetItem(item);
 
-    public void SetItem(ItemModel item)
-    {
-        Item = item;
-        SpriteRenderer.sprite = item.Sprite;
-    }
+            return  itemWorld;
+        }
 
-    public ItemModel GetItem()
-    {
-        return Item;
-    }
+        private void Awake() 
+        {
+            Rb = GetComponent<Rigidbody2D>();
+            StartCoroutine(WaitSetIsCanCollect());
+        }
 
-    public void DestroySelf()
-    {
-        Destroy(gameObject);
-    }
+        public void SetItem(ItemModel item)
+        {
+            Item = item;
+            SpriteRenderer.sprite = item.Sprite;
+        }
 
-    private IEnumerator WaitSetIsCanCollect()
-    {
-        yield return new WaitForSeconds(WaitCollectingTime);
-        IsCanCollect = true;
+        public ItemModel GetItem()
+        {
+            return Item;
+        }
+
+        public void DestroySelf()
+        {
+            Destroy(gameObject);
+        }
+
+        private IEnumerator WaitSetIsCanCollect()
+        {
+            yield return new WaitForSeconds(WaitCollectingTime);
+            IsCanCollect = true;
+        }
     }
+ 
 }

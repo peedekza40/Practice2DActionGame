@@ -3809,40 +3809,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 8511704446154591096, guid: a508220d80c5043408f44c17b2e802e7, type: 3}
   m_PrefabInstance: {fileID: 1154909048}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &972187602
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 972187601}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5c71f1e55ef2f834b9cb18078f979235, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  customName: Combat
---- !u!114 &972187603
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 972187601}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0dc4d82c6dd19f54fa3a664d820b38c5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MaxDamage: 10
-  AttackDuration: 0.4
-  TimeBetweenCombo: 0.25
-  HitBox: {fileID: 1154909049}
-  EnemyLayers:
-    serializedVersion: 2
-    m_Bits: 128
-  ReduceDamagePercent: 5
-  TimeBetweenBlock: 0.6
 --- !u!1 &1038414250
 GameObject:
   m_ObjectHideFlags: 0
@@ -3990,18 +3956,6 @@ PrefabInstance:
     serializedVersion: 2
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1849585225959038973, guid: a508220d80c5043408f44c17b2e802e7, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1849585225959038973, guid: a508220d80c5043408f44c17b2e802e7, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2002054853377171066, guid: a508220d80c5043408f44c17b2e802e7, type: 3}
-      propertyPath: Combat
-      value: 
-      objectReference: {fileID: 972187603}
     - target: {fileID: 2539281903126145971, guid: a508220d80c5043408f44c17b2e802e7, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -4018,26 +3972,6 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6085597230999504206, guid: a508220d80c5043408f44c17b2e802e7, type: 3}
-      propertyPath: m_Value
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 6497922436299354282, guid: a508220d80c5043408f44c17b2e802e7, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6497922436299354282, guid: a508220d80c5043408f44c17b2e802e7, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6648175399296352733, guid: a508220d80c5043408f44c17b2e802e7, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8378042788559873003, guid: a508220d80c5043408f44c17b2e802e7, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: b08b8fb90dd87984d8f4ea524f1876ec, type: 3}
     - target: {fileID: 8511704446154591093, guid: a508220d80c5043408f44c17b2e802e7, type: 3}
       propertyPath: m_RootOrder
       value: 7
@@ -4086,15 +4020,9 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 6648175399296352733, guid: a508220d80c5043408f44c17b2e802e7, type: 3}
+    m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: a508220d80c5043408f44c17b2e802e7, type: 3}
---- !u!61 &1154909049 stripped
-BoxCollider2D:
-  m_CorrespondingSourceObject: {fileID: 4495012563492310587, guid: a508220d80c5043408f44c17b2e802e7, type: 3}
-  m_PrefabInstance: {fileID: 1154909048}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1298326778
 GameObject:
   m_ObjectHideFlags: 0

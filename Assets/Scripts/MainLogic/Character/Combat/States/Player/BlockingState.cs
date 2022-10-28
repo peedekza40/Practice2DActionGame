@@ -1,8 +1,13 @@
-public class BlockingState : MeleeBaseState
+namespace Character.Combat.States.Player
 {
-    public override void OnEnter(StateMachine _stateMachine)
+    public class BlockingState : MeleeBaseState
     {
-        base.OnEnter(_stateMachine);
-        AnimatorController.SetBlock(true);
+        public override void OnEnter(StateMachine _stateMachine)
+        {
+            base.OnEnter(_stateMachine);
+            AnimatorController.SetBlock(true);
+        }
     }
 }
+
+

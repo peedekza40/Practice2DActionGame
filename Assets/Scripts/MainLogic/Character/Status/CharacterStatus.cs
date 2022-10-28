@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 using System;
+using Character.Interfaces;
 
 namespace Character
 {

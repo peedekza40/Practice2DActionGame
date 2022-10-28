@@ -5,61 +5,65 @@ using Core.Constants;
 using Infrastructure.InputSystem;
 using Zenject;
 
-public class MainMenu : MonoBehaviour, IDataPersistence, IUIPersistence
+namespace UI
 {
-    public LevelLoader LevelLoader;
-    public Transform MainMenuTransform;
-
-    private string ContinueScene; 
-
-    #region Dependencies
-    [Inject]
-    private DataPersistenceManager dataPersistenceManager;
-    #endregion
-
-    #region IUIPersistence
-    public UINumber Number => UINumber.MainMenu;
-    public bool IsOpen { get; private set; }
-    public MouseEvent MouseEvent { get; private set; }
-    #endregion
-
-    private void Awake() 
+    public class MainMenu : MonoBehaviour, IDataPersistence, IUIPersistence
     {
-        MouseEvent = GetComponent<MouseEvent>();
-    }
+        public LevelLoader LevelLoader;
+        public Transform MainMenuTransform;
 
-    private void Start() 
-    {
-        MainMenuTransform.Find(GameObjectName.ContinueButton).gameObject.SetActive(dataPersistenceManager.IsHasGameData());
-        IsOpen = true;
-    }
+        private string ContinueScene; 
 
-    public void NewGame(string sceneName)
-    {
-        //create a new game - which will initialize our game data
-        dataPersistenceManager.NewGame();
+        #region Dependencies
+        [Inject]
+        private DataPersistenceManager dataPersistenceManager;
+        #endregion
 
-        //load the gameplay scene - which will in turn save the game because of OnSceneUnloaded() in the DataPersistenceManager
-        LevelLoader.LoadLevel(sceneName);
-    }
+        #region IUIPersistence
+        public UINumber Number => UINumber.MainMenu;
+        public bool IsOpen { get; private set; }
+        public MouseEvent MouseEvent { get; private set; }
+        #endregion
 
-    public void Continue()
-    {
-        //load the next scene - which will in turn load the game because of OnScreenLoaded() in the DataPersistenceManager
-        LevelLoader.LoadLevel(ContinueScene);
-    }
+        private void Awake() 
+        {
+            MouseEvent = GetComponent<MouseEvent>();
+        }
 
-    public void QuitGame()
-    {
-        Application.Quit();
-    }
+        private void Start() 
+        {
+            MainMenuTransform.Find(GameObjectName.ContinueButton).gameObject.SetActive(dataPersistenceManager.IsHasGameData());
+            IsOpen = true;
+        }
 
-    public void LoadData(GameDataModel data)
-    {
-        ContinueScene = data.CurrentScene; 
-    }
+        public void NewGame(string sceneName)
+        {
+            //create a new game - which will initialize our game data
+            dataPersistenceManager.NewGame();
 
-    public void SaveData(GameDataModel data)
-    {
+            //load the gameplay scene - which will in turn save the game because of OnSceneUnloaded() in the DataPersistenceManager
+            LevelLoader.LoadLevel(sceneName);
+        }
+
+        public void Continue()
+        {
+            //load the next scene - which will in turn load the game because of OnScreenLoaded() in the DataPersistenceManager
+            LevelLoader.LoadLevel(ContinueScene);
+        }
+
+        public void QuitGame()
+        {
+            Application.Quit();
+        }
+
+        public void LoadData(GameDataModel data)
+        {
+            ContinueScene = data.CurrentScene; 
+        }
+
+        public void SaveData(GameDataModel data)
+        {
+        }
     }
+ 
 }

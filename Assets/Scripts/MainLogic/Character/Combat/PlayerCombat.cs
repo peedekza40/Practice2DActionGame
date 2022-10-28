@@ -1,11 +1,13 @@
 using System.Linq;
+using Character.Combat.States;
+using Character.Combat.States.Player;
 using Constants;
 using Core.Configs;
 using Infrastructure.InputSystem;
 using UnityEngine;
 using Zenject;
 
-namespace Character
+namespace Character.Combat
 {
     public class PlayerCombat : MonoBehaviour
     {
@@ -86,7 +88,7 @@ namespace Character
             IsPressingBlock = false;
             if(MeleeStateMachine.CurrentState.GetType() == typeof(BlockingState))
             {
-                MeleeStateMachine.SetNextState(new BlockFinsherState());
+                MeleeStateMachine.SetNextState(new BlockFinisherState());
             }
         }
     }

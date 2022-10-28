@@ -1,3 +1,5 @@
+using Character;
+using Character.Inventory;
 using UnityEngine;
 using Zenject;
 

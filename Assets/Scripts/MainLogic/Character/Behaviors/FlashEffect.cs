@@ -1,36 +1,40 @@
 using System.Collections;
 using UnityEngine;
 
-public class FlashEffect : MonoBehaviour
+namespace Character.Behaviors
 {
-    public SpriteRenderer SpriteRenderer;
-    public Material FlashMaterial;
-    public Color Color;
-    public float Duration;
-
-    private Material OriginalMaterial;
-    private Coroutine FlashRoutine;
-
-    private void Awake() 
+    public class FlashEffect : MonoBehaviour
     {
-        OriginalMaterial = SpriteRenderer.material;
-    }
+        public SpriteRenderer SpriteRenderer;
+        public Material FlashMaterial;
+        public Color Color;
+        public float Duration;
 
-    public void Flash()
-    {
-        if(FlashRoutine != null)
+        private Material OriginalMaterial;
+        private Coroutine FlashRoutine;
+
+        private void Awake() 
         {
-            StopCoroutine(FlashRoutine);
+            OriginalMaterial = SpriteRenderer.material;
         }
-        FlashRoutine = StartCoroutine(WaitFlash());
+
+        public void Flash()
+        {
+            if(FlashRoutine != null)
+            {
+                StopCoroutine(FlashRoutine);
+            }
+            FlashRoutine = StartCoroutine(WaitFlash());
+        }
+
+        private IEnumerator WaitFlash()
+        {
+            FlashMaterial.color = Color;
+            SpriteRenderer.material = FlashMaterial;
+            yield return new WaitForSeconds(Duration);
+            SpriteRenderer.material = OriginalMaterial;
+            FlashRoutine = null;
+        }
     }
 
-    private IEnumerator WaitFlash()
-    {
-        FlashMaterial.color = Color;
-        SpriteRenderer.material = FlashMaterial;
-        yield return new WaitForSeconds(Duration);
-        SpriteRenderer.material = OriginalMaterial;
-        FlashRoutine = null;
-    }
 }

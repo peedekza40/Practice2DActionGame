@@ -2,30 +2,6 @@ using UnityEngine;
 
 namespace Character
 {
-
-    public interface IPlayerController 
-    {
-        Vector3 Velocity { get; }
-        FrameInput Input { get; }
-        bool JumpingThisFrame { get; }
-        bool LandingThisFrame { get; }
-        Vector3 RawMovement { get; }
-        bool Grounded { get; }
-    }
-
-    public interface IAnimatorController 
-    {
-        Animator Animator { get; set; }
-        void SetIsAttacking(bool isAttacking);
-        void TriggerAttack(int? countAttack);
-        void TriggerAttacked();
-        void SetDeath();
-        void SetBlock(bool isBlocking);
-        void FilpCharacter();
-        void FilpCharacter(Vector2 direction);
-        float GetAnimationLength(string animName);
-    }
-
     public struct FrameInput 
     {
         public float X;

@@ -3,6 +3,8 @@ using UnityEngine;
 using Pathfinding;
 using System.Linq;
 using Core.Constants;
+using Character.Behaviors;
+using Character.Interfaces;
 
 namespace Character
 {

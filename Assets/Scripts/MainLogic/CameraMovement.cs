@@ -1,3 +1,4 @@
+using Character.Interfaces;
 using Core.DataPersistence;
 using Core.DataPersistence.Data;
 using UnityEngine;
@@ -10,14 +11,6 @@ namespace Character
         public float FollowSpeed = 5f;
         public float OffsetY = 1.4f;
         public float OffsetZ = -6.5f;
-
-        private IPlayerController playerController;
-
-        // Start is called before the first frame update
-        void Start()
-        {
-            playerController = Target.GetComponent<IPlayerController>();
-        }
 
         // Update is called once per frame
         void Update()

@@ -1,81 +1,86 @@
+using Character;
 using Core.Constants;
 using Core.DataPersistence;
 using Infrastructure.InputSystem;
 using UnityEngine;
 using Zenject;
 
-public class PauseMenu : MonoBehaviour, IUIPersistence
+namespace UI
 {
-    public GameObject MenuPanel;
-    public GameObject Player;
-
-    private DeathScript DeathScript;
-
-    #region Dependencies
-    [Inject]
-    private DataPersistenceManager dataPersistenceManager;
-    #endregion
-
-    #region IUIPersistence
-    public UINumber Number => UINumber.PauseMenu;
-    public bool IsOpen { get; private set; }
-    public MouseEvent MouseEvent { get; private set; }
-    #endregion
-
-    private void Awake() 
+    public class PauseMenu : MonoBehaviour, IUIPersistence
     {
-        DeathScript = Player.GetComponent<DeathScript>();
-        MouseEvent = GetComponent<MouseEvent>();
-    }
+        public GameObject MenuPanel;
+        public GameObject Player;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        Cursor.visible = false;
-    }
+        private DeathScript DeathScript;
 
-    // Update is called once per frame
-    void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.Escape))
+        #region Dependencies
+        [Inject]
+        private DataPersistenceManager dataPersistenceManager;
+        #endregion
+
+        #region IUIPersistence
+        public UINumber Number => UINumber.PauseMenu;
+        public bool IsOpen { get; private set; }
+        public MouseEvent MouseEvent { get; private set; }
+        #endregion
+
+        private void Awake() 
         {
-            if(!MenuPanel.activeSelf)
+            DeathScript = Player.GetComponent<DeathScript>();
+            MouseEvent = GetComponent<MouseEvent>();
+        }
+
+        // Start is called before the first frame update
+        void Start()
+        {
+            Cursor.visible = false;
+        }
+
+        // Update is called once per frame
+        void Update()
+        {
+            if(Input.GetKeyDown(KeyCode.Escape))
             {
-                Pause();
+                if(!MenuPanel.activeSelf)
+                {
+                    Pause();
+                }
+                else
+                {
+                    Resume();
+                }
             }
-            else
-            {
-                Resume();
-            }
+        }
+
+        private void Pause()
+        {
+            Time.timeScale = 0f;
+            MenuPanel.SetActive(true);
+            IsOpen = true;
+        }
+
+        public void Resume()
+        {
+            Time.timeScale = 1f;
+            MenuPanel.SetActive(false);
+            IsOpen = false;
+        }
+
+        public void Save()
+        {
+            dataPersistenceManager.SaveGame();
+        }
+
+        public void Load()
+        {
+            dataPersistenceManager.LoadGame();
+        }
+
+        public void Quit()
+        {
+            Application.Quit();
         }
     }
 
-    private void Pause()
-    {
-        Time.timeScale = 0f;
-        MenuPanel.SetActive(true);
-        IsOpen = true;
-    }
-
-    public void Resume()
-    {
-        Time.timeScale = 1f;
-        MenuPanel.SetActive(false);
-        IsOpen = false;
-    }
-
-    public void Save()
-    {
-        dataPersistenceManager.SaveGame();
-    }
-
-    public void Load()
-    {
-        dataPersistenceManager.LoadGame();
-    }
-
-    public void Quit()
-    {
-        Application.Quit();
-    }
 }

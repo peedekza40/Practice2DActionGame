@@ -5,95 +5,99 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class ItemSlot : MonoBehaviour, IDropHandler
+namespace Character.Inventory
 {
-    public RectTransform SlotTransform { get; private set; }
-    public Transform ItemTransform { get; private set; }
-    public Image ItemImage { get; private set; }
-    public TextMeshProUGUI ItemAmountText { get; private set; }
-    public MouseEvent ItemMouseEvent { get; private set; }
-
-    public Guid ItemId { get; private set; }
-    private Inventory Inventory;
-
-    private void Awake() 
+    public class ItemSlot : MonoBehaviour, IDropHandler
     {
-        SlotTransform = GetComponent<RectTransform>();
-        ItemTransform = SlotTransform.Find(GameObjectName.Item);
-        ItemImage = ItemTransform.Find(GameObjectName.ItemImage).GetComponent<Image>();
-        ItemAmountText = ItemTransform.Find(GameObjectName.ItemAmount).GetComponent<TextMeshProUGUI>();
-        ItemMouseEvent = SlotTransform.GetComponent<MouseEvent>();
-        Inventory = GetComponentInParent<Inventory>();
-    }
+        public RectTransform SlotTransform { get; private set; }
+        public Transform ItemTransform { get; private set; }
+        public Image ItemImage { get; private set; }
+        public TextMeshProUGUI ItemAmountText { get; private set; }
+        public MouseEvent ItemMouseEvent { get; private set; }
 
-    private void Update() 
-    {
-        GetComponent<DragDropItem>().enabled = ItemId != Guid.Empty;
-    }
+        public Guid ItemId { get; private set; }
+        private InventoryManagement Inventory;
 
-    private void OnDestroy() 
-    {
-        ClearItemGUI();
-    }
-
-    public void SetItemGUI(ItemModel item)
-    {
-        ItemId = item.Id;
-        ItemTransform.gameObject.SetActive(true);
-
-        //set image item
-        ItemImage.sprite = item.Sprite;
-        ItemImage.gameObject.SetActive(true);
-
-        //set amount
-        if(item.IsStackable)
+        private void Awake() 
         {
-            ItemAmountText.SetText(item.Amount.ToString(Formatter.Amount));
-            ItemAmountText.gameObject.SetActive(true);
-        }
-        else
-        {
-            ItemAmountText.gameObject.SetActive(false);
+            SlotTransform = GetComponent<RectTransform>();
+            ItemTransform = SlotTransform.Find(GameObjectName.Item);
+            ItemImage = ItemTransform.Find(GameObjectName.ItemImage).GetComponent<Image>();
+            ItemAmountText = ItemTransform.Find(GameObjectName.ItemAmount).GetComponent<TextMeshProUGUI>();
+            ItemMouseEvent = SlotTransform.GetComponent<MouseEvent>();
+            Inventory = GetComponentInParent<InventoryManagement>();
         }
 
-        //set onclick
-        ItemMouseEvent.OnLeftClick.AddListener(() => { Inventory.UseItem(item); });
-        ItemMouseEvent.OnRightClick.AddListener(() => { Inventory.DropItem(item); });
-    }
-
-    public void ClearItemGUI()
-    {
-        ItemId = Guid.Empty;
-        ItemTransform.gameObject.SetActive(false);
-
-        //set image item
-        ItemImage.sprite = null;
-        ItemImage.gameObject.SetActive(false);
-
-        //set amount
-        ItemAmountText.SetText("0");
-        ItemAmountText.gameObject.SetActive(false);
-
-        //set onclick
-        ItemMouseEvent.OnLeftClick.RemoveAllListeners();
-        ItemMouseEvent.OnRightClick.RemoveAllListeners();
-    }
-
-    public void OnDrop(PointerEventData eventData)
-    {
-        ItemSlot slot = eventData.pointerDrag.GetComponent<ItemSlot>();
-        if(slot != null && slot?.ItemId != null)
+        private void Update() 
         {
-            if(ItemId == Guid.Empty)
+            GetComponent<DragDropItem>().enabled = ItemId != Guid.Empty;
+        }
+
+        private void OnDestroy() 
+        {
+            ClearItemGUI();
+        }
+
+        public void SetItemGUI(ItemModel item)
+        {
+            ItemId = item.Id;
+            ItemTransform.gameObject.SetActive(true);
+
+            //set image item
+            ItemImage.sprite = item.Sprite;
+            ItemImage.gameObject.SetActive(true);
+
+            //set amount
+            if(item.IsStackable)
             {
-                //set this item slot
-                ClearItemGUI();
-                SetItemGUI(Inventory.GetItem(slot.ItemId));
+                ItemAmountText.SetText(item.Amount.ToString(Formatter.Amount));
+                ItemAmountText.gameObject.SetActive(true);
+            }
+            else
+            {
+                ItemAmountText.gameObject.SetActive(false);
+            }
 
-                //clear source item slot
-                slot.ClearItemGUI();
+            //set onclick
+            ItemMouseEvent.OnLeftClick.AddListener(() => { Inventory.UseItem(item); });
+            ItemMouseEvent.OnRightClick.AddListener(() => { Inventory.DropItem(item); });
+        }
+
+        public void ClearItemGUI()
+        {
+            ItemId = Guid.Empty;
+            ItemTransform.gameObject.SetActive(false);
+
+            //set image item
+            ItemImage.sprite = null;
+            ItemImage.gameObject.SetActive(false);
+
+            //set amount
+            ItemAmountText.SetText("0");
+            ItemAmountText.gameObject.SetActive(false);
+
+            //set onclick
+            ItemMouseEvent.OnLeftClick.RemoveAllListeners();
+            ItemMouseEvent.OnRightClick.RemoveAllListeners();
+        }
+
+        public void OnDrop(PointerEventData eventData)
+        {
+            ItemSlot slot = eventData.pointerDrag.GetComponent<ItemSlot>();
+            if(slot != null && slot?.ItemId != null)
+            {
+                if(ItemId == Guid.Empty)
+                {
+                    //set this item slot
+                    ClearItemGUI();
+                    SetItemGUI(Inventory.GetItem(slot.ItemId));
+
+                    //clear source item slot
+                    slot.ClearItemGUI();
+                }
             }
         }
-    }
 
+    }
 }
+

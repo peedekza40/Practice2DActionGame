@@ -1,32 +1,34 @@
-using Character;
-
-public class GroundEntryState : MeleeBaseState
+namespace Character.Combat.States.Player
 {
-
-    public override void OnEnter(StateMachine _stateMachine)
+    public class GroundEntryState : MeleeBaseState
     {
-        base.OnEnter(_stateMachine);
-
-        //Attack
-        AttackIndex = 1;
-        Duration = PlayerCombat.AttackDuration;
-        AnimatorController.TriggerAttack(AttackIndex);
-    }
-
-    public override void OnUpdate()
-    {
-        base.OnUpdate();
-
-        if (fixedtime >= Duration)
+        public override void OnEnter(StateMachine _stateMachine)
         {
-            if (ShouldCombo)
+            base.OnEnter(_stateMachine);
+
+            //Attack
+            AttackIndex = 1;
+            Duration = PlayerCombat.AttackDuration;
+            AnimatorController.TriggerAttack(AttackIndex);
+        }
+
+        public override void OnUpdate()
+        {
+            base.OnUpdate();
+
+            if (fixedtime >= Duration)
             {
-                stateMachine.SetNextState(new GroundComboState());
-            }
-            else
-            {
-                stateMachine.SetNextStateToMain();
+                if (ShouldCombo)
+                {
+                    stateMachine.SetNextState(new GroundComboState());
+                }
+                else
+                {
+                    stateMachine.SetNextStateToMain();
+                }
             }
         }
     }
 }
+
+

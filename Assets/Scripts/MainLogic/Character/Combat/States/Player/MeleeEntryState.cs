@@ -1,10 +1,15 @@
-public class MeleeEntryState : State
+namespace Character.Combat.States.Player
 {
-    public override void OnEnter(StateMachine _stateMachine)
+    public class MeleeEntryState : State
     {
-        base.OnEnter(_stateMachine);
+        public override void OnEnter(StateMachine _stateMachine)
+        {
+            base.OnEnter(_stateMachine);
 
-        State nextState = (State)new GroundEntryState();
-        stateMachine.SetNextState(nextState);
-    }
+            State nextState = (State)new GroundEntryState();
+            stateMachine.SetNextState(nextState);
+        }
+    }  
 }
+
+

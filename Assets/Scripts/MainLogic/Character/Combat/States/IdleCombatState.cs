@@ -1,3 +1,7 @@
-public class IdleCombatState : State
+namespace Character.Combat.States
 {
+    public class IdleCombatState : State
+    {
+    }
 }
+

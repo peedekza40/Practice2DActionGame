@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using Core.Constants;
+using Character.Interfaces;
 
-namespace Character 
+namespace Character.Animators
 {
     public class AnimatorController : MonoBehaviour, IAnimatorController
     {

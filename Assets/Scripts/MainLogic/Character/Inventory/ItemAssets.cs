@@ -1,9 +1,14 @@
 using System;
+using Collecting;
 using UnityEngine;
 
-[Serializable]
-public class ItemAssets
+namespace Character.Inventory
 {
-    public ItemWorld PrefabItemWorld;
-    public Sprite DefaultSprite;
+    [Serializable]
+    public class ItemAssets
+    {
+        public ItemWorld PrefabItemWorld;
+        public Sprite DefaultSprite;
+    }
 }
+

@@ -1,37 +1,38 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HealthBar : MonoBehaviour
+namespace Character
 {
-    public Slider HpSlider;
-    public Slider SmoothSlider;
-    
-    private float TimeSinceSetHealth = 0f;
-    private float CurrentVelocity = 0;
-
-    private void Update() 
+    public class HealthBar : MonoBehaviour
     {
-        if(TimeSinceSetHealth >= 1)
+        public Slider HpSlider;
+        public Slider SmoothSlider;
+        
+        private float TimeSinceSetHealth = 0f;
+        private float CurrentVelocity = 0;
+
+        private void Update() 
         {
-            float runningHp = Mathf.SmoothDamp(SmoothSlider.value, HpSlider.value, ref CurrentVelocity, 80 * Time.deltaTime);        
-            SmoothSlider.value = runningHp;
+            if(TimeSinceSetHealth >= 1)
+            {
+                float runningHp = Mathf.SmoothDamp(SmoothSlider.value, HpSlider.value, ref CurrentVelocity, 80 * Time.deltaTime);        
+                SmoothSlider.value = runningHp;
+            }
+
+            TimeSinceSetHealth += Time.deltaTime;
+        }
+        
+        public void SetMaxHealth(float maxHealth)
+        {
+            HpSlider.maxValue = maxHealth;
+            SmoothSlider.maxValue = maxHealth;
         }
 
-        TimeSinceSetHealth += Time.deltaTime;
-    }
-    
-    public void SetMaxHealth(float maxHealth)
-    {
-        HpSlider.maxValue = maxHealth;
-        SmoothSlider.maxValue = maxHealth;
+        public void SetHealth(float health)
+        {
+            HpSlider.value = health;
+            TimeSinceSetHealth = 0;
+        }
     }
 
-    public void SetHealth(float health)
-    {
-        HpSlider.value = health;
-        TimeSinceSetHealth = 0;
-    }
 }

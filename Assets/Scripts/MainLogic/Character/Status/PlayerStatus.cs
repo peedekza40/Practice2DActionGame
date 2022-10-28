@@ -1,9 +1,12 @@
+using Character.Animators;
+using Character.Combat;
+using Character.Combat.States.Player;
 using Core.Constants;
 using Core.DataPersistence;
 using Core.DataPersistence.Data;
 using UnityEngine;
 
-namespace Character
+namespace Character.Status
 {
     public class PlayerStatus : CharacterStatus, IDataPersistence
     {

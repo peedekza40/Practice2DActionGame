@@ -7,69 +7,73 @@ using TMPro;
 using UnityEngine;
 using Zenject;
 
-public class Gold : MonoBehaviour, IDataPersistence
+namespace Collecting
 {
-    [Header("UI")]
-    public Transform GoldLabelTransform;
-    public TextMeshProUGUI ValueText;
-
-    public int Amount { get; private set; } = 0;
-    private int RunningAmount = 0;
-    private float CurrentVelocity;
-
-    #region Dependencies
-    [Inject]
-    private PlayerInputControl playerInputControl;
-    #endregion
-
-    private void Start() 
+    public class Gold : MonoBehaviour, IDataPersistence
     {
-        ValueText.SetText(Amount.ToString(Formatter.Amount));    
-    }
+        [Header("UI")]
+        public Transform GoldLabelTransform;
+        public TextMeshProUGUI ValueText;
 
-    private void Update() 
-    {
-        float tempRunnigAmount = Mathf.SmoothDamp(RunningAmount, Amount, ref CurrentVelocity, 80 * Time.deltaTime);
-        if(RunningAmount <= Amount)
+        public int Amount { get; private set; } = 0;
+        private int RunningAmount = 0;
+        private float CurrentVelocity;
+
+        #region Dependencies
+        [Inject]
+        private PlayerInputControl playerInputControl;
+        #endregion
+
+        private void Start() 
         {
-            RunningAmount = Mathf.CeilToInt(tempRunnigAmount);
-        }
-        else
-        {
-            RunningAmount = Mathf.FloorToInt(tempRunnigAmount);
+            ValueText.SetText(Amount.ToString(Formatter.Amount));    
         }
 
-        ValueText.SetText(RunningAmount.ToString(Formatter.Amount));
-
-        //hide when statistics ui is open
-        bool statisticIsOpen = playerInputControl.UIPersistences.GetByUiNumber(UINumber.Statistic).IsOpen;
-        GoldLabelTransform.gameObject.SetActive(!statisticIsOpen);
-    }
-
-    public void Collect(EnemyType attackedEnemyType)
-    {
-        switch(attackedEnemyType)
+        private void Update() 
         {
-            case EnemyType.Skeleton :
-                Amount += Random.Range(50, 70);;
-                break; 
-            default :
-                break;
+            float tempRunnigAmount = Mathf.SmoothDamp(RunningAmount, Amount, ref CurrentVelocity, 80 * Time.deltaTime);
+            if(RunningAmount <= Amount)
+            {
+                RunningAmount = Mathf.CeilToInt(tempRunnigAmount);
+            }
+            else
+            {
+                RunningAmount = Mathf.FloorToInt(tempRunnigAmount);
+            }
+
+            ValueText.SetText(RunningAmount.ToString(Formatter.Amount));
+
+            //hide when statistics ui is open
+            bool statisticIsOpen = playerInputControl.UIPersistences.GetByUiNumber(UINumber.Statistic).IsOpen;
+            GoldLabelTransform.gameObject.SetActive(!statisticIsOpen);
+        }
+
+        public void Collect(EnemyType attackedEnemyType)
+        {
+            switch(attackedEnemyType)
+            {
+                case EnemyType.Skeleton :
+                    Amount += Random.Range(50, 70);;
+                    break; 
+                default :
+                    break;
+            }
+        }
+
+        public void SetGoldAmount(int amount)
+        {
+            Amount = amount;
+        }
+
+        public void LoadData(GameDataModel data)
+        {
+            Amount = data.PlayerData.GoldAmount;
+        }
+
+        public void SaveData(GameDataModel data)
+        {
+            data.PlayerData.GoldAmount = Amount;
         }
     }
 
-    public void SetGoldAmount(int amount)
-    {
-        Amount = amount;
-    }
-
-    public void LoadData(GameDataModel data)
-    {
-        Amount = data.PlayerData.GoldAmount;
-    }
-
-    public void SaveData(GameDataModel data)
-    {
-        data.PlayerData.GoldAmount = Amount;
-    }
 }

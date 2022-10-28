@@ -1,5 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
+using Character.Behaviors;
+using Character.Combat.States;
+using Character.Interfaces;
 using Constants;
 using Core.DataPersistence;
 using Core.DataPersistence.Data;
