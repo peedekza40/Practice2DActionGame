@@ -31,7 +31,7 @@ namespace Character
 
         private Vector3 _lastPosition;
         private float _currentHorizontalSpeed, _currentVerticalSpeed;
-        private StateMachine MeleeStateMachine;
+        private StateMachine CombatStateMachine;
         private KnockBack KnockBack;
         private bool IsCanMove;
 
@@ -47,7 +47,7 @@ namespace Character
         private void Awake() 
         {
             Invoke(nameof(Activate), 0.5f);
-            MeleeStateMachine = GetComponents<StateMachine>().FirstOrDefault(x => x.Id == StateId.Combat);
+            CombatStateMachine = GetComponents<StateMachine>().FirstOrDefault(x => x.Id == StateId.Combat);
             KnockBack = GetComponent<KnockBack>();
         }
         
@@ -64,7 +64,7 @@ namespace Character
             Velocity = (transform.position - _lastPosition) / Time.deltaTime;
             _lastPosition = transform.position;
 
-            IsCanMove = MeleeStateMachine.CurrentState.GetType() == typeof(IdleCombatState);
+            IsCanMove = CombatStateMachine.IsCurrentState(typeof(IdleCombatState));
 
             GatherInput();
             RunCollisionChecks();

@@ -762,7 +762,7 @@ Transform:
   - {fileID: 5124606033839770905}
   - {fileID: 3197656211200406714}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &8009742133586685725
 Rigidbody2D:
@@ -875,18 +875,18 @@ MonoBehaviour:
   JumpNodeHeightRequirement: 0.8
   JumpModifier: 0.3
   JumpCheckOffset: 0.1
-  TimeBetweenAttack: 1.5
-  TimeBetweenNextMove: 1.5
-  Damage: 20
+  AttackDuration: 1.5
+  TimeBetweenCombo: 0.25
+  MaxDamage: 20
   HitBox: {fileID: 3634407732105629947}
   DetectEnemyRange: 1.76
-  DetectEnemy: {fileID: 5124606033839770905}
+  DetectEnemyTransform: {fileID: 5124606033839770905}
   EnemyLayers:
     serializedVersion: 2
     m_Bits: 8
   FollowEnabled: 0
   JumpEnabled: 0
-  AttackEnabled: 0
+  AttackEnabled: 1
   DirectionLookEnabled: 1
 --- !u!114 &8072776276011549519
 MonoBehaviour:

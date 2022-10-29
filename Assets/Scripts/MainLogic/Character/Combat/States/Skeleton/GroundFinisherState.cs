@@ -1,4 +1,4 @@
-namespace Character.Combat.States.Player
+namespace Character.Combat.States.Skeleton
 {
     public class GroundFinisherState : MeleeBaseState
     {
@@ -7,8 +7,8 @@ namespace Character.Combat.States.Player
             base.OnEnter(_stateMachine);
 
             //Attack
-            AttackIndex = 3;
-            Duration = PlayerCombat.AttackDuration + PlayerCombat.TimeBetweenCombo; // duration + time betweem combo
+            AttackIndex = 2;
+            Duration = EnemyAI.AttackDuration + EnemyAI.TimeBetweenCombo; // duration + time betweem combo
             AnimatorController.TriggerAttack(AttackIndex);
         }
 

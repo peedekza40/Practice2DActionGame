@@ -14,13 +14,13 @@ namespace Character.Status
 
         private PlayerCombat PlayerCombat;
         private BlockFlashAnimatorController BlockFlashAnimatorController;
-        private StateMachine MeleeStateMachine;
+        private StateMachine CombatStateMachine;
 
         void Awake()
         {
             PlayerCombat = GetComponent<PlayerCombat>();
             BlockFlashAnimatorController = GameObject.Find(GameObjectName.EffectBlock).GetComponent<BlockFlashAnimatorController>();
-            MeleeStateMachine = GetComponent<StateMachine>();
+            CombatStateMachine = GetComponent<StateMachine>();
 
             Level = 1;
             base.BaseAwake();
@@ -34,10 +34,10 @@ namespace Character.Status
         public override void TakeDamage(float damage, GameObject attackerHitBox)
         {
             var reduceDamage = 0f;
-            bool isBlocking = MeleeStateMachine.CurrentState.GetType() == typeof(BlockingState);
+            bool isBlocking = CombatStateMachine.IsCurrentState(typeof(BlockingState));
             if(isBlocking)
             {
-                bool isPressBlockThisFrame = MeleeStateMachine.CurrentState.time <= 0.15;
+                bool isPressBlockThisFrame = CombatStateMachine.GetCurrentStateTime() <= 0.15;
                 if(isPressBlockThisFrame)
                 {
                     reduceDamage = damage;

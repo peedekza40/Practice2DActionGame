@@ -1,14 +1,16 @@
+using System;
 using Character.Combat.States;
 using Constants;
 using UnityEngine;
 
+[DefaultExecutionOrder(-1)]
 public class StateMachine : MonoBehaviour
 {
     public StateId Id;
 
     private State mainStateType;
 
-    public State CurrentState { get; private set; }
+    private State currentState;
     private State nextState;
 
     // Update is called once per frame
@@ -19,19 +21,19 @@ public class StateMachine : MonoBehaviour
             SetState(nextState);
         }
 
-        if (CurrentState != null)
-            CurrentState.OnUpdate();
+        if (currentState != null)
+            currentState.OnUpdate();
     }
 
     private void SetState(State _newState)
     {
         nextState = null;
-        if (CurrentState != null)
+        if (currentState != null)
         {
-            CurrentState.OnExit();
+            currentState.OnExit();
         }
-        CurrentState = _newState;
-        CurrentState.OnEnter(this);
+        currentState = _newState;
+        currentState.OnEnter(this);
     }
 
     public void SetNextState(State _newState)
@@ -44,14 +46,14 @@ public class StateMachine : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (CurrentState != null)
-            CurrentState.OnLateUpdate();
+        if (currentState != null)
+            currentState.OnLateUpdate();
     }
 
     private void FixedUpdate()
     {
-        if (CurrentState != null)
-            CurrentState.OnFixedUpdate();
+        if (currentState != null)
+            currentState.OnFixedUpdate();
     }
 
     public void SetNextStateToMain()
@@ -76,5 +78,15 @@ public class StateMachine : MonoBehaviour
                     break;
             }
         }
+    }
+
+    public bool IsCurrentState(Type stateType)
+    {
+        return currentState?.GetType() == stateType;
+    }
+
+    public float GetCurrentStateTime()
+    {
+        return currentState?.time ?? 0f;
     }
 }

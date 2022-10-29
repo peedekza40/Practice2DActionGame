@@ -5,6 +5,9 @@ using System.Linq;
 using Core.Constants;
 using Character.Behaviors;
 using Character.Interfaces;
+using Constants;
+using Character.Combat.States;
+using Character.Combat.States.Skeleton;
 
 namespace Character
 {
@@ -23,17 +26,15 @@ namespace Character
         public float JumpCheckOffset = 0.1f;
 
         [Header("Combat")]
-        public float TimeBetweenAttack = 1.5f;
-        public float TimeBetweenNextMove = 0.5f;
-        public float Damage = 20f;
+        public float AttackDuration = 1.5f;
+        public float TimeBetweenCombo = 0.25f;
+        public float MaxDamage = 20f;
         public Collider2D HitBox;
         public float DetectEnemyRange = 0.5f;
-        public Transform DetectEnemy;
+        public Transform DetectEnemyTransform;
         public LayerMask EnemyLayers;
-        private int? CountAttack = 0;
-        private float TimeSinceAttack = 0f;
-        private bool IsAttacking;
-        private int DamageFrameCount = 0;
+        public List<Collider2D> DetectedEnemies { get; private set; } = new List<Collider2D>();
+        private StateMachine CombatStateMachine;
 
         [Header("Custom Behavior")]
         public bool FollowEnabled = true;
@@ -57,6 +58,7 @@ namespace Character
             Rb = GetComponent<Rigidbody2D>();
             KnockBack = GetComponent<KnockBack>();
             AnimatorController = GetComponent<IAnimatorController>();
+            CombatStateMachine = GetComponents<StateMachine>().FirstOrDefault(x => x.Id == StateId.Combat);
         }
 
         private void Start()
@@ -69,7 +71,8 @@ namespace Character
             AnimationState = AnimatorController.Animator.GetCurrentAnimatorStateInfo(0);
             AnimatorClip = AnimatorController.Animator.GetCurrentAnimatorClipInfo(0);
 
-            if(TargetInDistance() && FollowEnabled && IsAttacking == false && KnockBack.IsKnockingBack == false)
+            bool isIdleCombat = CombatStateMachine.IsCurrentState(typeof(IdleCombatState));
+            if(TargetInDistance() && FollowEnabled && isIdleCombat && KnockBack.IsKnockingBack == false)
             {
                 PathFollow();
             }
@@ -78,8 +81,6 @@ namespace Character
             {
                 Attack();
             }
-
-            SetIsAttacking(CountAttack);
         }
 
         #region Pathfinding
@@ -160,90 +161,12 @@ namespace Character
 
         private void Attack()
         {
-            List<Collider2D> enemies = Physics2D.OverlapCircleAll(DetectEnemy.position, DetectEnemyRange, EnemyLayers).ToList();
-            bool isEnemyDetected =  enemies.Any();
-            TimeSinceAttack += Time.deltaTime;
-
-            if(IsAttacking == false && TimeSinceAttack > TimeBetweenAttack && (isEnemyDetected || CountAttack == 1))
+            DetectedEnemies = Physics2D.OverlapCircleAll(DetectEnemyTransform.position, DetectEnemyRange, EnemyLayers).ToList();
+            bool isEnemyDetected =  DetectedEnemies.Any();
+            if(CombatStateMachine.IsCurrentState(typeof(IdleCombatState)) && isEnemyDetected)
             {
-                //look direction
-                var target = enemies.FirstOrDefault(x => x.tag == TagName.Player);
-                if(target != null)
-                {
-                    Vector2 direction = ((Vector2)target.transform.position - Rb.position).normalized;
-                    AnimatorController.FilpCharacter(direction);
-                }
-
-                CountAttack++;
-                // Loop back to one after third attack or Reset Attack combo if time since last attack is too large
-                if(CountAttack > 2 || TimeSinceAttack > TimeBetweenAttack + TimeBetweenNextMove)
-                {
-                    CountAttack = 1;
-                }
-                
-                AnimatorController.TriggerAttack(CountAttack);
-
-                //Reset
-                TimeSinceAttack = 0f;
-                DamageFrameCount = 0;
+                CombatStateMachine.SetNextState(new MeleeEntryState());
             }
-
-            if(IsAttacking && DamageFrameCount == 0)
-            {
-                //detect enemy in range of attack
-                List<Collider2D> hitEnemies = new List<Collider2D>();
-                ContactFilter2D contactFilter = new ContactFilter2D();
-                contactFilter.SetLayerMask(EnemyLayers);
-                HitBox.OverlapCollider(contactFilter, hitEnemies);
-
-                //damage them
-                foreach (var hitEnemy in hitEnemies)
-                {
-                    hitEnemy.GetComponent<CharacterStatus>().TakeDamage(Damage, HitBox.gameObject);
-                    DamageFrameCount++;
-                }
-            }
-            else if(IsAttacking == false)
-            {
-                DamageFrameCount = 0;
-            }
-        }
-
-        private void SetIsAttacking(int? countAttack)
-        {
-            IsAttacking = false;
-            if(countAttack != null && countAttack > 0)
-            {
-                IsAttacking = AnimationState.IsName($"{AnimationName.Attack}{countAttack}");
-            }
-            AnimatorController.SetIsAttacking(IsAttacking);
-        }
-
-        private float GetCurrentAttackingTime(int? countAttack)
-        {
-            float result = 0f;
-            var clip = GetCurrentAttackingClip(countAttack);
-            if(clip != null)
-            {
-                result = clip.length * AnimationState.normalizedTime;
-            }
-
-            return result;
-        }
-
-        private AnimationClip GetCurrentAttackingClip(int? countAttack)
-        {
-            AnimationClip result = new AnimationClip();
-            if(countAttack != null && countAttack > 0)
-            {
-                var clip = AnimatorClip[0].clip;
-                var animName = $"{AnimationName.Attack}{countAttack}";
-                if(clip.name == animName)
-                {
-                    result = clip;
-                }
-            }
-            return result;
         }
 
         #endregion
@@ -251,7 +174,7 @@ namespace Character
         void OnDrawGizmosSelected()
         {
             Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(DetectEnemy.position, DetectEnemyRange);
+            Gizmos.DrawWireSphere(DetectEnemyTransform.position, DetectEnemyRange);
         }
     }
 }

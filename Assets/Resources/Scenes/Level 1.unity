@@ -228,9 +228,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1796234040}
     - target: {fileID: 5314867449231800823, guid: 8dfa8f81e4684554099d8a7fbff3db43, type: 3}
+      propertyPath: AttackEnabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5314867449231800823, guid: 8dfa8f81e4684554099d8a7fbff3db43, type: 3}
       propertyPath: FollowEnabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5314867449231800823, guid: 8dfa8f81e4684554099d8a7fbff3db43, type: 3}
+      propertyPath: TimeBetweenCombo
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 5314867449231800823, guid: 8dfa8f81e4684554099d8a7fbff3db43, type: 3}
+      propertyPath: DetectEnemyTransform
+      value: 
+      objectReference: {fileID: 180798997}
     - target: {fileID: 5788707082598853941, guid: 8dfa8f81e4684554099d8a7fbff3db43, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -294,6 +306,11 @@ PrefabInstance:
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 8dfa8f81e4684554099d8a7fbff3db43, type: 3}
+--- !u!4 &180798997 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5124606033839770905, guid: 8dfa8f81e4684554099d8a7fbff3db43, type: 3}
+  m_PrefabInstance: {fileID: 180798996}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &214608298
 GameObject:
   m_ObjectHideFlags: 0

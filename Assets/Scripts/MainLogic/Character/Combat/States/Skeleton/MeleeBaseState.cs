@@ -2,24 +2,21 @@ using System.Collections.Generic;
 using System.Linq;
 using Character.Animators;
 using Character.Interfaces;
-using Collecting;
+using Character.Status;
 using Core.Constants;
-using Infrastructure.InputSystem;
 using UnityEngine;
 
-namespace Character.Combat.States.Player
+namespace Character.Combat.States.Skeleton
 {
     public class MeleeBaseState : State
     {
         public float Duration;
-        protected bool ShouldCombo;
         protected int AttackIndex;
-        protected PlayerCombat PlayerCombat;
+        protected EnemyAI EnemyAI;
         protected IAnimatorController AnimatorController;
         private AnimatorStateInfo AnimationState;
-        private Gold Gold;
-        private List<EnemyStatus> AttackedEnemies = new List<EnemyStatus>();
-
+        public Rigidbody2D Rb;
+        public List<Collider2D> DetectedEnemies;
 
         #region Calculate attack
         protected float MaxDamage;
@@ -28,22 +25,25 @@ namespace Character.Combat.States.Player
         protected bool IsDamaged;
         #endregion
 
-        #region Dependencies
-        protected PlayerInputControl playerInputControl;
-        #endregion 
 
         public override void OnEnter(StateMachine _stateMachine)
         {
             base.OnEnter(_stateMachine);
             AnimatorController = GetComponent<AnimatorController>();
-            Gold = GetComponent<Gold>();
-            PlayerCombat = GetComponent<PlayerCombat>();
-            MaxDamage = PlayerCombat.MaxDamage;
-            EnemyLayers = PlayerCombat.EnemyLayers;
-            HitBox = PlayerCombat.HitBox;
-            playerInputControl = PlayerCombat.PlayerInputControl;
+            EnemyAI = GetComponent<EnemyAI>();
+            Rb = GetComponent<Rigidbody2D>();
+            DetectedEnemies = EnemyAI.DetectedEnemies;
+            MaxDamage = EnemyAI.MaxDamage;
+            EnemyLayers = EnemyAI.EnemyLayers;
+            HitBox = EnemyAI.HitBox;
 
-            playerInputControl.AttackInput.performed += (context) => { SetShouldCombo(); };
+            //look direction
+            var target = DetectedEnemies.FirstOrDefault(x => x.tag == TagName.Player);
+            if(target != null)
+            {
+                Vector2 direction = ((Vector2)target.transform.position - Rb.position).normalized;
+                AnimatorController.FilpCharacter(direction);
+            }
         }
 
         public override void OnUpdate()
@@ -52,12 +52,6 @@ namespace Character.Combat.States.Player
             AnimationState = AnimatorController.Animator.GetCurrentAnimatorStateInfo(0);
 
             Attack();
-            CollectGoldFromDeathEnemy();
-        }
-
-        private void SetShouldCombo()
-        {
-            ShouldCombo = true;
         }
 
         protected void Attack()
@@ -73,9 +67,8 @@ namespace Character.Combat.States.Player
                 //damage them
                 foreach (var hitEnemy in hitEnemies)
                 {
-                    var attackedEnemy = hitEnemy.GetComponent<EnemyStatus>();
+                    var attackedEnemy = hitEnemy.GetComponent<PlayerStatus>();
                     attackedEnemy?.TakeDamage(MaxDamage, HitBox.gameObject);
-                    AttackedEnemies.Add(attackedEnemy);
                     IsDamaged = true;
                 }
             }
@@ -89,22 +82,6 @@ namespace Character.Combat.States.Player
         private bool IsAttacking()
         {
             return AnimationState.IsName($"{AnimationName.Attack}{AttackIndex}");
-        }
-
-        private void CollectGoldFromDeathEnemy()
-        {
-            var deathEnemies = AttackedEnemies.Where(x => x.IsDeath).ToList();
-            foreach(var deathEnemy in deathEnemies)
-            {
-                if(deathEnemy.GetIsCollectedGold() == false)
-                {
-                    Debug.Log($"Collect gold enemy : {deathEnemy.name}");
-                    Gold.Collect(deathEnemy.Type);
-                    deathEnemy.SetIsCollectedGold(true);
-                    AttackedEnemies.Remove(deathEnemy);
-                }
-
-            }
         }
     }
   

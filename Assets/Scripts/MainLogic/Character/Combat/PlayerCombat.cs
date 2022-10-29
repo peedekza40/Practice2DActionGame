@@ -25,7 +25,7 @@ namespace Character.Combat
         public float TimeBetweenBlock = 0.6f;
         public bool IsPressingBlock { get; private set; }
 
-        private StateMachine MeleeStateMachine;
+        private StateMachine CombatStateMachine;
 
         #region Dependencies
         private IAppSettingsContext appSettingsContext;
@@ -48,7 +48,7 @@ namespace Character.Combat
             ReduceDamagePercent = appSettingsContext.Configure.Combat.Blocking.DefaultReduceDamagePercent;
             TimeBetweenBlock = appSettingsContext.Configure.Combat.Blocking.DefaultTimeBetweenBlock;
 
-            MeleeStateMachine = GetComponents<StateMachine>().FirstOrDefault(x => x.Id == StateId.Combat); 
+            CombatStateMachine = GetComponents<StateMachine>().FirstOrDefault(x => x.Id == StateId.Combat); 
         }
 
         private void Start() 
@@ -68,27 +68,27 @@ namespace Character.Combat
 
         private void SetMeleeState()
         {
-            if(MeleeStateMachine.CurrentState.GetType() == typeof(IdleCombatState))
+            if(CombatStateMachine.IsCurrentState(typeof(IdleCombatState)))
             {
-                MeleeStateMachine.SetNextState(new MeleeEntryState());
+                CombatStateMachine.SetNextState(new MeleeEntryState());
             }
         }
 
         private void StartBlockState()
         {
             IsPressingBlock = true;
-            if(MeleeStateMachine.CurrentState.GetType() == typeof(IdleCombatState))
+            if(CombatStateMachine.IsCurrentState(typeof(IdleCombatState)))
             {
-                MeleeStateMachine.SetNextState(new BlockingState());
+                CombatStateMachine.SetNextState(new BlockingState());
             }
         }
 
         private void FinishBlockState()
         {
             IsPressingBlock = false;
-            if(MeleeStateMachine.CurrentState.GetType() == typeof(BlockingState))
+            if(CombatStateMachine.IsCurrentState(typeof(BlockingState)))
             {
-                MeleeStateMachine.SetNextState(new BlockFinisherState());
+                CombatStateMachine.SetNextState(new BlockFinisherState());
             }
         }
     }
