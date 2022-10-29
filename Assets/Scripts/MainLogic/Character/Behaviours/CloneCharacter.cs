@@ -3,7 +3,7 @@ using Infrastructure.Entity;
 using UnityEngine;
 using Zenject;
 
-namespace Character.Behaviors
+namespace Character.Behaviours
 {
     public class CloneCharacter : MonoBehaviour
     {

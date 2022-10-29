@@ -730,6 +730,7 @@ GameObject:
   - component: {fileID: 8009742133586685725}
   - component: {fileID: 8540314856595276207}
   - component: {fileID: 1414267861562293321}
+  - component: {fileID: 7772816353031898668}
   - component: {fileID: 2857814233077467273}
   - component: {fileID: 2116110698740693234}
   - component: {fileID: 5314867449231800823}
@@ -762,7 +763,7 @@ Transform:
   - {fileID: 5124606033839770905}
   - {fileID: 3197656211200406714}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &8009742133586685725
 Rigidbody2D:
@@ -814,6 +815,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Id: 0
+--- !u!114 &7772816353031898668
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8511704446154591096}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c71f1e55ef2f834b9cb18078f979235, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Id: 1
 --- !u!114 &2857814233077467273
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -988,7 +1002,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   KnockBackRange: 3
-  KnockBackTime: 1
+  KnockBackDuration: 1
   CenterTransform: {fileID: 7360257916326082872}
 --- !u!114 &1787282014
 MonoBehaviour:

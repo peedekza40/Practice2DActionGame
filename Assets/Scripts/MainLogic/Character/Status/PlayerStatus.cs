@@ -37,8 +37,8 @@ namespace Character.Status
             bool isBlocking = CombatStateMachine.IsCurrentState(typeof(BlockingState));
             if(isBlocking)
             {
-                bool isPressBlockThisFrame = CombatStateMachine.GetCurrentStateTime() <= 0.15;
-                if(isPressBlockThisFrame)
+                bool isParry = CombatStateMachine.IsCurrentState(typeof(BlockParryState));
+                if(isParry)
                 {
                     reduceDamage = damage;
                     BlockFlashAnimatorController.TriggerParryEffect();

@@ -23,6 +23,7 @@ namespace Character.Combat
         [Range(0, 100)]
         public float ReduceDamagePercent = 5f;
         public float TimeBetweenBlock = 0.6f;
+        public float ParryDurtation = 0.15f;
         public bool IsPressingBlock { get; private set; }
 
         private StateMachine CombatStateMachine;
@@ -68,7 +69,7 @@ namespace Character.Combat
 
         private void SetMeleeState()
         {
-            if(CombatStateMachine.IsCurrentState(typeof(IdleCombatState)))
+            if(CombatStateMachine.IsCurrentState(typeof(IdleCombatState)) || CombatStateMachine.IsCurrentState(typeof(BlockFinisherState)))
             {
                 CombatStateMachine.SetNextState(new MeleeEntryState());
             }
@@ -79,7 +80,7 @@ namespace Character.Combat
             IsPressingBlock = true;
             if(CombatStateMachine.IsCurrentState(typeof(IdleCombatState)))
             {
-                CombatStateMachine.SetNextState(new BlockingState());
+                CombatStateMachine.SetNextState(new BlockParryState());
             }
         }
 

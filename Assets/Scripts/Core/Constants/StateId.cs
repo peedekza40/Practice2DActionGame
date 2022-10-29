@@ -2,6 +2,7 @@ namespace Constants
 {
     public enum StateId
     {
-        Combat
+        Combat,
+        Behaviour
     }
 }

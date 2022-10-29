@@ -4,7 +4,7 @@ using Infrastructure.Extensions;
 using UnityEngine;
 using Zenject;
 
-namespace Character.Behaviors
+namespace Character.Behaviours
 {
     public class ObjectDropItems : MonoBehaviour
     {

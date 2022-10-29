@@ -1,4 +1,5 @@
 using System;
+using Character.Behaviours.States;
 using Character.Combat.States;
 using Constants;
 using UnityEngine;
@@ -76,13 +77,24 @@ public class StateMachine : MonoBehaviour
                 case StateId.Combat : 
                     mainStateType = new IdleCombatState();
                     break;
+                case StateId.Behaviour :
+                    mainStateType = new IdleBehaviourState();
+                    break;
             }
         }
     }
 
     public bool IsCurrentState(Type stateType)
     {
-        return currentState?.GetType() == stateType;
+        Type tempType = currentState?.GetType();
+        bool result = false;
+        while(tempType != null && result == false)
+        {
+            result = tempType == stateType;
+            tempType = tempType.BaseType;
+        }
+
+        return result;
     }
 
     public float GetCurrentStateTime()

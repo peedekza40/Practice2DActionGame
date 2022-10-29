@@ -1,7 +1,10 @@
 using System.Collections;
+using System.Linq;
+using Character.Combat.States.Player;
+using Constants;
 using UnityEngine;
 
-namespace Character.Behaviors
+namespace Character.Behaviours
 {
     public class FlashEffect : MonoBehaviour
     {
@@ -12,9 +15,11 @@ namespace Character.Behaviors
 
         private Material OriginalMaterial;
         private Coroutine FlashRoutine;
+        private StateMachine CombatStateMachine;
 
         private void Awake() 
         {
+            CombatStateMachine = GetComponents<StateMachine>().FirstOrDefault(x => x.Id == StateId.Combat);
             OriginalMaterial = SpriteRenderer.material;
         }
 
@@ -24,7 +29,11 @@ namespace Character.Behaviors
             {
                 StopCoroutine(FlashRoutine);
             }
-            FlashRoutine = StartCoroutine(WaitFlash());
+            
+            if(CombatStateMachine.IsCurrentState(typeof(BlockParryState)) == false)
+            {
+                FlashRoutine = StartCoroutine(WaitFlash());
+            }
         }
 
         private IEnumerator WaitFlash()

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
-using Character.Behaviors;
+using Character.Behaviours;
 using Character.Combat.States;
 using Character.Interfaces;
 using Constants;

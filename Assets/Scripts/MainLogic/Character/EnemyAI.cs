@@ -3,11 +3,12 @@ using UnityEngine;
 using Pathfinding;
 using System.Linq;
 using Core.Constants;
-using Character.Behaviors;
+using Character.Behaviours;
 using Character.Interfaces;
 using Constants;
 using Character.Combat.States;
 using Character.Combat.States.Skeleton;
+using Character.Behaviours.States;
 
 namespace Character
 {
@@ -35,6 +36,7 @@ namespace Character
         public LayerMask EnemyLayers;
         public List<Collider2D> DetectedEnemies { get; private set; } = new List<Collider2D>();
         private StateMachine CombatStateMachine;
+        private StateMachine BehaviourStateMachine;
 
         [Header("Custom Behavior")]
         public bool FollowEnabled = true;
@@ -45,6 +47,7 @@ namespace Character
         private Path Path;
         private int CurrentWaypoint = 0;
         private bool IsGrounded = false;
+        private bool IsKnockingBack = false;
         private Seeker Seeker;
         private Rigidbody2D Rb;
         private KnockBack KnockBack;
@@ -59,6 +62,7 @@ namespace Character
             KnockBack = GetComponent<KnockBack>();
             AnimatorController = GetComponent<IAnimatorController>();
             CombatStateMachine = GetComponents<StateMachine>().FirstOrDefault(x => x.Id == StateId.Combat);
+            BehaviourStateMachine = GetComponents<StateMachine>().FirstOrDefault(x => x.Id == StateId.Behaviour);
         }
 
         private void Start()
@@ -72,7 +76,8 @@ namespace Character
             AnimatorClip = AnimatorController.Animator.GetCurrentAnimatorClipInfo(0);
 
             bool isIdleCombat = CombatStateMachine.IsCurrentState(typeof(IdleCombatState));
-            if(TargetInDistance() && FollowEnabled && isIdleCombat && KnockBack.IsKnockingBack == false)
+            IsKnockingBack = BehaviourStateMachine.IsCurrentState(typeof(KnockBackState));
+            if(TargetInDistance() && FollowEnabled && isIdleCombat && IsKnockingBack == false)
             {
                 PathFollow();
             }
@@ -135,7 +140,7 @@ namespace Character
             }
 
             //Direction Graphics Handling
-            if(DirectionLookEnabled && KnockBack.IsKnockingBack == false)
+            if(DirectionLookEnabled && IsKnockingBack == false)
             {
                 AnimatorController.FilpCharacter();
             }
