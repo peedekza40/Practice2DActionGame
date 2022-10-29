@@ -2,7 +2,7 @@ using Core.Configs;
 using SqlCipher4Unity3D;
 using UnityEngine;
 
-namespace Infrastructure.Entity
+namespace Infrastructure.Entities
 {
     public class DbContextBuilder
     {

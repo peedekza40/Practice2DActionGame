@@ -1,10 +1,10 @@
 using Core.Constants;
-using Infrastructure.Entity;
+using Infrastructure.Entities;
 
 namespace Core.Repositories
 {
     public interface IEnemyConfigRepository
     {
-        EnemyConfig GetByType(EnemyType type);
+        EnemyConfig GetById(EnemyId type);
     }
 }

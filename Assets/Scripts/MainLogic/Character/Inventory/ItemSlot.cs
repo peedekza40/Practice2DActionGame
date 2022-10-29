@@ -12,6 +12,7 @@ namespace Character.Inventory
         public RectTransform SlotTransform { get; private set; }
         public Transform ItemTransform { get; private set; }
         public Image ItemImage { get; private set; }
+        public Image WeaponImage { get; private set; }
         public TextMeshProUGUI ItemAmountText { get; private set; }
         public MouseEvent ItemMouseEvent { get; private set; }
 
@@ -23,6 +24,7 @@ namespace Character.Inventory
             SlotTransform = GetComponent<RectTransform>();
             ItemTransform = SlotTransform.Find(GameObjectName.Item);
             ItemImage = ItemTransform.Find(GameObjectName.ItemImage).GetComponent<Image>();
+            WeaponImage = ItemTransform.Find(GameObjectName.WeaponImage).GetComponent<Image>();
             ItemAmountText = ItemTransform.Find(GameObjectName.ItemAmount).GetComponent<TextMeshProUGUI>();
             ItemMouseEvent = SlotTransform.GetComponent<MouseEvent>();
             Inventory = GetComponentInParent<InventoryManagement>();
@@ -44,8 +46,19 @@ namespace Character.Inventory
             ItemTransform.gameObject.SetActive(true);
 
             //set image item
-            ItemImage.sprite = item.Sprite;
-            ItemImage.gameObject.SetActive(true);
+            if(item.IsWeapon)
+            {
+                WeaponImage.sprite = item.Sprite;
+                WeaponImage.gameObject.SetActive(true);
+                ItemImage.gameObject.SetActive(false);
+            }
+            else
+            {
+                ItemImage.sprite = item.Sprite;
+                ItemImage.gameObject.SetActive(true);
+                WeaponImage.gameObject.SetActive(false);
+            }
+
 
             //set amount
             if(item.IsStackable)
@@ -70,7 +83,9 @@ namespace Character.Inventory
 
             //set image item
             ItemImage.sprite = null;
+            WeaponImage.sprite = null;
             ItemImage.gameObject.SetActive(false);
+            WeaponImage.gameObject.SetActive(false);
 
             //set amount
             ItemAmountText.SetText("0");

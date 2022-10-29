@@ -7,6 +7,7 @@ namespace Core.Constants
         public const string SlotFrame = "SlotFrame";
         public const string Item = "Item";
         public const string ItemImage = "ItemImage";
+        public const string WeaponImage = "WeaponImage";
         public const string ItemAmount = "ItemAmount";
         public const string Amount = "Amount";
         public const string UsingAmount = "UsingAmount";

@@ -5,7 +5,7 @@ using Core.Configs;
 using Core.Constant;
 using Core.Constants;
 using Core.Repositories;
-using Infrastructure.Entity;
+using Infrastructure.Entities;
 using Infrastructure.InputSystem;
 using TMPro;
 using UnityEngine;

@@ -6,7 +6,7 @@ namespace Character
 {
     public class EnemyStatus : CharacterStatus
     {
-        public EnemyType Type;
+        public EnemyId Type;
 
         private EnemyAI EnemyAi;
         private bool IsCollectedGold;

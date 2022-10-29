@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using Core.Repositories;
-using Infrastructure.Entity;
+using Infrastructure.Entities;
 using SqlCipher4Unity3D;
 using Zenject;
 

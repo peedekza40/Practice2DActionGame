@@ -1,5 +1,5 @@
 using Core.Repositories;
-using Infrastructure.Entity;
+using Infrastructure.Entities;
 using UnityEngine;
 using Zenject;
 
@@ -49,7 +49,7 @@ namespace Character.Behaviours
 
         private GameObject GetTemplate()
         {
-            EnemyConfig enemyConfig = enemyConfigRepository.GetByType(EnemyStatus.Type);
+            EnemyConfig enemyConfig = enemyConfigRepository.GetById(EnemyStatus.Type);
             GameObject template = Resources.Load<GameObject>(enemyConfig.PrefabPath);
             if(template == null)
             {

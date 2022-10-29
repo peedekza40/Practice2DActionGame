@@ -1,6 +1,6 @@
 using SQLite.Attributes;
 
-namespace Infrastructure.Entity
+namespace Infrastructure.Entities
 {
     [UnityEngine.Scripting.Preserve]
     public class StatsConfig
@@ -8,6 +8,9 @@ namespace Infrastructure.Entity
         [PrimaryKey] 
         [AutoIncrement]
         public int Id { get; set; }
+        
+        [NotNull]
+        [Unique]
         public string Code { get; set; }
         public string Name { get; set; }
         public string MainIconPath { get; set; }

@@ -1,5 +1,5 @@
 using Core.Constants;
-using Infrastructure.Entity;
+using Infrastructure.Entities;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;

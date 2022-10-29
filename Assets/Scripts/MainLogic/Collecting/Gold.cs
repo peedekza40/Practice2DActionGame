@@ -48,11 +48,11 @@ namespace Collecting
             GoldLabelTransform.gameObject.SetActive(!statisticIsOpen);
         }
 
-        public void Collect(EnemyType attackedEnemyType)
+        public void Collect(EnemyId attackedEnemyType)
         {
             switch(attackedEnemyType)
             {
-                case EnemyType.Skeleton :
+                case EnemyId.Skeleton :
                     Amount += Random.Range(50, 70);;
                     break; 
                 default :

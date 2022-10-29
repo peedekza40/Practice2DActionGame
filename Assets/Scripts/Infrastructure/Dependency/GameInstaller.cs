@@ -1,7 +1,7 @@
 using Core.Configs;
 using Core.DataPersistence;
 using Core.Repositories;
-using Infrastructure.Entity;
+using Infrastructure.Entities;
 using Infrastructure.InputSystem;
 using Infrastructure.Repositories;
 using UnityEngine;

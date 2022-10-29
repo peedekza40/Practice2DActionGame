@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using Infrastructure.Entity;
+using Infrastructure.Entities;
 
 namespace Core.Repositories
 {

@@ -6,7 +6,8 @@ namespace Collecting
 {
     public class ItemWorld : MonoBehaviour
     {
-        public SpriteRenderer SpriteRenderer;
+        public SpriteRenderer DefaultSprite;
+        public SpriteRenderer WeaponSprite;
         public float WaitCollectingTime = 2f;
 
         public bool IsCanCollect { get; private set; }
@@ -30,7 +31,17 @@ namespace Collecting
         public void SetItem(ItemModel item)
         {
             Item = item;
-            SpriteRenderer.sprite = item.Sprite;
+
+            if(item.IsWeapon)
+            {
+                WeaponSprite.sprite = item.Sprite;
+                WeaponSprite.gameObject.SetActive(true);
+            }
+            else
+            {
+                DefaultSprite.sprite = item.Sprite;
+                DefaultSprite.gameObject.SetActive(true);
+            }
         }
 
         public ItemModel GetItem()
