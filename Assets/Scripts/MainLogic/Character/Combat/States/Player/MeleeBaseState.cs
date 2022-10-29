@@ -73,8 +73,9 @@ namespace Character.Combat.States.Player
                 //damage them
                 foreach (var hitEnemy in hitEnemies)
                 {
+                    var randomDamage = Random.Range(MaxDamage * 0.9f, MaxDamage);
                     var attackedEnemy = hitEnemy.GetComponent<EnemyStatus>();
-                    attackedEnemy?.TakeDamage(MaxDamage, HitBox.gameObject);
+                    attackedEnemy?.TakeDamage(randomDamage, HitBox.gameObject);
                     AttackedEnemies.Add(attackedEnemy);
                     IsDamaged = true;
                 }

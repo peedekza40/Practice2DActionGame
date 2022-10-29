@@ -1,7 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using Character.Behaviours;
+using Character.Behaviours.States;
 using Character.Combat.States;
+using Character.Combat.States.Player;
 using Character.Interfaces;
 using Constants;
 using Core.DataPersistence;
@@ -32,7 +34,7 @@ namespace Character
         private Vector3 _lastPosition;
         private float _currentHorizontalSpeed, _currentVerticalSpeed;
         private StateMachine CombatStateMachine;
-        private KnockBack KnockBack;
+        private StateMachine BehaviourStateMachine;
         private bool IsCanMove;
 
         #region Dependencies
@@ -48,7 +50,7 @@ namespace Character
         {
             Invoke(nameof(Activate), 0.5f);
             CombatStateMachine = GetComponents<StateMachine>().FirstOrDefault(x => x.Id == StateId.Combat);
-            KnockBack = GetComponent<KnockBack>();
+            BehaviourStateMachine = GetComponents<StateMachine>().FirstOrDefault(x => x.Id == StateId.Behaviour);
         }
         
         private void Start()
@@ -64,7 +66,10 @@ namespace Character
             Velocity = (transform.position - _lastPosition) / Time.deltaTime;
             _lastPosition = transform.position;
 
-            IsCanMove = CombatStateMachine.IsCurrentState(typeof(IdleCombatState));
+            bool isIdleCombat = CombatStateMachine.IsCurrentState(typeof(IdleCombatState));
+            bool isBlockFinish = CombatStateMachine.IsCurrentState(typeof(BlockFinisherState));
+            bool isKnockingBack = BehaviourStateMachine.IsCurrentState(typeof(KnockBackState));
+            IsCanMove = (isIdleCombat || isBlockFinish) && isKnockingBack == false;
 
             GatherInput();
             RunCollisionChecks();

@@ -52,6 +52,7 @@ namespace Character.Combat.States.Skeleton
             AnimationState = AnimatorController.Animator.GetCurrentAnimatorStateInfo(0);
 
             Attack();
+            AnimatorController.SetIsAttacking(IsAttacking());
         }
 
         protected void Attack()
@@ -67,8 +68,9 @@ namespace Character.Combat.States.Skeleton
                 //damage them
                 foreach (var hitEnemy in hitEnemies)
                 {
+                    var randomDamage = Random.Range(MaxDamage * 0.9f, MaxDamage);
                     var attackedEnemy = hitEnemy.GetComponent<PlayerStatus>();
-                    attackedEnemy?.TakeDamage(MaxDamage, HitBox.gameObject);
+                    attackedEnemy?.TakeDamage(randomDamage, HitBox.gameObject);
                     IsDamaged = true;
                 }
             }
