@@ -13,17 +13,12 @@ namespace Infrastructure.Dependency
     {
         public override void InstallBindings()
         {
+            Container.Bind<IAppSettingsContext>().To<AppSettingsContext>().FromComponentInHierarchy().AsTransient();
             Container.Bind<DataPersistenceManager>().FromComponentInHierarchy().AsSingle();
             Container.Bind<PlayerInputControl>().FromComponentInHierarchy().AsSingle();
 
-            AppSettingsModel configure = new AppSettingsModel();
-            Container.Bind<IAppSettingsContext>()
-                .FromInstance(new AppSettingsContext(configure))
-                .AsSingle()
-                .NonLazy();
-            Container.Bind<DbContextBuilder>()
-                .AsSingle()
-                .WithArguments(configure);
+            AppSettingsModel config = Container.Resolve<IAppSettingsContext>().Config;
+            Container.Bind<DbContextBuilder>().AsSingle().WithArguments(config);
             Container.Bind<IStatsConfigRepository>().To<StatsConfigRepository>().AsSingle();
             Container.Bind<IItemConfigRepository>().To<ItemConfigRepository>().AsSingle();
             Container.Bind<IEnemyConfigRepository>().To<EnemyConfigRepository>().AsSingle();

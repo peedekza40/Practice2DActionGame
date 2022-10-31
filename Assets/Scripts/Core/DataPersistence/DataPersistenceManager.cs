@@ -1,13 +1,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
-using Character;
 using UnityEngine.SceneManagement;
 using Core.DataPersistence.Data;
-using Core.Configs;
-using Zenject;
 using Character.Combat;
 using Character.Status;
+using Core.Configs;
 
 namespace Core.DataPersistence
 {

@@ -3,13 +3,17 @@ using Character.Combat.States;
 using Character.Combat.States.Player;
 using Constants;
 using Core.Configs;
+using Core.DataPersistence;
+using Core.DataPersistence.Data;
 using Infrastructure.InputSystem;
 using UnityEngine;
 using Zenject;
 
 namespace Character.Combat
 {
-    public class PlayerCombat : MonoBehaviour
+    public class PlayerCombat : MonoBehaviour, 
+        IDataPersistence, 
+        IAppSettingsPersistence
     {
         [Header("Attack")]
         public float MaxDamage = 10f;
@@ -29,26 +33,18 @@ namespace Character.Combat
         private StateMachine CombatStateMachine;
 
         #region Dependencies
-        private IAppSettingsContext appSettingsContext;
         public PlayerInputControl PlayerInputControl { get; private set; }
         #endregion 
 
         [Inject]
         public void Init(
-            IAppSettingsContext appSettingsContext,
             PlayerInputControl playerInputControl)
         {
-            this.appSettingsContext = appSettingsContext;
             PlayerInputControl = playerInputControl;
         }
 
         private void Awake() 
         {
-            MaxDamage = appSettingsContext.Configure.Combat.Attacking.DefaultDamage;
-            AttackDuration = appSettingsContext.Configure.Combat.Attacking.DefaultAttackDuration;
-            ReduceDamagePercent = appSettingsContext.Configure.Combat.Blocking.DefaultReduceDamagePercent;
-            TimeBetweenBlock = appSettingsContext.Configure.Combat.Blocking.DefaultTimeBetweenBlock;
-
             CombatStateMachine = GetComponents<StateMachine>().FirstOrDefault(x => x.Id == StateId.Combat); 
         }
 
@@ -92,5 +88,35 @@ namespace Character.Combat
                 CombatStateMachine.SetNextState(new BlockFinisherState());
             }
         }
+
+        #region IDataPersistence
+        public void LoadData(GameDataModel data)
+        {
+            MaxDamage = data.PlayerData.AttackMaxDamage;
+            AttackDuration = data.PlayerData.AttackDuration;
+            ReduceDamagePercent = data.PlayerData.ReduceDamagePercent;
+            TimeBetweenBlock = data.PlayerData.TimeBetweenBlock;
+        }
+
+        public void SaveData(GameDataModel data)
+        {
+            data.PlayerData.AttackMaxDamage = MaxDamage;
+            data.PlayerData.AttackDuration = AttackDuration;
+            data.PlayerData.ReduceDamagePercent = ReduceDamagePercent;
+            data.PlayerData.TimeBetweenBlock = TimeBetweenBlock;
+        }
+        #endregion
+
+        #region IAppSettingsPersistence
+        public int SeqNo { get; private set; } = 1;
+        
+        public void SetConfig(AppSettingsModel config)
+        {
+            MaxDamage = config.Combat.Attacking.DefaultDamage;
+            AttackDuration = config.Combat.Attacking.DefaultAttackDuration;
+            ReduceDamagePercent = config.Combat.Blocking.DefaultReduceDamagePercent;
+            TimeBetweenBlock = config.Combat.Blocking.DefaultTimeBetweenBlock;
+        }
+        #endregion
     }
 }

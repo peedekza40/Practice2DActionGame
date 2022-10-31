@@ -695,7 +695,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MaxDamage: 10
-  AttackDuration: 0.4
+  AttackDuration: 0.6
   TimeBetweenCombo: 0.15
   HitBox: {fileID: 4495012563492310587}
   EnemyLayers:
@@ -987,6 +987,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5440259993435574166, guid: 0403c0e027058c74ba300f564f1df02b, type: 3}
       propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6951321438017058103, guid: 0403c0e027058c74ba300f564f1df02b, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6951321438017058103, guid: 0403c0e027058c74ba300f564f1df02b, type: 3}
+      propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7090253593889613241, guid: 0403c0e027058c74ba300f564f1df02b, type: 3}

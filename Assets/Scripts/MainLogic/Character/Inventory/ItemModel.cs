@@ -10,7 +10,7 @@ namespace Character.Inventory
     [Serializable]
     public class ItemModel
     {
-        public Guid Id;
+        public Guid InstanceId;
         public ItemId Type;
         public int Amount;
         public bool IsStackable { get; private set; }
@@ -34,7 +34,7 @@ namespace Character.Inventory
 
         public void Setup(ItemId type, int amount = 1)
         {
-            Id = Guid.NewGuid();
+            InstanceId = Guid.NewGuid();
             Type = type;
             Amount = amount;
 

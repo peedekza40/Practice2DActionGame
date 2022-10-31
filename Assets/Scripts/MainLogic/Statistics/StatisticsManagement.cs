@@ -16,7 +16,9 @@ using Zenject;
 
 namespace Statistics
 {
-    public class StatisticsManagement : MonoBehaviour, IUIPersistence
+    public class StatisticsManagement : MonoBehaviour, 
+        IUIPersistence, 
+        IAppSettingsPersistence
     {
         [Header("UI")]
         public Transform StatsContainerTransform;
@@ -49,7 +51,6 @@ namespace Statistics
         #endregion
 
         #region Dependencies
-        private IAppSettingsContext appSettingsContext;
         private IStatsConfigRepository statsConfigRepository;
         private PlayerInputControl playerInputControl;
         #endregion
@@ -62,12 +63,10 @@ namespace Statistics
 
         [Inject]
         public void Init(
-            IAppSettingsContext appSettingsContext,
             IStatsConfigRepository statsConfigRepository,
             PlayerInputControl playerInputControl
         )
         {
-            this.appSettingsContext = appSettingsContext;
             this.statsConfigRepository = statsConfigRepository;
             this.playerInputControl = playerInputControl;
         }
@@ -78,11 +77,6 @@ namespace Statistics
             MouseEvent = StatsContainerTransform.GetComponentInParent<MouseEvent>();
             PlayerHandler = FindObjectsOfType<PlayerHandler>().FirstOrDefault();
 
-            DefaultAttackDuration = appSettingsContext.Configure.Combat.Attacking.DefaultAttackDuration;
-            MaxDecreasaeTimeBetweenAttack = appSettingsContext.Configure.Combat.Attacking.MaxDecreasaeTimeBetweenAttack;
-            DefaultTimeBetweenBlock = appSettingsContext.Configure.Combat.Blocking.DefaultTimeBetweenBlock;
-            MaxDecreasaeTimeBetweenBlock = appSettingsContext.Configure.Combat.Blocking.MaxDecreasaeTimeBetweenBlock;
-
             if(PlayerHandler == null)
             {
                 Debug.LogError("Can't find Player object on this scene.");
@@ -92,8 +86,6 @@ namespace Statistics
 
         private void Start() 
         {
-            DrawStatsRow();
-
             ClearButton.onClick.AddListener(() => ClearNextStats());
             SubmitButton.onClick.AddListener(() => SubmitNextStats());
 
@@ -342,6 +334,20 @@ namespace Statistics
         {
             return (CurrentGoldAmount - UsingGoldAmount) >= UseGoldAmount;
         }
+
+        #region IAppSettingsPersistence
+        public int SeqNo { get; private set; } = 2;
+        
+        public void SetConfig(AppSettingsModel config)
+        {
+            DefaultAttackDuration = config.Combat.Attacking.DefaultAttackDuration;
+            MaxDecreasaeTimeBetweenAttack = config.Combat.Attacking.MaxDecreaseTimeBetweenAttack;
+            DefaultTimeBetweenBlock = config.Combat.Blocking.DefaultTimeBetweenBlock;
+            MaxDecreasaeTimeBetweenBlock = config.Combat.Blocking.MaxDecreaseTimeBetweenBlock;
+
+            DrawStatsRow();
+        }
+        #endregion
     }
 
 }

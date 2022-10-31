@@ -9,30 +9,25 @@ namespace Character.Inventory
 {
     public class ItemSlot : MonoBehaviour, IDropHandler
     {
-        public RectTransform SlotTransform { get; private set; }
-        public Transform ItemTransform { get; private set; }
-        public Image ItemImage { get; private set; }
-        public Image WeaponImage { get; private set; }
-        public TextMeshProUGUI ItemAmountText { get; private set; }
-        public MouseEvent ItemMouseEvent { get; private set; }
+        [Header("UI")]
+        public RectTransform SlotTransform;
+        public Transform ItemTransform;
+        public Image ItemImage;
+        public TextMeshProUGUI ItemAmountText;
 
-        public Guid ItemId { get; private set; }
+        public Guid ItemInstanceId { get; private set; }
         private InventoryManagement Inventory;
+        public MouseEvent ItemMouseEvent { get; private set; }
 
         private void Awake() 
         {
-            SlotTransform = GetComponent<RectTransform>();
-            ItemTransform = SlotTransform.Find(GameObjectName.Item);
-            ItemImage = ItemTransform.Find(GameObjectName.ItemImage).GetComponent<Image>();
-            WeaponImage = ItemTransform.Find(GameObjectName.WeaponImage).GetComponent<Image>();
-            ItemAmountText = ItemTransform.Find(GameObjectName.ItemAmount).GetComponent<TextMeshProUGUI>();
             ItemMouseEvent = SlotTransform.GetComponent<MouseEvent>();
             Inventory = GetComponentInParent<InventoryManagement>();
         }
 
         private void Update() 
         {
-            GetComponent<DragDropItem>().enabled = ItemId != Guid.Empty;
+            GetComponent<DragDropItem>().enabled = ItemInstanceId != Guid.Empty;
         }
 
         private void OnDestroy() 
@@ -42,33 +37,27 @@ namespace Character.Inventory
 
         public void SetItemGUI(ItemModel item)
         {
-            ItemId = item.Id;
+            ItemInstanceId = item.InstanceId;
             ItemTransform.gameObject.SetActive(true);
 
             //set image item
             if(item.IsWeapon)
             {
-                WeaponImage.sprite = item.Sprite;
-                WeaponImage.gameObject.SetActive(true);
-                ItemImage.gameObject.SetActive(false);
+                ItemImage.transform.rotation = Quaternion.Euler(0, 0, 45);
             }
-            else
-            {
-                ItemImage.sprite = item.Sprite;
-                ItemImage.gameObject.SetActive(true);
-                WeaponImage.gameObject.SetActive(false);
-            }
+            ItemImage.sprite = item.Sprite;
+            ItemImage.gameObject.SetActive(true);
 
 
             //set amount
             if(item.IsStackable)
             {
-                ItemAmountText.SetText(item.Amount.ToString(Formatter.Amount));
-                ItemAmountText.gameObject.SetActive(true);
+                ItemAmountText?.SetText(item.Amount.ToString(Formatter.Amount));
+                ItemAmountText?.gameObject.SetActive(true);
             }
             else
             {
-                ItemAmountText.gameObject.SetActive(false);
+                ItemAmountText?.gameObject.SetActive(false);
             }
 
             //set onclick
@@ -78,18 +67,16 @@ namespace Character.Inventory
 
         public void ClearItemGUI()
         {
-            ItemId = Guid.Empty;
+            ItemInstanceId = Guid.Empty;
             ItemTransform.gameObject.SetActive(false);
 
             //set image item
             ItemImage.sprite = null;
-            WeaponImage.sprite = null;
             ItemImage.gameObject.SetActive(false);
-            WeaponImage.gameObject.SetActive(false);
 
             //set amount
-            ItemAmountText.SetText("0");
-            ItemAmountText.gameObject.SetActive(false);
+            ItemAmountText?.SetText("0");
+            ItemAmountText?.gameObject.SetActive(false);
 
             //set onclick
             ItemMouseEvent.OnLeftClick.RemoveAllListeners();
@@ -99,13 +86,13 @@ namespace Character.Inventory
         public void OnDrop(PointerEventData eventData)
         {
             ItemSlot slot = eventData.pointerDrag.GetComponent<ItemSlot>();
-            if(slot != null && slot?.ItemId != null)
+            if(slot != null && slot?.ItemInstanceId != null)
             {
-                if(ItemId == Guid.Empty)
+                if(ItemInstanceId == Guid.Empty)
                 {
                     //set this item slot
                     ClearItemGUI();
-                    SetItemGUI(Inventory.GetItem(slot.ItemId));
+                    SetItemGUI(Inventory.GetItem(slot.ItemInstanceId));
 
                     //clear source item slot
                     slot.ClearItemGUI();

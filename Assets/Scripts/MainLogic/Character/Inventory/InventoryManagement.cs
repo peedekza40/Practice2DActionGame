@@ -27,6 +27,7 @@ namespace Character.Inventory
         
         private List<ItemSlot> Slots { get; set; } = new List<ItemSlot>();
         private List<ItemModel> Items { get; set; } = new List<ItemModel>();
+        public EquipmentSlot WeaponSlot { get; private set; }
 
         private IPlayerController PlayerController;
 
@@ -69,7 +70,7 @@ namespace Character.Inventory
 
         public ItemModel GetItem(System.Guid id)
         {
-            return Items.FirstOrDefault(x => x.Id == id);
+            return Items.FirstOrDefault(x => x.InstanceId == id);
         }
 
         public bool IsFull(ItemModel item)
@@ -144,7 +145,7 @@ namespace Character.Inventory
 
         private ItemModel RemoveItem(ItemModel item)
         {
-            ItemModel removeItem = Items.FirstOrDefault(x => x.Id == item.Id);
+            ItemModel removeItem = Items.FirstOrDefault(x => x.InstanceId == item.InstanceId);
             if(removeItem.IsStackable)
             {
                 removeItem.Amount--;
@@ -174,7 +175,7 @@ namespace Character.Inventory
             List<ItemSlot> tempSlots = new List<ItemSlot>();
             foreach(var item in Items)
             {
-                ItemSlot currentItemInSlot = Slots.FirstOrDefault(x => x.ItemId == item.Id);
+                ItemSlot currentItemInSlot = Slots.FirstOrDefault(x => x.ItemInstanceId == item.InstanceId);
                 if(currentItemInSlot != null)
                 {
                     currentItemInSlot.ClearItemGUI();
@@ -183,7 +184,7 @@ namespace Character.Inventory
                 }
                 else
                 {
-                    ItemSlot slot = Slots.FirstOrDefault(x => x.ItemId == System.Guid.Empty);
+                    ItemSlot slot = Slots.FirstOrDefault(x => x.ItemInstanceId == System.Guid.Empty);
                     slot.SetItemGUI(item);
                     tempSlots.Add(slot);
                 }

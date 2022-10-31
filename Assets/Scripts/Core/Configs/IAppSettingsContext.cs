@@ -1,8 +1,10 @@
+using UnityEngine.Events;
+
 namespace Core.Configs
 {
     public interface IAppSettingsContext
     {
-        AppSettingsModel Configure { get; }
+        AppSettingsModel Config { get; }
         void FetchRemoteConfig();
     }
 }

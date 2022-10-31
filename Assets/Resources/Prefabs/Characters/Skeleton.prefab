@@ -1041,7 +1041,7 @@ MonoBehaviour:
     - item:
         Type: 3
         Amount: 1
-      weight: 1
+      weight: 100
   DropAmount: 3
 --- !u!114 &8969762927044371882
 MonoBehaviour:

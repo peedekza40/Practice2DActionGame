@@ -1,23 +1,30 @@
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Unity.Services.Authentication;
 using Unity.Services.Core;
 using Unity.Services.RemoteConfig;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Core.Configs
 {
-    public class AppSettingsContext : IAppSettingsContext
+
+    [DefaultExecutionOrder(-1)]
+    public class AppSettingsContext : MonoBehaviour, IAppSettingsContext
     {
-        public AppSettingsModel Configure { get; private set; }
+        public AppSettingsModel Config { get; private set; } = new AppSettingsModel();
         public struct UserAttributes {}
         public struct AppAttributes {}
 
-        public AppSettingsContext(AppSettingsModel configure)
+        private List<IAppSettingsPersistence> AppSettingsPersistences;
+
+        private void Awake() 
         {
-            Configure = configure;
+            AppSettingsPersistences = FindAllAppSettingsPersistencesObjects().OrderBy(x => x.SeqNo).ToList();
             SetupRemoteConfig();
         }
-
+        
         public void FetchRemoteConfig()
         {
             RemoteConfigService.Instance.FetchConfigs<UserAttributes, AppAttributes>(new UserAttributes(), new AppAttributes());
@@ -30,8 +37,8 @@ namespace Core.Configs
                 await InitializeRemoteConfigAsync();
             }
             // Add a listener to apply settings when successfully retrieved:
-            RemoteConfigService.Instance.FetchCompleted += ApplyRemoteSettings;
-            
+            RemoteConfigService.Instance.FetchCompleted += (configResponse) => { ApplyRemoteSettings(configResponse); };
+
             // Fetch configuration settings from the remote service:
             FetchRemoteConfig();
         }
@@ -40,21 +47,26 @@ namespace Core.Configs
         {
              // Conditionally update settings, depending on the response's origin:
             switch (configResponse.requestOrigin) {
-            case ConfigOrigin.Default:
-                Debug.Log ("No settings loaded this session; using default values.");
-                break;
-            case ConfigOrigin.Cached:
-                Debug.Log ("No settings loaded this session; using cached values from a previous session.");
-                break;
-            case ConfigOrigin.Remote:
-                Debug.Log ("New settings loaded this session; update values accordingly.");
-                string appSettingsJson = RemoteConfigService.Instance.appConfig.GetJson("AppSettings");
-                if(appSettingsJson != null)
-                {
-                    JsonUtility.FromJsonOverwrite(appSettingsJson, Configure);
-                }
-                break;
-        }
+                case ConfigOrigin.Default:
+                    Debug.Log ("No settings loaded this session; using default values.");
+                    break;
+                case ConfigOrigin.Cached:
+                    Debug.Log ("No settings loaded this session; using cached values from a previous session.");
+                    break;
+                case ConfigOrigin.Remote:
+                    Debug.Log ("New settings loaded this session; update values accordingly.");
+                    string appSettingsJson = RemoteConfigService.Instance.appConfig.GetJson("AppSettings");
+                    if(appSettingsJson != null)
+                    {
+                        JsonUtility.FromJsonOverwrite(appSettingsJson, Config);
+                    }
+                    break;
+            }
+
+            foreach(var item in AppSettingsPersistences)
+            {
+                item.SetConfig(Config);
+            }
         }
 
         private async Task InitializeRemoteConfigAsync()
@@ -70,5 +82,10 @@ namespace Core.Configs
                 }
         }
 
+        private List<IAppSettingsPersistence> FindAllAppSettingsPersistencesObjects()
+        {
+            IEnumerable<IAppSettingsPersistence> appSettingsPersistences = FindObjectsOfType<MonoBehaviour>().OfType<IAppSettingsPersistence>();
+            return new List<IAppSettingsPersistence>(appSettingsPersistences);
+        }
     }
 }

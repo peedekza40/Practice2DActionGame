@@ -8,9 +8,9 @@ namespace Infrastructure.Entities
     {
         public SQLiteConnection Connection;
 
-        public DbContextBuilder(AppSettingsModel configure)
+        public DbContextBuilder(AppSettingsModel config)
         {
-            Connection = new SQLiteConnection(Application.streamingAssetsPath + configure.Database.Path, configure.Database.Password);
+            Connection = new SQLiteConnection(Application.streamingAssetsPath + config.Database.Path, config.Database.Password);
         }
     }
 }

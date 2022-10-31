@@ -6,8 +6,7 @@ namespace Collecting
 {
     public class ItemWorld : MonoBehaviour
     {
-        public SpriteRenderer DefaultSprite;
-        public SpriteRenderer WeaponSprite;
+        public SpriteRenderer Sprite;
         public float WaitCollectingTime = 2f;
 
         public bool IsCanCollect { get; private set; }
@@ -34,14 +33,10 @@ namespace Collecting
 
             if(item.IsWeapon)
             {
-                WeaponSprite.sprite = item.Sprite;
-                WeaponSprite.gameObject.SetActive(true);
+                Sprite.transform.rotation = Quaternion.Euler(0, 0, 45);
             }
-            else
-            {
-                DefaultSprite.sprite = item.Sprite;
-                DefaultSprite.gameObject.SetActive(true);
-            }
+            Sprite.sprite = item.Sprite;
+            Sprite.gameObject.SetActive(true);
         }
 
         public ItemModel GetItem()
