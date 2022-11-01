@@ -41,10 +41,7 @@ namespace Character.Inventory
             ItemTransform.gameObject.SetActive(true);
 
             //set image item
-            if(item.IsWeapon)
-            {
-                ItemImage.transform.rotation = Quaternion.Euler(0, 0, 45);
-            }
+            ItemImage.transform.rotation = item.IsWeapon ? Quaternion.Euler(0, 0, 45) : Quaternion.Euler(0, 0, 0);
             ItemImage.sprite = item.Sprite;
             ItemImage.gameObject.SetActive(true);
 

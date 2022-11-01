@@ -4088,6 +4088,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5805582979923441631, guid: a508220d80c5043408f44c17b2e802e7, type: 3}
+      propertyPath: InstantiateContainer
+      value: 
+      objectReference: {fileID: 1882977591}
     - target: {fileID: 7539168604530450237, guid: a508220d80c5043408f44c17b2e802e7, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -4654,6 +4658,11 @@ Transform:
 --- !u!4 &1796234040 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8441723458737396292, guid: a508220d80c5043408f44c17b2e802e7, type: 3}
+  m_PrefabInstance: {fileID: 1154909048}
+  m_PrefabAsset: {fileID: 0}
+--- !u!224 &1882977591 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 7965432485438765565, guid: a508220d80c5043408f44c17b2e802e7, type: 3}
   m_PrefabInstance: {fileID: 1154909048}
   m_PrefabAsset: {fileID: 0}
 --- !u!20 &1913385106 stripped

@@ -767,6 +767,7 @@ MonoBehaviour:
   ItemContainerTransform: {fileID: 3985008289060911655}
   SlotTemplate: {fileID: 2804867168166281726}
   SlotAmount: 16
+  WeaponSlot: {fileID: 3258352383462318057}
 --- !u!114 &7115965896707701500
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -941,6 +942,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4971162667115608555, guid: 0403c0e027058c74ba300f564f1df02b, type: 3}
+      propertyPath: InstantiateContainer
+      value: 
+      objectReference: {fileID: 3985008289060911655}
     - target: {fileID: 5127291701047488434, guid: 0403c0e027058c74ba300f564f1df02b, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -1042,6 +1047,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 95bc43a07336721499b7d611ecbca2f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3258352383462318057 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2523254305567131559, guid: 0403c0e027058c74ba300f564f1df02b, type: 3}
+  m_PrefabInstance: {fileID: 1023329038164056142}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 827e86b9813cf914e9a6b197455c132f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!224 &3985008289060911655 stripped

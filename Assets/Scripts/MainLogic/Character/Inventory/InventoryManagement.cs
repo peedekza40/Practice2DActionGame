@@ -24,10 +24,12 @@ namespace Character.Inventory
 
         [Header("Function")]
         public UnityAction<ItemModel> UseItemAction;
+
+        [Header("Equipment")]
+        public EquipmentSlot WeaponSlot;
         
         private List<ItemSlot> Slots { get; set; } = new List<ItemSlot>();
         private List<ItemModel> Items { get; set; } = new List<ItemModel>();
-        public EquipmentSlot WeaponSlot { get; private set; }
 
         private IPlayerController PlayerController;
 
@@ -232,6 +234,7 @@ namespace Character.Inventory
             InventoryContainer.SetActive(IsOpen);
         }
 
+        #region IDataPersistence
         public void LoadData(GameDataModel data)
         {
             Items = data.PlayerData.Items;
@@ -248,6 +251,7 @@ namespace Character.Inventory
         {
             data.PlayerData.Items = Items;
         }
+        #endregion
     }
   
 }

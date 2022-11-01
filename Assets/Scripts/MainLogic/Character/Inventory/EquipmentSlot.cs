@@ -6,7 +6,5 @@ namespace Character.Inventory
     {
         public EquipmentType Type;
         public EquipmentModel Equipment { get; private set; }
-
-        
     }
 }
