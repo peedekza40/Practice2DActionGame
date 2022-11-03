@@ -26,9 +26,9 @@ namespace Character.Inventory
         public UnityAction<ItemModel> UseItemAction;
 
         [Header("Equipment")]
-        public EquipmentSlot WeaponSlot;
+        public List<EquipmentSlot> EquipmentSlots;
         
-        private List<ItemSlot> Slots { get; set; } = new List<ItemSlot>();
+        private List<ItemSlot> ItemSlots { get; set; } = new List<ItemSlot>();
         private List<ItemModel> Items { get; set; } = new List<ItemModel>();
 
         private IPlayerController PlayerController;
@@ -177,33 +177,33 @@ namespace Character.Inventory
             List<ItemSlot> tempSlots = new List<ItemSlot>();
             foreach(var item in Items)
             {
-                ItemSlot currentItemInSlot = Slots.FirstOrDefault(x => x.ItemInstanceId == item.InstanceId);
+                ItemSlot currentItemInSlot = ItemSlots.FirstOrDefault(x => x.ItemInstanceId == item.InstanceId);
                 if(currentItemInSlot != null)
                 {
-                    currentItemInSlot.ClearItemGUI();
-                    currentItemInSlot.SetItemGUI(item);
+                    currentItemInSlot.ClearItemUI();
+                    currentItemInSlot.SetItemUI(item);
                     tempSlots.Add(currentItemInSlot);
                 }
                 else
                 {
-                    ItemSlot slot = Slots.FirstOrDefault(x => x.ItemInstanceId == System.Guid.Empty);
-                    slot.SetItemGUI(item);
+                    ItemSlot slot = ItemSlots.FirstOrDefault(x => x.ItemInstanceId == System.Guid.Empty);
+                    slot.SetItemUI(item);
                     tempSlots.Add(slot);
                 }
             }
 
-            var clearSlots = Slots.Except(tempSlots);
+            var clearSlots = ItemSlots.Except(tempSlots);
             foreach(var clearSlot in clearSlots)
             {
-                clearSlot.ClearItemGUI();
+                clearSlot.ClearItemUI();
             }
         }
 
         private void ClearInventory()
         {
-            foreach (var slot in Slots)
+            foreach (var slot in ItemSlots)
             {
-                slot.ClearItemGUI();
+                slot.ClearItemUI();
             }
         }
 
@@ -221,7 +221,7 @@ namespace Character.Inventory
                 ItemSlot slot = Instantiate(SlotTemplate, ItemContainerTransform);
                 slot.gameObject.SetActive(true);
                 slot.SlotTransform.anchoredPosition = new Vector2((x * slotCellSize) + startAnchoredPosition.x, -(y * slotCellSize) + startAnchoredPosition.y);
-                Slots.Add(slot);
+                ItemSlots.Add(slot);
 
                 x++;
                 if(x > 3)

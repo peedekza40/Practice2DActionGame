@@ -1,10 +1,14 @@
 using System.Linq;
 using Character.Combat.States;
 using Character.Combat.States.Player;
+using Character.Inventory;
 using Constants;
 using Core.Configs;
+using Core.Constants;
 using Core.DataPersistence;
 using Core.DataPersistence.Data;
+using Core.Repositories;
+using Infrastructure.Entities;
 using Infrastructure.InputSystem;
 using UnityEngine;
 using Zenject;
@@ -15,6 +19,9 @@ namespace Character.Combat
         IDataPersistence, 
         IAppSettingsPersistence
     {
+        [Header("UI")]
+        public SpriteRenderer WeaponSprite;
+
         [Header("Attack")]
         public float MaxDamage = 10f;
         public float AttackDuration = 0.4f;
@@ -30,21 +37,26 @@ namespace Character.Combat
         public float ParryDurtation = 0.15f;
         public bool IsPressingBlock { get; private set; }
 
+        public WeaponConfig CurrentWeapon { get; private set; }
         private StateMachine CombatStateMachine;
 
         #region Dependencies
         public PlayerInputControl PlayerInputControl { get; private set; }
+        private IWeaponConfigRepository weaponConfigRepository;
         #endregion 
 
         [Inject]
         public void Init(
-            PlayerInputControl playerInputControl)
+            PlayerInputControl playerInputControl,
+            IWeaponConfigRepository weaponConfigRepository)
         {
             PlayerInputControl = playerInputControl;
+            this.weaponConfigRepository = weaponConfigRepository;
         }
 
         private void Awake() 
         {
+            // SetWeapon(ItemType.SwordTwo);
             CombatStateMachine = GetComponents<StateMachine>().FirstOrDefault(x => x.Id == StateId.Combat); 
         }
 
@@ -87,6 +99,12 @@ namespace Character.Combat
             {
                 CombatStateMachine.SetNextState(new BlockFinisherState());
             }
+        }
+
+        public void SetWeapon(ItemType type)
+        {
+            CurrentWeapon = weaponConfigRepository.GetByItemType(type);
+            WeaponSprite.sprite = Resources.Load<Sprite>(CurrentWeapon?.SpritePath);
         }
 
         #region IDataPersistence

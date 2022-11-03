@@ -44,10 +44,10 @@ namespace Character
         {
             switch(item.Type)
             {
-                case ItemId.HeathPotion : 
+                case ItemType.HeathPotion : 
                     Status.AddCurrentHP(20);
                     break;
-                case ItemId.ManaPotion : 
+                case ItemType.ManaPotion : 
                     break;
             }
         }

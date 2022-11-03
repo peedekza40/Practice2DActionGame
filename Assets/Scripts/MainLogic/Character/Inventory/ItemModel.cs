@@ -11,7 +11,7 @@ namespace Character.Inventory
     public class ItemModel
     {
         public Guid InstanceId;
-        public ItemId Type;
+        public ItemType Type;
         public int Amount;
         public bool IsStackable { get; private set; }
         public bool IsCanUse { get; private set; }
@@ -32,13 +32,13 @@ namespace Character.Inventory
             this.itemConfigRepository = itemConfigRepository;
         }
 
-        public void Setup(ItemId type, int amount = 1)
+        public void Setup(ItemType type, int amount = 1)
         {
             InstanceId = Guid.NewGuid();
             Type = type;
             Amount = amount;
 
-            ItemConfig itemConfig = itemConfigRepository.GetById(Type);
+            ItemConfig itemConfig = itemConfigRepository.GetByType(Type);
             IsStackable = itemConfig.IsStackable;
             IsCanUse = itemConfig.IsCanUse;
             IsWeapon = itemConfig.IsWeapon;

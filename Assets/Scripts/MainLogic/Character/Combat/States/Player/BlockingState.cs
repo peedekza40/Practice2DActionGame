@@ -6,7 +6,7 @@ namespace Character.Combat.States.Player
     public class BlockingState : State
     {
         protected float Duration;
-        protected IAnimatorController AnimatorController;
+        protected AnimatorController AnimatorController;
         protected PlayerCombat PlayerCombat;
 
         public override void OnEnter(StateMachine _stateMachine)

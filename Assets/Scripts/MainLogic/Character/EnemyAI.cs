@@ -9,6 +9,7 @@ using Constants;
 using Character.Combat.States;
 using Character.Combat.States.Skeleton;
 using Character.Behaviours.States;
+using Character.Animators;
 
 namespace Character
 {
@@ -51,7 +52,7 @@ namespace Character
         private Seeker Seeker;
         private Rigidbody2D Rb;
         private KnockBack KnockBack;
-        private IAnimatorController AnimatorController;
+        private AnimatorController AnimatorController;
         private AnimatorStateInfo AnimationState;
         private AnimatorClipInfo[] AnimatorClip;
 
@@ -60,7 +61,7 @@ namespace Character
             Seeker = GetComponent<Seeker>();
             Rb = GetComponent<Rigidbody2D>();
             KnockBack = GetComponent<KnockBack>();
-            AnimatorController = GetComponent<IAnimatorController>();
+            AnimatorController = GetComponent<AnimatorController>();
             CombatStateMachine = GetComponents<StateMachine>().FirstOrDefault(x => x.Id == StateId.Combat);
             BehaviourStateMachine = GetComponents<StateMachine>().FirstOrDefault(x => x.Id == StateId.Behaviour);
         }
@@ -72,8 +73,8 @@ namespace Character
 
         private void Update()
         {
-            AnimationState = AnimatorController.Animator.GetCurrentAnimatorStateInfo(0);
-            AnimatorClip = AnimatorController.Animator.GetCurrentAnimatorClipInfo(0);
+            AnimationState = AnimatorController.MainAnimator.GetCurrentAnimatorStateInfo(0);
+            AnimatorClip = AnimatorController.MainAnimator.GetCurrentAnimatorClipInfo(0);
 
             bool isIdleCombat = CombatStateMachine.IsCurrentState(typeof(IdleCombatState));
             IsKnockingBack = BehaviourStateMachine.IsCurrentState(typeof(KnockBackState));

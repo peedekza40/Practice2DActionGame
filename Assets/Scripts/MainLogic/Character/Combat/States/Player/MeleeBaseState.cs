@@ -15,7 +15,7 @@ namespace Character.Combat.States.Player
         protected bool ShouldCombo;
         protected int AttackIndex;
         protected PlayerCombat PlayerCombat;
-        protected IAnimatorController AnimatorController;
+        protected AnimatorController AnimatorController;
         private AnimatorStateInfo AnimationState;
         private Gold Gold;
         private List<EnemyStatus> AttackedEnemies = new List<EnemyStatus>();
@@ -23,6 +23,7 @@ namespace Character.Combat.States.Player
 
         #region Calculate attack
         protected float MaxDamage;
+        protected float WeaponDamage;
         protected LayerMask EnemyLayers;
         protected Collider2D HitBox;
         protected bool IsDamaged;
@@ -39,6 +40,7 @@ namespace Character.Combat.States.Player
             Gold = GetComponent<Gold>();
             PlayerCombat = GetComponent<PlayerCombat>();
             MaxDamage = PlayerCombat.MaxDamage;
+            WeaponDamage = PlayerCombat.CurrentWeapon?.MaxDamage ?? 0f;
             EnemyLayers = PlayerCombat.EnemyLayers;
             HitBox = PlayerCombat.HitBox;
             playerInputControl = PlayerCombat.PlayerInputControl;
@@ -49,7 +51,7 @@ namespace Character.Combat.States.Player
         public override void OnUpdate()
         {
             base.OnUpdate();
-            AnimationState = AnimatorController.Animator.GetCurrentAnimatorStateInfo(0);
+            AnimationState = AnimatorController.MainAnimator.GetCurrentAnimatorStateInfo(0);
 
             Attack();
             CollectGoldFromDeathEnemy();
@@ -73,7 +75,8 @@ namespace Character.Combat.States.Player
                 //damage them
                 foreach (var hitEnemy in hitEnemies)
                 {
-                    var randomDamage = Random.Range(MaxDamage * 0.9f, MaxDamage);
+                    var maxDamage = MaxDamage + WeaponDamage;
+                    var randomDamage = Random.Range(maxDamage * 0.9f, maxDamage);
                     var attackedEnemy = hitEnemy.GetComponent<EnemyStatus>();
                     attackedEnemy?.TakeDamage(randomDamage, HitBox.gameObject);
                     AttackedEnemies.Add(attackedEnemy);

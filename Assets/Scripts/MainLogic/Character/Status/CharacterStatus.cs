@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using System;
 using Character.Interfaces;
+using Character.Animators;
 
 namespace Character
 {
@@ -17,12 +18,12 @@ namespace Character
         public UnityEvent OnDied;
         public bool IsDeath { get; private set; }
 
-        private IAnimatorController AnimatorController;
+        private AnimatorController AnimatorController;
         private Rigidbody2D Rigidbody;
 
         protected void BaseAwake()
         {
-            AnimatorController = GetComponent<IAnimatorController>();
+            AnimatorController = GetComponent<AnimatorController>();
             Rigidbody = GetComponent<Rigidbody2D>();
             HealthBar.SetMaxHealth(MaxHP);
             SetCurrentHP(MaxHP);

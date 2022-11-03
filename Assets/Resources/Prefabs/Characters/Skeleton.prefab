@@ -763,7 +763,7 @@ Transform:
   - {fileID: 5124606033839770905}
   - {fileID: 3197656211200406714}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &8009742133586685725
 Rigidbody2D:
@@ -868,6 +868,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f89ae4db56b63a447a511e1a0f4d225c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MainAnimator: {fileID: 4105043969929321812}
   CanvasTransform: {fileID: 3197656211200406714}
 --- !u!114 &5314867449231800823
 MonoBehaviour:
@@ -1039,7 +1040,7 @@ MonoBehaviour:
         Amount: 1
       weight: 5
     - item:
-        Type: 3
+        Type: 5
         Amount: 1
       weight: 100
   DropAmount: 3

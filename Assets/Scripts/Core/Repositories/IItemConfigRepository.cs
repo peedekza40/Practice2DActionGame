@@ -5,6 +5,6 @@ namespace Core.Repositories
 {
     public interface IItemConfigRepository
     {
-        ItemConfig GetById(ItemId type);
+        ItemConfig GetByType(ItemType type);
     }
 }

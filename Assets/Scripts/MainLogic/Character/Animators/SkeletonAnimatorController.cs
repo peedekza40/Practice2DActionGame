@@ -9,20 +9,20 @@ namespace Character.Animators
 
         private Rigidbody2D Rb;
 
-        void Start()
+        protected override void Start()
         {
             Rb = GetComponent<Rigidbody2D>();
-            base.BaseStart();
+            base.Start();
         }
         
         void Update()
         {
-            Animator.SetFloat(AnimationParameter.Speed, Mathf.Abs(Rb.velocity.x));
+            MainAnimator.SetFloat(AnimationParameter.Speed, Mathf.Abs(Rb.velocity.x));
         }
 
         public override void TriggerAttack(int? countAttack)
         {
-            Animator.SetTrigger($"{AnimationName.Attack}{countAttack}");
+            MainAnimator.SetTrigger($"{AnimationName.Attack}{countAttack}");
         }
 
         public override void FilpCharacter()

@@ -12,18 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 469c24fdb3bd6431b92cc1465bd9166b, type: 3}
   m_Name: RemoteConfigDataStoreAsset
   m_EditorClassIdentifier: 
-  _rsKeyList: "[\r\n  {\r\n    \"metadata\": {\r\n      \"entityId\": \"89731446-9cc3-4ab2-808d-bf8b31513a2f\"\r\n   
+  _rsKeyList: "[\r\n  {\r\n    \"metadata\": {\r\n      \"entityId\": \"a9b79f99-6ff9-463e-93d8-b4c751d8ed72\"\r\n   
     },\r\n    \"rs\": {\r\n      \"key\": \"AppSettings\",\r\n      \"type\": \"json\",\r\n     
     \"schemaId\": null,\r\n      \"value\": {\r\n        \"Combat\": {\r\n         
-    \"Attacking\": {\r\n            \"DefaultDamage\": 150,\r\n            \"DefaultAttackDuration\":
+    \"Attacking\": {\r\n            \"DefaultDamage\": 5,\r\n            \"DefaultAttackDuration\":
     0.6,\r\n            \"MaxDecreaseTimeBetweenAttack\": 0.35\r\n          },\r\n         
     \"Blocking\": {\r\n            \"DefaultReduceDamagePercent\": 5,\r\n           
     \"DefaultTimeBetweenBlock\": 0.6,\r\n            \"MaxDecreaseTimeBetweenBlock\":
     0.4\r\n          }\r\n        }\r\n      }\r\n    }\r\n  }\r\n]"
-  _rsLastCachedKeyList: "[\r\n  {\r\n    \"metadata\": {\r\n      \"entityId\": \"89731446-9cc3-4ab2-808d-bf8b31513a2f\"\r\n   
+  _rsLastCachedKeyList: "[\r\n  {\r\n    \"metadata\": {\r\n      \"entityId\": \"a9b79f99-6ff9-463e-93d8-b4c751d8ed72\"\r\n   
     },\r\n    \"rs\": {\r\n      \"key\": \"AppSettings\",\r\n      \"type\": \"json\",\r\n     
     \"schemaId\": null,\r\n      \"value\": {\r\n        \"Combat\": {\r\n         
-    \"Attacking\": {\r\n            \"DefaultDamage\": 150,\r\n            \"DefaultAttackDuration\":
+    \"Attacking\": {\r\n            \"DefaultDamage\": 5,\r\n            \"DefaultAttackDuration\":
     0.6,\r\n            \"MaxDecreaseTimeBetweenAttack\": 0.35\r\n          },\r\n         
     \"Blocking\": {\r\n            \"DefaultReduceDamagePercent\": 5,\r\n           
     \"DefaultTimeBetweenBlock\": 0.6,\r\n            \"MaxDecreaseTimeBetweenBlock\":

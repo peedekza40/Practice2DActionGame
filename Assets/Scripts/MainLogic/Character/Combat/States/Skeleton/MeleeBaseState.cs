@@ -13,7 +13,7 @@ namespace Character.Combat.States.Skeleton
         public float Duration;
         protected int AttackIndex;
         protected EnemyAI EnemyAI;
-        protected IAnimatorController AnimatorController;
+        protected AnimatorController AnimatorController;
         private AnimatorStateInfo AnimationState;
         public Rigidbody2D Rb;
         public List<Collider2D> DetectedEnemies;
@@ -49,7 +49,7 @@ namespace Character.Combat.States.Skeleton
         public override void OnUpdate()
         {
             base.OnUpdate();
-            AnimationState = AnimatorController.Animator.GetCurrentAnimatorStateInfo(0);
+            AnimationState = AnimatorController.MainAnimator.GetCurrentAnimatorStateInfo(0);
 
             Attack();
             AnimatorController.SetIsAttacking(IsAttacking());

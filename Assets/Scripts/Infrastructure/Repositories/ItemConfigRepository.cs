@@ -7,7 +7,7 @@ namespace Infrastructure.Repositories
 {
     public class ItemConfigRepository : IItemConfigRepository 
     {
-        public ItemConfig GetById(ItemId type)
+        public ItemConfig GetByType(ItemType type)
         {
             return Connection.Table<ItemConfig>().FirstOrDefault(x => x.Id == (int)type);
         }

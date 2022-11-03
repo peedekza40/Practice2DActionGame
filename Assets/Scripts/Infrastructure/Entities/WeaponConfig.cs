@@ -12,7 +12,7 @@ namespace Infrastructure.Entities
         [NotNull]
         public int ItemId { get; set; }
         public string SpritePath { get; set; }
-        public int MaxDamage { get; set; }
+        public float MaxDamage { get; set; }
     }
 
 }

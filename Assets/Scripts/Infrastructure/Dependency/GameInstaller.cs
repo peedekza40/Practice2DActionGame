@@ -17,11 +17,11 @@ namespace Infrastructure.Dependency
             Container.Bind<DataPersistenceManager>().FromComponentInHierarchy().AsSingle();
             Container.Bind<PlayerInputControl>().FromComponentInHierarchy().AsSingle();
 
-            AppSettingsModel config = Container.Resolve<IAppSettingsContext>().Config;
-            Container.Bind<DbContextBuilder>().AsSingle().WithArguments(config);
+            Container.Bind<DbContextBuilder>().AsSingle();
             Container.Bind<IStatsConfigRepository>().To<StatsConfigRepository>().AsSingle();
             Container.Bind<IItemConfigRepository>().To<ItemConfigRepository>().AsSingle();
             Container.Bind<IEnemyConfigRepository>().To<EnemyConfigRepository>().AsSingle();
+            Container.Bind<IWeaponConfigRepository>().To<WeaponConfigRepository>().AsSingle();
         }
     }
 }

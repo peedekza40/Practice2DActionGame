@@ -235,6 +235,10 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8072776276011549519, guid: 8dfa8f81e4684554099d8a7fbff3db43, type: 3}
+      propertyPath: OnDamagedPassDamage.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8511704446154591093, guid: 8dfa8f81e4684554099d8a7fbff3db43, type: 3}
       propertyPath: m_RootOrder
       value: 6
@@ -282,6 +286,10 @@ PrefabInstance:
     - target: {fileID: 8511704446154591096, guid: 8dfa8f81e4684554099d8a7fbff3db43, type: 3}
       propertyPath: m_Name
       value: Skeleton
+      objectReference: {fileID: 0}
+    - target: {fileID: 8950884111431860641, guid: 8dfa8f81e4684554099d8a7fbff3db43, type: 3}
+      propertyPath: KnockBackRange
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []
@@ -3960,10 +3968,6 @@ PrefabInstance:
       propertyPath: m_AnchorMin.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 972187603, guid: a508220d80c5043408f44c17b2e802e7, type: 3}
-      propertyPath: AttackDuration
-      value: 0.4
-      objectReference: {fileID: 0}
     - target: {fileID: 1307767413335788209, guid: a508220d80c5043408f44c17b2e802e7, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -4058,7 +4062,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5067039350240759635, guid: a508220d80c5043408f44c17b2e802e7, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5265927272671623164, guid: a508220d80c5043408f44c17b2e802e7, type: 3}
       propertyPath: m_AnchorMax.y
@@ -4098,6 +4102,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7947611246500261241, guid: a508220d80c5043408f44c17b2e802e7, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8378042788559873003, guid: a508220d80c5043408f44c17b2e802e7, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8378042788559873003, guid: a508220d80c5043408f44c17b2e802e7, type: 3}
+      propertyPath: m_WasSpriteAssigned
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8511704446154591093, guid: a508220d80c5043408f44c17b2e802e7, type: 3}

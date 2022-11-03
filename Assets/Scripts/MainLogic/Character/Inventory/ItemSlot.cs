@@ -15,27 +15,27 @@ namespace Character.Inventory
         public Image ItemImage;
         public TextMeshProUGUI ItemAmountText;
 
-        public Guid ItemInstanceId { get; private set; }
-        private InventoryManagement Inventory;
+        public Guid ItemInstanceId { get; protected set; }
+        protected InventoryManagement Inventory;
         public MouseEvent ItemMouseEvent { get; private set; }
 
-        private void Awake() 
+        protected virtual void Awake() 
         {
             ItemMouseEvent = SlotTransform.GetComponent<MouseEvent>();
             Inventory = GetComponentInParent<InventoryManagement>();
         }
 
-        private void Update() 
+        protected virtual void Update() 
         {
             GetComponent<DragDropItem>().enabled = ItemInstanceId != Guid.Empty;
         }
 
         private void OnDestroy() 
         {
-            ClearItemGUI();
+            ClearItemUI();
         }
 
-        public void SetItemGUI(ItemModel item)
+        public virtual void SetItemUI(ItemModel item)
         {
             ItemInstanceId = item.InstanceId;
             ItemTransform.gameObject.SetActive(true);
@@ -62,7 +62,7 @@ namespace Character.Inventory
             ItemMouseEvent.OnRightClick.AddListener(() => { Inventory.DropItem(item); });
         }
 
-        public void ClearItemGUI()
+        public virtual void ClearItemUI()
         {
             ItemInstanceId = Guid.Empty;
             ItemTransform.gameObject.SetActive(false);
@@ -80,7 +80,7 @@ namespace Character.Inventory
             ItemMouseEvent.OnRightClick.RemoveAllListeners();
         }
 
-        public void OnDrop(PointerEventData eventData)
+        public virtual void OnDrop(PointerEventData eventData)
         {
             ItemSlot slot = eventData.pointerDrag.GetComponent<ItemSlot>();
             if(slot != null && slot?.ItemInstanceId != null)
@@ -88,11 +88,11 @@ namespace Character.Inventory
                 if(ItemInstanceId == Guid.Empty)
                 {
                     //set this item slot
-                    ClearItemGUI();
-                    SetItemGUI(Inventory.GetItem(slot.ItemInstanceId));
+                    ClearItemUI();
+                    SetItemUI(Inventory.GetItem(slot.ItemInstanceId));
 
                     //clear source item slot
-                    slot.ClearItemGUI();
+                    slot.ClearItemUI();
                 }
             }
         }

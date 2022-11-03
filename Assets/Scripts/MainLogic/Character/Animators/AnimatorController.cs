@@ -1,40 +1,37 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using Core.Constants;
-using Character.Interfaces;
 
 namespace Character.Animators
 {
-    public class AnimatorController : MonoBehaviour, IAnimatorController
+    public class AnimatorController : MonoBehaviour
     {
-        public Animator Animator { get; set; }
+        public Animator MainAnimator;
 
         private List<AnimationClip> Clips = new List<AnimationClip>();
 
         // Start is called before the first frame update
-        protected void BaseStart()
+        protected virtual void Start()
         {
-            Animator = GetComponentInChildren<Animator>();
-            Clips = Animator.runtimeAnimatorController.animationClips.ToList();
+            Clips = MainAnimator.runtimeAnimatorController.animationClips.ToList();
         }
 
         public virtual void SetIsAttacking(bool isAttacking)
         {
-            Animator.SetBool($"{AnimationName.IsAttacking}", isAttacking);
+            MainAnimator.SetBool($"{AnimationName.IsAttacking}", isAttacking);
         }
         
         public virtual void TriggerAttack(int? countAttack){}
 
         public virtual void TriggerAttacked()
         {
-            Animator.SetTrigger(AnimationParameter.Attacked);
+            MainAnimator.SetTrigger(AnimationParameter.Attacked);
         }
 
         public virtual void SetDeath()
         {
-            Animator.SetBool(AnimationParameter.IsDeath, true);
+            MainAnimator.SetBool(AnimationParameter.IsDeath, true);
         }
 
         public virtual void SetBlock(bool isBlocking){}
