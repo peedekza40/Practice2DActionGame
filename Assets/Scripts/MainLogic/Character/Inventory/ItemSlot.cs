@@ -30,12 +30,29 @@ namespace Character.Inventory
             GetComponent<DragDropItem>().enabled = ItemInstanceId != Guid.Empty;
         }
 
+        public virtual void OnDrop(PointerEventData eventData)
+        {
+            ItemSlot slot = eventData.pointerDrag.GetComponent<ItemSlot>();
+            if(slot != null && slot?.ItemInstanceId != null)
+            {
+                if(ItemInstanceId == Guid.Empty)
+                {
+                    //set this item slot
+                    ClearItem();
+                    SetItem(Inventory.GetItem(slot.ItemInstanceId));
+
+                    //clear source item slot
+                    slot.ClearItem();
+                }
+            }
+        }
+        
         private void OnDestroy() 
         {
-            ClearItemUI();
+            ClearItem();
         }
 
-        public virtual void SetItemUI(ItemModel item)
+        public virtual void SetItem(ItemModel item)
         {
             ItemInstanceId = item.InstanceId;
             ItemTransform.gameObject.SetActive(true);
@@ -62,7 +79,7 @@ namespace Character.Inventory
             ItemMouseEvent.OnRightClick.AddListener(() => { Inventory.DropItem(item); });
         }
 
-        public virtual void ClearItemUI()
+        public virtual void ClearItem()
         {
             ItemInstanceId = Guid.Empty;
             ItemTransform.gameObject.SetActive(false);
@@ -78,23 +95,6 @@ namespace Character.Inventory
             //set onclick
             ItemMouseEvent.OnLeftClick.RemoveAllListeners();
             ItemMouseEvent.OnRightClick.RemoveAllListeners();
-        }
-
-        public virtual void OnDrop(PointerEventData eventData)
-        {
-            ItemSlot slot = eventData.pointerDrag.GetComponent<ItemSlot>();
-            if(slot != null && slot?.ItemInstanceId != null)
-            {
-                if(ItemInstanceId == Guid.Empty)
-                {
-                    //set this item slot
-                    ClearItemUI();
-                    SetItemUI(Inventory.GetItem(slot.ItemInstanceId));
-
-                    //clear source item slot
-                    slot.ClearItemUI();
-                }
-            }
         }
 
     }

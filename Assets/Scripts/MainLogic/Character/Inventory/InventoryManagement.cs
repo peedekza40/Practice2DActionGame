@@ -68,6 +68,10 @@ namespace Character.Inventory
         private void Start() 
         {
             playerInputControl.ToggleInventoryInput.performed += ToggleInventory;
+
+            ItemModel weapon = diContainer.Instantiate<ItemModel>();
+            weapon.Setup(ItemType.SwordOne, 1);
+            AddItem(weapon);
         }
 
         public ItemModel GetItem(System.Guid id)
@@ -177,25 +181,29 @@ namespace Character.Inventory
             List<ItemSlot> tempSlots = new List<ItemSlot>();
             foreach(var item in Items)
             {
-                ItemSlot currentItemInSlot = ItemSlots.FirstOrDefault(x => x.ItemInstanceId == item.InstanceId);
-                if(currentItemInSlot != null)
-                {
-                    currentItemInSlot.ClearItemUI();
-                    currentItemInSlot.SetItemUI(item);
-                    tempSlots.Add(currentItemInSlot);
+                bool isOnEquipment = EquipmentSlots.Any(x => x.ItemInstanceId == item.InstanceId);
+                if(isOnEquipment == false){
+                    ItemSlot currentItemInSlot = ItemSlots.FirstOrDefault(x => x.ItemInstanceId == item.InstanceId);
+                    if(currentItemInSlot != null)
+                    {
+                        currentItemInSlot.ClearItem();
+                        currentItemInSlot.SetItem(item);
+                        tempSlots.Add(currentItemInSlot);
+                    }
+                    else
+                    {
+                        ItemSlot slot = ItemSlots.FirstOrDefault(x => x.ItemInstanceId == System.Guid.Empty);
+                        slot.SetItem(item);
+                        tempSlots.Add(slot);
+                    }
                 }
-                else
-                {
-                    ItemSlot slot = ItemSlots.FirstOrDefault(x => x.ItemInstanceId == System.Guid.Empty);
-                    slot.SetItemUI(item);
-                    tempSlots.Add(slot);
-                }
+
             }
 
             var clearSlots = ItemSlots.Except(tempSlots);
             foreach(var clearSlot in clearSlots)
             {
-                clearSlot.ClearItemUI();
+                clearSlot.ClearItem();
             }
         }
 
@@ -203,7 +211,7 @@ namespace Character.Inventory
         {
             foreach (var slot in ItemSlots)
             {
-                slot.ClearItemUI();
+                slot.ClearItem();
             }
         }
 

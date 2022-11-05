@@ -934,19 +934,7 @@ MonoBehaviour:
         m_CallState: 2
   OnDamagedPassDamage:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 8950884111431860641}
-        m_TargetAssemblyTypeName: KnockBack, Assembly-CSharp
-        m_MethodName: CalculateKnockBackRange
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   OnDamagedPassHitBox:
     m_PersistentCalls:
       m_Calls:
@@ -1002,7 +990,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17e47e8250d77fd4f90f86c6cd2564a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  KnockBackRange: 3
+  KnockBackRange: 4
   KnockBackDuration: 1
   CenterTransform: {fileID: 7360257916326082872}
 --- !u!114 &1787282014

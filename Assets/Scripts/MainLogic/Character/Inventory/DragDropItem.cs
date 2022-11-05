@@ -15,6 +15,7 @@ namespace Character.Inventory
     {
         public CanvasGroup ItemCanvasGroup;
 
+        private float Opacity;
         private Canvas Canvas;
         private RectTransform SlotTransform;
         private RectTransform DragItemTransform;
@@ -24,6 +25,7 @@ namespace Character.Inventory
         {
             Canvas = GetComponentInParent<Canvas>();
             SlotTransform = GetComponent<RectTransform>();
+            Opacity = ItemCanvasGroup.alpha;
         }
 
         public void OnBeginDrag(PointerEventData eventData)
@@ -62,7 +64,7 @@ namespace Character.Inventory
 
         public void OnEndDrag(PointerEventData eventData)
         {
-            ItemCanvasGroup.alpha = 1f;
+            ItemCanvasGroup.alpha = Opacity;
             DragItemCanvasGroup.blocksRaycasts = true;
 
             Destroy(DragItemTransform.gameObject);

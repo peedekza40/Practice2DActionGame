@@ -2,6 +2,9 @@ namespace Core.Constants
 {
     public enum EquipmentType
     {
-        Weapon
+        Weapon,
+        Armor,
+        Shield,
+        Amulet
     }
 }

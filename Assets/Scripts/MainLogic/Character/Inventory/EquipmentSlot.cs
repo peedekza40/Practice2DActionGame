@@ -11,7 +11,6 @@ namespace Character.Inventory
         public CanvasGroup ItemCanvasGroup;
         public EquipmentType Type;
 
-        private float Opacity;
         private Sprite IconSprite;
         private PlayerHandler PlayerHandler;
 
@@ -20,7 +19,6 @@ namespace Character.Inventory
             base.Awake();
             PlayerHandler = GetComponentInParent<PlayerHandler>();
             IconSprite = ItemImage.sprite;
-            Opacity = ItemCanvasGroup.alpha;
         }
 
         private void Start() 
@@ -53,11 +51,11 @@ namespace Character.Inventory
                     if(isCorrectType)
                     {
                         //set this item slot
-                        ClearItemUI();
-                        SetItemUI(item);
+                        ClearItem();
+                        SetItem(item);
 
                         //clear source item slot
-                        slot.ClearItemUI();
+                        slot.ClearItem();
                     }
 
                 }
@@ -68,13 +66,13 @@ namespace Character.Inventory
         {
             if(ItemInstanceId == Guid.Empty)
             {
-                ClearItemUI();  
+                ClearItem();  
             }
         }
 
-        public override void SetItemUI(ItemModel item)
+        public override void SetItem(ItemModel item)
         {
-            base.SetItemUI(item);
+            base.SetItem(item);
 
             //clear on click
             ItemMouseEvent.OnLeftClick.RemoveAllListeners();
@@ -87,15 +85,13 @@ namespace Character.Inventory
             ItemCanvasGroup.alpha = 1f;
         }
 
-        public override void ClearItemUI()
+        public override void ClearItem()
         {
             ItemInstanceId = Guid.Empty;
 
             //set image item
             ItemImage.transform.rotation = Quaternion.Euler(0, 0, 0);
             ItemImage.sprite = IconSprite;
-            ItemCanvasGroup.alpha = 0.5f;
-            Debug.Log(ItemCanvasGroup.name);
 
             //set amount
             ItemAmountText?.SetText("0");

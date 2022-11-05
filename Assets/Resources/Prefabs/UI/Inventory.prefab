@@ -92,7 +92,7 @@ MonoBehaviour:
   ItemImage: {fileID: 3383515883577650908}
   ItemAmountText: {fileID: 0}
   ItemCanvasGroup: {fileID: 3338073071589427439}
-  Type: 0
+  Type: 3
 --- !u!114 &2153584583843417320
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1935,7 +1935,7 @@ MonoBehaviour:
   ItemImage: {fileID: 8345666037837380670}
   ItemAmountText: {fileID: 0}
   ItemCanvasGroup: {fileID: 7143104605542902932}
-  Type: 0
+  Type: 1
 --- !u!114 &5044578647330052412
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2228,7 +2228,7 @@ MonoBehaviour:
   ItemImage: {fileID: 2936008071918504206}
   ItemAmountText: {fileID: 0}
   ItemCanvasGroup: {fileID: 6864681481118036014}
-  Type: 0
+  Type: 2
 --- !u!114 &3732012192629954287
 MonoBehaviour:
   m_ObjectHideFlags: 0
