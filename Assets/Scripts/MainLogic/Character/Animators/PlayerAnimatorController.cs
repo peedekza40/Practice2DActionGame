@@ -6,8 +6,10 @@ namespace Character.Animators
 {
     public class PlayerAnimatorController : AnimatorController
     {
-        public Animator RightHandFingerAnimator;
-        public IPlayerController PlayerController;
+        public SpriteRenderer RightHandFingerSprite;
+
+        private IPlayerController PlayerController;
+        private PlayerHandler PlayerHandler;
 
         private FrameInput Input;
         private bool IsFalling;
@@ -16,6 +18,7 @@ namespace Character.Animators
         protected override void Start()
         {
             PlayerController = GetComponent<IPlayerController>();
+            PlayerHandler = GetComponent<PlayerHandler>();
             base.Start();
         }
 
@@ -35,40 +38,25 @@ namespace Character.Animators
             MainAnimator.SetBool(AnimationParameter.IsJumping, PlayerController.JumpingThisFrame);
             MainAnimator.SetBool(AnimationParameter.IsFalling, IsFalling);
             MainAnimator.SetBool(AnimationParameter.IsGrounded, PlayerController.Grounded);
-            RightHandFingerAnimator.SetFloat(AnimationParameter.Speed, Mathf.Abs(PlayerController.RawMovement.x));
-            RightHandFingerAnimator.SetBool(AnimationParameter.IsJumping, PlayerController.JumpingThisFrame);
-            RightHandFingerAnimator.SetBool(AnimationParameter.IsFalling, IsFalling);
-            RightHandFingerAnimator.SetBool(AnimationParameter.IsGrounded, PlayerController.Grounded);
-        }
 
-        public override void SetIsAttacking(bool isAttacking)
-        {
-            base.SetIsAttacking(isAttacking);
-            RightHandFingerAnimator.SetBool($"{AnimationName.IsAttacking}", isAttacking);
+            if(PlayerHandler.Combat.CurrentWeapon != null)
+            {
+                MainAnimator.SetFloat("IsHasWeapon", 1);
+                RightHandFingerSprite.enabled = true;
+            }
+            else
+            {
+                MainAnimator.SetFloat("IsHasWeapon", 0);
+                RightHandFingerSprite.enabled = false;
+            }
         }
-
         public override void TriggerAttack(int? countAttack)
         {
             MainAnimator.SetTrigger($"{AnimationParameter.Attack}{countAttack}");
-            RightHandFingerAnimator.SetTrigger($"{AnimationParameter.Attack}{countAttack}");
         }
-
-        public override void TriggerAttacked()
-        {
-            base.TriggerAttacked();
-            RightHandFingerAnimator.SetTrigger(AnimationParameter.Attacked);
-        }
-
-        public override void SetDeath()
-        {
-            base.SetDeath();
-            RightHandFingerAnimator.SetBool(AnimationParameter.IsDeath, true);
-        }
-
         public override void SetBlock(bool isBlocking)
         {
             MainAnimator.SetBool(AnimationParameter.IsBlocking, isBlocking);
-            RightHandFingerAnimator.SetBool(AnimationParameter.IsBlocking, isBlocking);
         }
     }
 }

@@ -77,7 +77,8 @@ namespace Character.Combat
 
         private void SetMeleeState()
         {
-            if(CombatStateMachine.IsCurrentState(typeof(IdleCombatState)) || CombatStateMachine.IsCurrentState(typeof(BlockFinisherState)))
+            if((CombatStateMachine.IsCurrentState(typeof(IdleCombatState)) || CombatStateMachine.IsCurrentState(typeof(BlockFinisherState)))
+               && CurrentWeapon != null)
             {
                 CombatStateMachine.SetNextState(new MeleeEntryState());
             }

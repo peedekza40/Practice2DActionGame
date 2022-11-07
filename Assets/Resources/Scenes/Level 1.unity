@@ -235,10 +235,6 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8072776276011549519, guid: 8dfa8f81e4684554099d8a7fbff3db43, type: 3}
-      propertyPath: OnDamagedPassDamage.m_PersistentCalls.m_Calls.Array.size
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 8511704446154591093, guid: 8dfa8f81e4684554099d8a7fbff3db43, type: 3}
       propertyPath: m_RootOrder
       value: 6
@@ -286,10 +282,6 @@ PrefabInstance:
     - target: {fileID: 8511704446154591096, guid: 8dfa8f81e4684554099d8a7fbff3db43, type: 3}
       propertyPath: m_Name
       value: Skeleton
-      objectReference: {fileID: 0}
-    - target: {fileID: 8950884111431860641, guid: 8dfa8f81e4684554099d8a7fbff3db43, type: 3}
-      propertyPath: KnockBackRange
-      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []
