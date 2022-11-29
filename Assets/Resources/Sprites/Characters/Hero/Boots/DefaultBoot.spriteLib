@@ -1,0 +1,439 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &1
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5e6fedc2472449cead18ef23b5cb30d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Library:
+  - m_Name: Idle
+    m_Hash: 1008081451
+    m_CategoryList: []
+    m_OverrideEntries:
+    - m_Name: HeroKnight_0
+      m_Hash: 5788752
+      m_Sprite: {fileID: 21300000, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 21300000, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+    - m_Name: HeroKnight_1
+      m_Hash: 928998598
+      m_Sprite: {fileID: 21300002, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 21300002, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+    - m_Name: HeroKnight_2
+      m_Hash: 777401724
+      m_Sprite: {fileID: 21300004, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 21300004, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+    - m_Name: HeroKnight_3
+      m_Hash: 424740330
+      m_Sprite: {fileID: 21300006, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 21300006, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+    - m_Name: HeroKnight_4
+      m_Hash: 120950857
+      m_Sprite: {fileID: 21300008, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 21300008, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+    - m_Name: HeroKnight_5
+      m_Hash: 808624351
+      m_Sprite: {fileID: 21300010, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 21300010, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+    - m_Name: HeroKnight_6
+      m_Hash: 691794277
+      m_Sprite: {fileID: 21300012, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 21300012, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+    - m_Name: HeroKnight_7
+      m_Hash: 507298291
+      m_Sprite: {fileID: 21300014, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 21300014, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+    m_FromMain: 0
+    m_EntryOverrideCount: 8
+  - m_Name: Run
+    m_Hash: 675013152
+    m_CategoryList: []
+    m_OverrideEntries:
+    - m_Name: HeroKnight_8
+      m_Hash: 243522658
+      m_Sprite: {fileID: 21300016, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 21300016, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+    - m_Name: HeroKnight_9
+      m_Hash: 965012724
+      m_Sprite: {fileID: 21300018, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 21300018, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+    - m_Name: HeroKnight_10
+      m_Hash: 111929280
+      m_Sprite: {fileID: 21300020, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 21300020, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+    - m_Name: HeroKnight_11
+      m_Hash: 833410902
+      m_Sprite: {fileID: 21300022, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 21300022, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+    - m_Name: HeroKnight_12
+      m_Hash: 681936620
+      m_Sprite: {fileID: 21300024, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 21300024, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+    - m_Name: HeroKnight_13
+      m_Hash: 530757242
+      m_Sprite: {fileID: 21300026, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 21300026, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+    - m_Name: HeroKnight_14
+      m_Hash: 29762521
+      m_Sprite: {fileID: 21300028, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 21300028, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+    - m_Name: HeroKnight_15
+      m_Hash: 918623055
+      m_Sprite: {fileID: 21300030, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 21300030, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+    - m_Name: HeroKnight_16
+      m_Hash: 801653493
+      m_Sprite: {fileID: 21300032, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 21300032, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+    - m_Name: HeroKnight_17
+      m_Hash: 416248419
+      m_Sprite: {fileID: 21300034, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 21300034, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+    m_FromMain: 0
+    m_EntryOverrideCount: 10
+  - m_Name: Jump
+    m_Hash: 125937960
+    m_CategoryList: []
+    m_OverrideEntries:
+    - m_Name: HeroKnight_38
+      m_Hash: 977669488
+      m_Sprite: {fileID: 21300076, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 21300076, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+    - m_Name: HeroKnight_39
+      m_Hash: 222379494
+      m_Sprite: {fileID: 21300078, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 21300078, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+    - m_Name: HeroKnight_40
+      m_Hash: 1004278661
+      m_Sprite: {fileID: 21300080, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 21300080, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+    m_FromMain: 0
+    m_EntryOverrideCount: 3
+  - m_Name: Fall
+    m_Hash: 459436082
+    m_CategoryList: []
+    m_OverrideEntries:
+    - m_Name: HeroKnight_41
+      m_Hash: 215687955
+      m_Sprite: {fileID: 21300082, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 21300082, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+    - m_Name: HeroKnight_42
+      m_Hash: 366113449
+      m_Sprite: {fileID: 21300084, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 21300084, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+    - m_Name: HeroKnight_43
+      m_Hash: 584401471
+      m_Sprite: {fileID: 21300086, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 21300086, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+    - m_Name: HeroKnight_44
+      m_Hash: 1018288028
+      m_Sprite: {fileID: 21300088, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 21300088, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+    m_FromMain: 0
+    m_EntryOverrideCount: 4
+  - m_Name: Hurt
+    m_Hash: 666872612
+    m_CategoryList: []
+    m_OverrideEntries:
+    - m_Name: HeroKnight_45
+      m_Hash: 196536074
+      m_Sprite: {fileID: 21300090, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 21300090, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+    - m_Name: HeroKnight_46
+      m_Hash: 314554032
+      m_Sprite: {fileID: 21300092, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 21300092, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+    - m_Name: HeroKnight_47
+      m_Hash: 632849958
+      m_Sprite: {fileID: 21300094, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 21300094, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+    m_FromMain: 0
+    m_EntryOverrideCount: 3
+  - m_Name: Death
+    m_Hash: 646380074
+    m_CategoryList: []
+    m_OverrideEntries:
+    - m_Name: HeroKnight_48
+      m_Hash: 889691063
+      m_Sprite: {fileID: 21300096, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 21300096, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+    - m_Name: HeroKnight_49
+      m_Hash: 33598241
+      m_Sprite: {fileID: 21300098, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 21300098, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+    - m_Name: HeroKnight_50
+      m_Hash: 583475908
+      m_Sprite: {fileID: 21300100, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 21300100, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+    - m_Name: HeroKnight_51
+      m_Hash: 364909138
+      m_Sprite: {fileID: 21300102, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 21300102, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+    - m_Name: HeroKnight_52
+      m_Hash: 214516712
+      m_Sprite: {fileID: 21300104, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 21300104, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+    - m_Name: HeroKnight_53
+      m_Hash: 1003385726
+      m_Sprite: {fileID: 21300106, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 21300106, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+    - m_Name: HeroKnight_54
+      m_Hash: 631957213
+      m_Sprite: {fileID: 21300108, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 21300108, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+    - m_Name: HeroKnight_55
+      m_Hash: 313382475
+      m_Sprite: {fileID: 21300110, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 21300110, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+    - m_Name: HeroKnight_56
+      m_Hash: 195332081
+      m_Sprite: {fileID: 21300112, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 21300112, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+    - m_Name: HeroKnight_57
+      m_Hash: 1017362279
+      m_Sprite: {fileID: 21300114, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 21300114, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+    m_FromMain: 0
+    m_EntryOverrideCount: 10
+  - m_Name: Attack 1
+    m_Hash: 93888700
+    m_CategoryList: []
+    m_OverrideEntries:
+    - m_Name: HeroKnight_18
+      m_Hash: 141586418
+      m_Sprite: {fileID: 21300036, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 21300036, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+    - m_Name: HeroKnight_19
+      m_Hash: 1064787812
+      m_Sprite: {fileID: 21300038, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 21300038, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+    - m_Name: HeroKnight_20
+      m_Hash: 763802627
+      m_Sprite: {fileID: 21300040, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 21300040, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+    - m_Name: HeroKnight_21
+      m_Hash: 444695701
+      m_Sprite: {fileID: 21300042, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 21300042, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+    - m_Name: HeroKnight_22
+      m_Hash: 59299119
+      m_Sprite: {fileID: 21300044, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 21300044, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+    - m_Name: HeroKnight_23
+      m_Hash: 881845689
+      m_Sprite: {fileID: 21300046, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 21300046, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+    m_FromMain: 0
+    m_EntryOverrideCount: 6
+  - m_Name: Attack 2
+    m_Hash: 479326470
+    m_CategoryList: []
+    m_OverrideEntries:
+    - m_Name: HeroKnight_24
+      m_Hash: 720072730
+      m_Sprite: {fileID: 21300048, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 21300048, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+    - m_Name: HeroKnight_25
+      m_Hash: 502022284
+      m_Sprite: {fileID: 21300050, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 21300050, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+    - m_Name: HeroKnight_26
+      m_Hash: 82121014
+      m_Sprite: {fileID: 21300052, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 21300052, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+    - m_Name: HeroKnight_27
+      m_Hash: 870457760
+      m_Sprite: {fileID: 21300054, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 21300054, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+    - m_Name: HeroKnight_28
+      m_Hash: 593312817
+      m_Sprite: {fileID: 21300056, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 21300056, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+    - m_Name: HeroKnight_29
+      m_Hash: 341445799
+      m_Sprite: {fileID: 21300058, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 21300058, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+    m_FromMain: 0
+    m_EntryOverrideCount: 6
+  - m_Name: Attack 3
+    m_Hash: 731300240
+    m_CategoryList: []
+    m_OverrideEntries:
+    - m_Name: HeroKnight_30
+      m_Hash: 882738498
+      m_Sprite: {fileID: 21300060, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 21300060, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+    - m_Name: HeroKnight_31
+      m_Hash: 60470740
+      m_Sprite: {fileID: 21300062, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 21300062, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+    - m_Name: HeroKnight_32
+      m_Hash: 445899886
+      m_Sprite: {fileID: 21300064, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 21300064, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+    - m_Name: HeroKnight_33
+      m_Hash: 764728568
+      m_Sprite: {fileID: 21300066, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 21300066, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+    - m_Name: HeroKnight_34
+      m_Hash: 871383387
+      m_Sprite: {fileID: 21300068, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 21300068, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+    - m_Name: HeroKnight_35
+      m_Hash: 83325389
+      m_Sprite: {fileID: 21300070, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 21300070, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+    - m_Name: HeroKnight_36
+      m_Hash: 503193719
+      m_Sprite: {fileID: 21300072, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 21300072, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+    - m_Name: HeroKnight_37
+      m_Hash: 720965857
+      m_Sprite: {fileID: 21300074, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 21300074, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+    m_FromMain: 0
+    m_EntryOverrideCount: 8
+  - m_Name: BlockIdle
+    m_Hash: 285689928
+    m_CategoryList: []
+    m_OverrideEntries:
+    - m_Name: HeroKnight_58
+      m_Hash: 740076278
+      m_Sprite: {fileID: 21300116, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 21300116, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+    - m_Name: HeroKnight_59
+      m_Hash: 454793824
+      m_Sprite: {fileID: 21300118, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 21300118, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+    - m_Name: HeroKnight_60
+      m_Hash: 166359303
+      m_Sprite: {fileID: 21300120, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 21300120, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+    - m_Name: HeroKnight_61
+      m_Hash: 1055736209
+      m_Sprite: {fileID: 21300122, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 21300122, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+    - m_Name: HeroKnight_62
+      m_Hash: 669257771
+      m_Sprite: {fileID: 21300124, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 21300124, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+    - m_Name: HeroKnight_63
+      m_Hash: 283320509
+      m_Sprite: {fileID: 21300126, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 21300126, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+    - m_Name: HeroKnight_64
+      m_Hash: 243774750
+      m_Sprite: {fileID: 21300128, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 21300128, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+    - m_Name: HeroKnight_65
+      m_Hash: 964724104
+      m_Sprite: {fileID: 21300130, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 21300130, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+    m_FromMain: 0
+    m_EntryOverrideCount: 8
+  - m_Name: BlockNoEffect
+    m_Hash: 433084587
+    m_CategoryList: []
+    m_OverrideEntries:
+    - m_Name: HeroKnight_66
+      m_Hash: 545903666
+      m_Sprite: {fileID: 21300132, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 21300132, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+    - m_Name: HeroKnight_67
+      m_Hash: 395240612
+      m_Sprite: {fileID: 21300134, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 21300134, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+    - m_Name: HeroKnight_68
+      m_Hash: 120715573
+      m_Sprite: {fileID: 21300136, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 21300136, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+    - m_Name: HeroKnight_69
+      m_Hash: 808896931
+      m_Sprite: {fileID: 21300138, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 21300138, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+    - m_Name: HeroKnight_70
+      m_Hash: 284246086
+      m_Sprite: {fileID: 21300140, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 21300140, guid: 70cb568d987f7c04398443741089b7cf, type: 3}
+    m_FromMain: 0
+    m_EntryOverrideCount: 5
+  m_PrimaryLibraryGUID: 50617cc2d59f2f6438b24cbe160f850e
+  m_ModificationHash: 0
+  m_Version: 1

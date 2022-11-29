@@ -26,6 +26,7 @@ namespace Character.Combat
         public float MaxDamage = 10f;
         public float AttackDuration = 0.4f;
         public float TimeBetweenCombo = 0.25f;
+        public float StaminaUse = 20f;
         public Collider2D HitBox;
         public LayerMask EnemyLayers;
 
@@ -37,27 +38,28 @@ namespace Character.Combat
         public float ParryDurtation = 0.15f;
         public bool IsPressingBlock { get; private set; }
 
-        public WeaponConfig CurrentWeapon { get; private set; }
+        public EquipmentConfig CurrentWeapon { get; private set; }
         private StateMachine CombatStateMachine;
+        private PlayerHandler PlayerHandler;
 
         #region Dependencies
         public PlayerInputControl PlayerInputControl { get; private set; }
-        private IWeaponConfigRepository weaponConfigRepository;
+        private IEquipmentConfigRepository equipmentConfigRepository;
         #endregion 
 
         [Inject]
         public void Init(
             PlayerInputControl playerInputControl,
-            IWeaponConfigRepository weaponConfigRepository)
+            IEquipmentConfigRepository equipmentConfigRepository)
         {
             PlayerInputControl = playerInputControl;
-            this.weaponConfigRepository = weaponConfigRepository;
+            this.equipmentConfigRepository = equipmentConfigRepository;
         }
 
         private void Awake() 
         {
-            // SetWeapon(ItemType.SwordTwo);
             CombatStateMachine = GetComponents<StateMachine>().FirstOrDefault(x => x.Id == StateId.Combat); 
+            PlayerHandler = GetComponent<PlayerHandler>();
         }
 
         private void Start() 
@@ -78,7 +80,8 @@ namespace Character.Combat
         private void SetMeleeState()
         {
             if((CombatStateMachine.IsCurrentState(typeof(IdleCombatState)) || CombatStateMachine.IsCurrentState(typeof(BlockFinisherState)))
-               && CurrentWeapon != null)
+               && CurrentWeapon != null
+               && PlayerHandler.Status.CurrentStamina >= StaminaUse)
             {
                 CombatStateMachine.SetNextState(new MeleeEntryState());
             }
@@ -102,10 +105,10 @@ namespace Character.Combat
             }
         }
 
-        public void SetWeapon(ItemType type)
+        public void SetWeapon(ItemType itemType)
         {
-            CurrentWeapon = weaponConfigRepository.GetByItemType(type);
-            WeaponSprite.sprite = Resources.Load<Sprite>(CurrentWeapon?.SpritePath);
+            CurrentWeapon = equipmentConfigRepository.GetByItemType(itemType);
+            WeaponSprite.sprite = Resources.Load<Sprite>(CurrentWeapon?.HaveWeaponSpritePath);
         }
 
         #region IDataPersistence

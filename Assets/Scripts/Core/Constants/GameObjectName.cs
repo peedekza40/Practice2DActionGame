@@ -4,6 +4,9 @@ namespace Core.Constants
     {
         public const string EffectBlock = "EffectBlock";
         public const string HitBox = "HitBox";
+        public const string Armor = "Armor";
+        public const string RightGlove = "RightGlove";
+        public const string Boot = "Boot";
         public const string SlotFrame = "SlotFrame";
         public const string Item = "Item";
         public const string ItemImage = "ItemImage";

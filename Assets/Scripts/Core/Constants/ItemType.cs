@@ -8,6 +8,6 @@ namespace Core.Constants
         SwordOne = 3,
         SwordTwo = 4,
         SwordThree = 5,
-        SwordFour = 6,
+        BootOne = 6
     }
 }

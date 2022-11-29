@@ -1,3 +1,4 @@
+using Character.Status;
 using Core.Repositories;
 using Infrastructure.Entities;
 using UnityEngine;

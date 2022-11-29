@@ -71,7 +71,10 @@ namespace Character.Inventory
 
             ItemModel weapon = diContainer.Instantiate<ItemModel>();
             weapon.Setup(ItemType.SwordOne, 1);
+            ItemModel boot = diContainer.Instantiate<ItemModel>();
+            boot.Setup(ItemType.BootOne, 1);
             AddItem(weapon);
+            AddItem(boot);
         }
 
         public ItemModel GetItem(System.Guid id)

@@ -2,7 +2,7 @@ using System.Collections;
 using Core.Constants;
 using UnityEngine;
 
-namespace Character
+namespace Character.Status
 {
     public class EnemyStatus : CharacterStatus
     {
@@ -11,15 +11,10 @@ namespace Character
         private EnemyAI EnemyAi;
         private bool IsCollectedGold;
 
-        void Awake()
+        protected override void Awake()
         {
             EnemyAi = GetComponent<EnemyAI>();
-            base.BaseAwake();
-        }
-
-        void Update()
-        {
-            base.BaseUpdate();
+            base.Awake();
         }
 
         public override void Die()

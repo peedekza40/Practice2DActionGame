@@ -1,3 +1,4 @@
+using Character.Animators;
 using Character.Combat;
 using Character.Inventory;
 using Character.Status;
@@ -10,6 +11,7 @@ namespace Character
     public class PlayerHandler : MonoBehaviour
     {
         [Header("Assets")]
+        public PlayerAnimatorController AnimatorController;
         public PlayerStatus Status;
         public PlayerCombat Combat;
         public Gold Gold;
@@ -18,6 +20,13 @@ namespace Character
         private void Awake() 
         {
             Inventory.UseItemAction += UseItem;    
+        }
+
+        private void Update() 
+        {
+            AnimatorController.SetAssetsAnimation(
+                Combat.CurrentWeapon != null, 
+                Status.CurrentBoot?.HaveWeaponSpritePath);
         }
 
         private void OnTriggerEnter2D(Collider2D other) 

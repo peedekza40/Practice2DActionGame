@@ -26,7 +26,9 @@ namespace Character.Inventory
             ItemModel item = Inventory.GetItem(ItemInstanceId);
             if(item != null)
             {
-                ActionByType(() => { PlayerHandler.Combat.SetWeapon(item.Type); });    
+                UnityAction weaponTypeAction = () => { PlayerHandler.Combat.SetWeapon(item.Type); }; 
+                UnityAction bootTypeAction = () => { PlayerHandler.Status.SetBoot(item.Type); }; 
+                ActionByType(weaponTypeAction, bootTypeAction);    
             }
         }
 
@@ -45,9 +47,7 @@ namespace Character.Inventory
                     ItemModel item = Inventory.GetItem(slot.ItemInstanceId);
 
                     //check typ equipment
-                    bool isCorrectType = false;
-                    ActionByType(() => { isCorrectType = item.IsWeapon; });
-
+                    bool isCorrectType = item.EquipmentType == Type;
                     if(isCorrectType)
                     {
                         //set this item slot
@@ -78,8 +78,10 @@ namespace Character.Inventory
             ItemMouseEvent.OnLeftClick.RemoveAllListeners();
             ItemMouseEvent.OnRightClick.RemoveAllListeners();
 
-            //set weapon
-            ActionByType(() => { PlayerHandler.Combat.SetWeapon(item.Type); });
+            //set action
+            UnityAction weaponTypeAction = () => { PlayerHandler.Combat.SetWeapon(item.Type); }; 
+            UnityAction bootTypeAction = () => { PlayerHandler.Status.SetBoot(item.Type); }; 
+            ActionByType(weaponTypeAction, bootTypeAction);
 
             //set opacity
             ItemCanvasGroup.alpha = 1f;
@@ -101,16 +103,27 @@ namespace Character.Inventory
             ItemMouseEvent.OnLeftClick.RemoveAllListeners();
             ItemMouseEvent.OnRightClick.RemoveAllListeners();
 
-            //set weapon to null
-            ActionByType(() => { PlayerHandler.Combat.SetWeapon(ItemType.None); });
+            //set action
+            UnityAction weaponTypeAction = () => { PlayerHandler.Combat.SetWeapon(ItemType.None); }; 
+            UnityAction bootTypeAction = () => { PlayerHandler.Status.SetBoot(ItemType.None); }; 
+            ActionByType(weaponTypeAction, bootTypeAction);
         }
 
-        private void ActionByType(UnityAction weaponTypeAction)
+        private void ActionByType(UnityAction weaponTypeAction = null, UnityAction bootTypeAction = null)
         {
             switch (Type)
             {
                 case EquipmentType.Weapon : 
-                    weaponTypeAction();
+                    if(weaponTypeAction != null)
+                    {
+                        weaponTypeAction();
+                    }
+                    break;
+                case EquipmentType.Boot :
+                    if(bootTypeAction != null)
+                    {
+                        bootTypeAction();
+                    }
                     break;
             }
         }

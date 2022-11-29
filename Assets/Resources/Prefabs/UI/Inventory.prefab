@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 2153584583843417320}
   - component: {fileID: 2499067815222705238}
   m_Layer: 5
-  m_Name: AmuletSlot
+  m_Name: GloveSlot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -38,10 +38,10 @@ RectTransform:
   m_Father: {fileID: 7762993703030682236}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 505.785, y: -60}
+  m_SizeDelta: {x: 120, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!225 &617536453228875906
 CanvasGroup:
@@ -92,7 +92,7 @@ MonoBehaviour:
   ItemImage: {fileID: 3383515883577650908}
   ItemAmountText: {fileID: 0}
   ItemCanvasGroup: {fileID: 3338073071589427439}
-  Type: 3
+  Type: 4
 --- !u!114 &2153584583843417320
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -342,7 +342,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1023329038599907313}
   m_HandleRect: {fileID: 1023329038599907312}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -419,7 +419,7 @@ RectTransform:
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -634,10 +634,10 @@ RectTransform:
   m_Father: {fileID: 7762993703030682236}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 60, y: -60}
+  m_SizeDelta: {x: 120, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!225 &3085266288684699315
 CanvasGroup:
@@ -688,7 +688,7 @@ MonoBehaviour:
   ItemImage: {fileID: 9108292845620806435}
   ItemAmountText: {fileID: 0}
   ItemCanvasGroup: {fileID: 2134686398863586089}
-  Type: 0
+  Type: 1
 --- !u!114 &4971162667115608555
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1060,7 +1060,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 8c013fbd1dde7bc4db457cfd3b7b7ffa, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 083237d4baf78d143b4251ca612f18dd, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1136,7 +1136,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: a4eeb9c26c3c16e469eb5b1039512d80, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 0f8c5ead26c61f548b23167bd8f92253, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1260,7 +1260,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -282.89, y: -0.000030517578}
+  m_AnchoredPosition: {x: -282.89, y: 0.000030517578}
   m_SizeDelta: {x: 565.784, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &8287558381000393306
@@ -1377,10 +1377,10 @@ RectTransform:
   m_Father: {fileID: 4142765999980683881}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 60, y: -60}
-  m_SizeDelta: {x: 120, y: 120}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!225 &6474596958163458465
 CanvasGroup:
@@ -1881,10 +1881,10 @@ RectTransform:
   m_Father: {fileID: 7762993703030682236}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 208.595, y: -60}
+  m_SizeDelta: {x: 120, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!225 &2106122435076069075
 CanvasGroup:
@@ -1935,7 +1935,7 @@ MonoBehaviour:
   ItemImage: {fileID: 8345666037837380670}
   ItemAmountText: {fileID: 0}
   ItemCanvasGroup: {fileID: 7143104605542902932}
-  Type: 1
+  Type: 2
 --- !u!114 &5044578647330052412
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2151,7 +2151,7 @@ GameObject:
   - component: {fileID: 3732012192629954287}
   - component: {fileID: 3031354125961837201}
   m_Layer: 5
-  m_Name: ShieldSlot
+  m_Name: BootSlot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2174,10 +2174,10 @@ RectTransform:
   m_Father: {fileID: 7762993703030682236}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 357.19, y: -60}
+  m_SizeDelta: {x: 120, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!225 &6356919188580097849
 CanvasGroup:
@@ -2228,7 +2228,7 @@ MonoBehaviour:
   ItemImage: {fileID: 2936008071918504206}
   ItemAmountText: {fileID: 0}
   ItemCanvasGroup: {fileID: 6864681481118036014}
-  Type: 2
+  Type: 3
 --- !u!114 &3732012192629954287
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2586,7 +2586,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6415088368853734152
 RectTransform:
   m_ObjectHideFlags: 0

@@ -13,7 +13,7 @@ namespace Infrastructure.Entities
         public string SpritePath { get; set; }
         public bool IsStackable { get; set; }
         public bool IsCanUse { get; set; }
-        public bool IsWeapon { get; set; }
+        public bool IsEquipment { get; set; }
     }
 
 }

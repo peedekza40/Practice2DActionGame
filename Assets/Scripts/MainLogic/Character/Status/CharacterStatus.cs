@@ -1,17 +1,16 @@
 using UnityEngine;
 using UnityEngine.Events;
-using System;
-using Character.Interfaces;
 using Character.Animators;
+using UI;
 
-namespace Character
+namespace Character.Status
 {
     public class CharacterStatus : MonoBehaviour
     {
 
         public float MaxHP = 100;
         public float CurrentHP { get; protected set; }
-        public HealthBar HealthBar;
+        public SliderBar HealthBar;
         public UnityEvent OnDamaged;
         public UnityEvent<float> OnDamagedPassDamage;
         public UnityEvent<GameObject> OnDamagedPassHitBox;
@@ -21,15 +20,16 @@ namespace Character
         private AnimatorController AnimatorController;
         private Rigidbody2D Rigidbody;
 
-        protected void BaseAwake()
+        protected virtual void Awake()
         {
             AnimatorController = GetComponent<AnimatorController>();
             Rigidbody = GetComponent<Rigidbody2D>();
-            HealthBar.SetMaxHealth(MaxHP);
+            
+            HealthBar.SetMaxValue(MaxHP);
             SetCurrentHP(MaxHP);
         }
 
-        protected void BaseUpdate()
+        protected virtual void Update()
         {
             if(CurrentHP <= 0)
             {
@@ -40,20 +40,20 @@ namespace Character
 
         public void SetCurrentHP(float hp)
         {
-            this.CurrentHP = hp;
-            HealthBar.SetHealth(CurrentHP);
+            CurrentHP = hp;
+            HealthBar.SetCurrentValue(CurrentHP);
         }
 
         public void SetMaxHealth(float maxHp)
         {
             MaxHP = maxHp;
-            HealthBar.SetMaxHealth(MaxHP);
+            HealthBar.SetMaxValue(MaxHP);
         }
 
         public void AddCurrentHP(float hp)
         {
-            this.CurrentHP += hp;
-            HealthBar.SetHealth(CurrentHP);
+            CurrentHP += hp;
+            HealthBar.SetCurrentValue(CurrentHP);
         }
 
         public virtual void TakeDamage(float damage, GameObject attackerHitBox)

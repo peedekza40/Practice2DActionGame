@@ -5,7 +5,7 @@ namespace Character.Combat.States.Player
         public override void OnEnter(StateMachine _stateMachine)
         {
             base.OnEnter(_stateMachine);
-            Duration = PlayerCombat.TimeBetweenBlock;
+            Duration = PlayerHandler.Combat.TimeBetweenBlock;
             AnimatorController.SetBlock(false);
         }
 

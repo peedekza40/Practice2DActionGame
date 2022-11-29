@@ -26,7 +26,8 @@ namespace Character.Animators
 
         public virtual void TriggerAttacked()
         {
-            MainAnimator.SetTrigger(AnimationParameter.Attacked);
+            MainAnimator.SetBool(AnimationParameter.IsAttacked, true);
+            MainAnimator.SetBool(AnimationParameter.IsAttacked, false);
         }
 
         public virtual void SetDeath()

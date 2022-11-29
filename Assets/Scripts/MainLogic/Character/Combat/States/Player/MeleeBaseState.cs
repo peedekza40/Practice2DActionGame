@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Character.Animators;
-using Character.Interfaces;
+using Character.Status;
 using Collecting;
 using Core.Constants;
 using Infrastructure.InputSystem;
@@ -14,7 +14,7 @@ namespace Character.Combat.States.Player
         public float Duration;
         protected bool ShouldCombo;
         protected int AttackIndex;
-        protected PlayerCombat PlayerCombat;
+        protected PlayerHandler PlayerHandler;
         protected AnimatorController AnimatorController;
         private AnimatorStateInfo AnimationState;
         private Gold Gold;
@@ -27,6 +27,7 @@ namespace Character.Combat.States.Player
         protected LayerMask EnemyLayers;
         protected Collider2D HitBox;
         protected bool IsDamaged;
+        protected float StaminaUse;
         #endregion
 
         #region Dependencies
@@ -38,12 +39,13 @@ namespace Character.Combat.States.Player
             base.OnEnter(_stateMachine);
             AnimatorController = GetComponent<AnimatorController>();
             Gold = GetComponent<Gold>();
-            PlayerCombat = GetComponent<PlayerCombat>();
-            MaxDamage = PlayerCombat.MaxDamage;
-            WeaponDamage = PlayerCombat.CurrentWeapon?.MaxDamage ?? 0f;
-            EnemyLayers = PlayerCombat.EnemyLayers;
-            HitBox = PlayerCombat.HitBox;
-            playerInputControl = PlayerCombat.PlayerInputControl;
+            PlayerHandler = GetComponent<PlayerHandler>();
+            MaxDamage = PlayerHandler.Combat.MaxDamage;
+            WeaponDamage = PlayerHandler.Combat.CurrentWeapon?.MaxDamage ?? 0f;
+            EnemyLayers = PlayerHandler.Combat.EnemyLayers;
+            HitBox = PlayerHandler.Combat.HitBox;
+            StaminaUse = PlayerHandler.Combat.StaminaUse;
+            playerInputControl = PlayerHandler.Combat.PlayerInputControl;
 
             playerInputControl.AttackInput.performed += (context) => { SetShouldCombo(); };
         }
@@ -59,7 +61,7 @@ namespace Character.Combat.States.Player
 
         private void SetShouldCombo()
         {
-            ShouldCombo = true;
+            ShouldCombo = true && PlayerHandler.Status.CurrentStamina >= StaminaUse;
         }
 
         protected void Attack()

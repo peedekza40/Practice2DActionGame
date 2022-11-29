@@ -15,21 +15,26 @@ namespace Character.Inventory
         public int Amount;
         public bool IsStackable { get; private set; }
         public bool IsCanUse { get; private set; }
-        public bool IsWeapon { get; private set; }
+        public bool IsWeapon => EquipmentType == EquipmentType.Weapon;
+        public bool IsEquipment { get; private set; }
+        public EquipmentType EquipmentType { get; private set; }
         public Sprite Sprite { get; private set; }
 
         #region Dependencies
         private ItemAssets itemAssets;
         private IItemConfigRepository itemConfigRepository;
+        private IEquipmentConfigRepository equipmentConfigRepository;
         #endregion
 
         [Inject]
         public void Init(
             ItemAssets itemAssets,
-            IItemConfigRepository itemConfigRepository)
+            IItemConfigRepository itemConfigRepository,
+            IEquipmentConfigRepository equipmentConfigRepository)
         {
             this.itemAssets = itemAssets;
             this.itemConfigRepository = itemConfigRepository;
+            this.equipmentConfigRepository = equipmentConfigRepository;
         }
 
         public void Setup(ItemType type, int amount = 1)
@@ -41,8 +46,13 @@ namespace Character.Inventory
             ItemConfig itemConfig = itemConfigRepository.GetByType(Type);
             IsStackable = itemConfig.IsStackable;
             IsCanUse = itemConfig.IsCanUse;
-            IsWeapon = itemConfig.IsWeapon;
+            IsEquipment = itemConfig.IsEquipment;
             Sprite = GetSprite(itemConfig.SpritePath);
+
+            if(IsEquipment)
+            {
+                EquipmentType = (EquipmentType)equipmentConfigRepository.GetByItemType(Type).TypeId;
+            }
         }
         
         private Sprite GetSprite(string spritePath)

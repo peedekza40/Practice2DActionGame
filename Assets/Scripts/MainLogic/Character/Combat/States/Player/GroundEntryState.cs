@@ -5,10 +5,11 @@ namespace Character.Combat.States.Player
         public override void OnEnter(StateMachine _stateMachine)
         {
             base.OnEnter(_stateMachine);
+            PlayerHandler.Status.SetCurrentStamina(PlayerHandler.Status.CurrentStamina - StaminaUse);
 
             //Attack
             AttackIndex = 1;
-            Duration = PlayerCombat.AttackDuration;
+            Duration = PlayerHandler.Combat.AttackDuration;
             AnimatorController.TriggerAttack(AttackIndex);
         }
 

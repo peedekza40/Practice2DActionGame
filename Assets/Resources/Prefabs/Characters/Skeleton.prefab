@@ -355,11 +355,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 5364670531419778473}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a65f370fc55e09a459d292f1199a8988, type: 3}
+  m_Script: {fileID: 11500000, guid: 1ea8e908094d38a42871dde470729b00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HpSlider: {fileID: 473515733807272979}
-  SmoothSlider: {fileID: 180798998}
+  MainSlider: {fileID: 473515733807272979}
+  BackSlider: {fileID: 180798998}
 --- !u!1 &7299253452271074408
 GameObject:
   m_ObjectHideFlags: 0
@@ -1020,15 +1020,15 @@ MonoBehaviour:
   Items:
     list:
     - item:
-        Type: 1
+        Type: 6
         Amount: 1
-      weight: 7
+      weight: 100
     - item:
         Type: 2
         Amount: 1
       weight: 5
     - item:
-        Type: 5
+        Type: 6
         Amount: 1
       weight: 100
   DropAmount: 3
@@ -1117,7 +1117,7 @@ GameObject:
   - component: {fileID: 8530462062700130267}
   - component: {fileID: 180798998}
   m_Layer: 5
-  m_Name: SmoothBar
+  m_Name: BackBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
