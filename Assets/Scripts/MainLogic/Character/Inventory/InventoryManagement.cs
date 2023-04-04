@@ -70,9 +70,11 @@ namespace Character.Inventory
             playerInputControl.ToggleInventoryInput.performed += ToggleInventory;
 
             ItemModel weapon = diContainer.Instantiate<ItemModel>();
-            weapon.Setup(ItemType.SwordOne, 1);
             ItemModel boot = diContainer.Instantiate<ItemModel>();
+            
+            weapon.Setup(ItemType.SwordOne, 1);
             boot.Setup(ItemType.BootOne, 1);
+
             AddItem(weapon);
             AddItem(boot);
         }
@@ -196,8 +198,8 @@ namespace Character.Inventory
                     else
                     {
                         ItemSlot slot = ItemSlots.FirstOrDefault(x => x.ItemInstanceId == System.Guid.Empty);
-                        slot.SetItem(item);
-                        tempSlots.Add(slot);
+                        slot?.SetItem(item);
+                        tempSlots?.Add(slot);
                     }
                 }
 

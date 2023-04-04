@@ -1711,7 +1711,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   KnockBackRange: 3
-  KnockBackDuration: 1
+  ReduceDurationPercent: 20
   CenterTransform: {fileID: 8441723458737396292}
 --- !u!114 &2409685645773471319
 MonoBehaviour:

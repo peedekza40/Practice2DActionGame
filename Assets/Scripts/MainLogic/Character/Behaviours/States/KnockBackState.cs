@@ -6,6 +6,7 @@ namespace Character.Behaviours.States
     {
         private float Range;
         private float Duration;
+        private float ReduceDurationPercent;
         private Transform CenterTransform;
         private Rigidbody2D Rb;
         private GameObject AttackerHitBox;
@@ -20,7 +21,7 @@ namespace Character.Behaviours.States
             base.OnEnter(_stateMachine);
             Rb = GetComponent<Rigidbody2D>();
             Range = GetComponent<KnockBack>().KnockBackRange;
-            Duration = GetComponent<KnockBack>().KnockBackDuration;
+            ReduceDurationPercent = GetComponent<KnockBack>().ReduceDurationPercent;
             CenterTransform = GetComponent<KnockBack>().CenterTransform;
 
             KnockBack();
@@ -46,7 +47,11 @@ namespace Character.Behaviours.States
             {
                 direction.x = 1;
             }
-            Rb.velocity = (Vector2)(direction.normalized * Range);
+
+            var velocity = (Vector2)(direction.normalized * Range);
+            Rb.velocity = velocity;
+            Duration = (Range / Mathf.Abs(velocity.x)) * (100 - ReduceDurationPercent) / 100;
+            Duration = float.IsNaN(Duration) ? 0 : Duration;
         }
     }
 }

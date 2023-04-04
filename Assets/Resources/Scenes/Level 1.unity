@@ -3992,6 +3992,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1757245925762325566, guid: a508220d80c5043408f44c17b2e802e7, type: 3}
+      propertyPath: ReduceDurationPercent
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 2037790301991331241, guid: a508220d80c5043408f44c17b2e802e7, type: 3}
       propertyPath: m_Sprite
       value: 

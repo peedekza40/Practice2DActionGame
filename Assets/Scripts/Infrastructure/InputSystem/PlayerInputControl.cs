@@ -99,7 +99,7 @@ namespace Infrastructure.InputSystem
             }
 
 
-            //set cursur visible
+            //set cursor visible
             if(UIPersistences.Any(x => x.IsOpen))
             {
                 Cursor.visible = true;

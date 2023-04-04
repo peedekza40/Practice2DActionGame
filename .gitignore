@@ -72,3 +72,4 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 
 BuildApp/
+/Assets/Editor/RemoteConfig/Data/RemoteConfigDataStoreAsset.asset

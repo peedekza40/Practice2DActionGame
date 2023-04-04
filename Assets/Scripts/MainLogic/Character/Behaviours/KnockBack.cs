@@ -9,7 +9,8 @@ namespace Character.Behaviours
     public class KnockBack : MonoBehaviour
     {
         public float KnockBackRange;
-        public float KnockBackDuration = 1f;
+        [Range(0, 100)]
+        public float ReduceDurationPercent;
         public Transform CenterTransform;
 
         private Rigidbody2D Rb;
