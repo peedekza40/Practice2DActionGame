@@ -2,6 +2,7 @@ namespace Core.Constants
 {
     public enum EnemyId
     {
-        Skeleton = 1
+        Skeleton = 1,
+        Goblin = 2
     }
 }

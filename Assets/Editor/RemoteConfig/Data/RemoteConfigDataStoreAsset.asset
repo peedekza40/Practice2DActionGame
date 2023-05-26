@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 469c24fdb3bd6431b92cc1465bd9166b, type: 3}
   m_Name: RemoteConfigDataStoreAsset
   m_EditorClassIdentifier: 
-  _rsKeyList: "[\r\n  {\r\n    \"metadata\": {\r\n      \"entityId\": \"64a7b447-e395-42aa-a00d-ba14dfd84ae5\"\r\n   
+  _rsKeyList: "[\r\n  {\r\n    \"metadata\": {\r\n      \"entityId\": \"a872c20f-70e2-46d4-9314-2914c3bc5860\"\r\n   
     },\r\n    \"rs\": {\r\n      \"key\": \"AppSettings\",\r\n      \"type\": \"json\",\r\n     
     \"schemaId\": null,\r\n      \"value\": {\r\n        \"Combat\": {\r\n         
     \"Attacking\": {\r\n            \"DefaultDamage\": 5,\r\n            \"DefaultAttackDuration\":
@@ -20,7 +20,7 @@ MonoBehaviour:
     \"Blocking\": {\r\n            \"DefaultReduceDamagePercent\": 5,\r\n           
     \"DefaultTimeBetweenBlock\": 0.6,\r\n            \"MaxDecreaseTimeBetweenBlock\":
     0.4\r\n          }\r\n        }\r\n      }\r\n    }\r\n  }\r\n]"
-  _rsLastCachedKeyList: "[\r\n  {\r\n    \"metadata\": {\r\n      \"entityId\": \"64a7b447-e395-42aa-a00d-ba14dfd84ae5\"\r\n   
+  _rsLastCachedKeyList: "[\r\n  {\r\n    \"metadata\": {\r\n      \"entityId\": \"a872c20f-70e2-46d4-9314-2914c3bc5860\"\r\n   
     },\r\n    \"rs\": {\r\n      \"key\": \"AppSettings\",\r\n      \"type\": \"json\",\r\n     
     \"schemaId\": null,\r\n      \"value\": {\r\n        \"Combat\": {\r\n         
     \"Attacking\": {\r\n            \"DefaultDamage\": 5,\r\n            \"DefaultAttackDuration\":
@@ -29,10 +29,9 @@ MonoBehaviour:
     \"DefaultTimeBetweenBlock\": 0.6,\r\n            \"MaxDecreaseTimeBetweenBlock\":
     0.4\r\n          }\r\n        }\r\n      }\r\n    }\r\n  }\r\n]"
   _environments: "[\r\n  {\r\n    \"projectId\": \"cfcc838b-7fae-4e1e-886d-f503130919cf\",\r\n   
+    \"name\": \"production\",\r\n    \"id\": \"9cce920c-19fa-4f90-a9b3-234905c8e9ec\",\r\n   
+    \"isDefault\": true,\r\n    \"createdAt\": \"2022-10-09T14:55:25Z\",\r\n    \"updatedAt\":
+    \"2022-10-09T14:55:25Z\"\r\n  },\r\n  {\r\n    \"projectId\": \"cfcc838b-7fae-4e1e-886d-f503130919cf\",\r\n   
     \"name\": \"development\",\r\n    \"id\": \"c945c5f8-577c-4462-bc1c-28376b7c1157\",\r\n   
     \"isDefault\": false,\r\n    \"createdAt\": \"2022-10-09T15:06:58Z\",\r\n   
-    \"updatedAt\": \"2022-10-09T15:06:58Z\"\r\n  },\r\n  {\r\n    \"projectId\":
-    \"cfcc838b-7fae-4e1e-886d-f503130919cf\",\r\n    \"name\": \"production\",\r\n   
-    \"id\": \"9cce920c-19fa-4f90-a9b3-234905c8e9ec\",\r\n    \"isDefault\": true,\r\n   
-    \"createdAt\": \"2022-10-09T14:55:25Z\",\r\n    \"updatedAt\": \"2022-10-09T14:55:25Z\"\r\n 
-    }\r\n]"
+    \"updatedAt\": \"2022-10-09T15:06:58Z\"\r\n  }\r\n]"

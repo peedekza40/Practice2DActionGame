@@ -7,9 +7,9 @@ using Character.Behaviours;
 using Character.Interfaces;
 using Constants;
 using Character.Combat.States;
-using Character.Combat.States.Skeleton;
 using Character.Behaviours.States;
 using Character.Animators;
+using Character.Status;
 
 namespace Character
 {
@@ -24,7 +24,7 @@ namespace Character
         public float Speed = 200f;
         public float NextWaypointDistance = 2f;
         public float JumpNodeHeightRequirement = 0.8f;
-        public float JumpModifier = 0.3f;
+        public float JumpSpeed = 8f;
         public float JumpCheckOffset = 0.1f;
 
         [Header("Combat")]
@@ -56,6 +56,8 @@ namespace Character
         private AnimatorStateInfo AnimationState;
         private AnimatorClipInfo[] AnimatorClip;
 
+        private EnemyStatus EnemyStatus;
+
         private void Awake() 
         {
             Seeker = GetComponent<Seeker>();
@@ -64,6 +66,7 @@ namespace Character
             AnimatorController = GetComponent<AnimatorController>();
             CombatStateMachine = GetComponents<StateMachine>().FirstOrDefault(x => x.Id == StateId.Combat);
             BehaviourStateMachine = GetComponents<StateMachine>().FirstOrDefault(x => x.Id == StateId.Behaviour);
+            EnemyStatus = GetComponent<EnemyStatus>();
         }
 
         private void Start()
@@ -118,20 +121,18 @@ namespace Character
             
             //Direction Calculation
             Vector2 direction = ((Vector2)Path.vectorPath[CurrentWaypoint] - Rb.position).normalized;
-            Vector2 force = direction * Speed * Time.deltaTime;
 
             //Jump
             if(JumpEnabled && IsGrounded)
             {
                 if(direction.y > JumpNodeHeightRequirement)
                 {
-                    Rb.AddForce(Vector2.up * Speed * JumpModifier);
+                    Rb.velocity = Vector2.up * JumpSpeed;
                 }
             }
 
             //Movement
-            Rb.AddForce(force);
-
+            Rb.AddForce(direction * Speed * Time.deltaTime);
 
             //Next Waypoint
             float distance = Vector2.Distance(Rb.position, Path.vectorPath[CurrentWaypoint]);
@@ -171,7 +172,18 @@ namespace Character
             bool isEnemyDetected =  DetectedEnemies.Any();
             if(CombatStateMachine.IsCurrentState(typeof(IdleCombatState)) && isEnemyDetected)
             {
-                CombatStateMachine.SetNextState(new MeleeEntryState());
+                State meleeEntryState = null;
+                switch(EnemyStatus.Type)
+                {
+                    case EnemyId.Skeleton : 
+                        meleeEntryState = new Character.Combat.States.Skeleton.MeleeEntryState(); 
+                        break;
+                    case EnemyId.Goblin : 
+                        meleeEntryState = new Character.Combat.States.Goblin.MeleeEntryState(); 
+                        break;
+                }
+
+                CombatStateMachine.SetNextState(meleeEntryState);
             }
         }
 

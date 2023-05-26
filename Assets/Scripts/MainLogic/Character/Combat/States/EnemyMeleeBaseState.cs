@@ -1,18 +1,20 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Character;
 using Character.Animators;
-using Character.Interfaces;
 using Character.Status;
 using Core.Constants;
 using UnityEngine;
 
-namespace Character.Combat.States.Skeleton
+namespace Character.Combat.States
 {
-    public class MeleeBaseState : State
+    public class EnemyMeleeBaseState : State
     {
         public float Duration;
         protected int AttackIndex;
         protected EnemyAI EnemyAI;
+        protected EnemyStatus EnemyStatus;
         protected AnimatorController AnimatorController;
         private AnimatorStateInfo AnimationState;
         public Rigidbody2D Rb;
@@ -31,6 +33,7 @@ namespace Character.Combat.States.Skeleton
             base.OnEnter(_stateMachine);
             AnimatorController = GetComponent<AnimatorController>();
             EnemyAI = GetComponent<EnemyAI>();
+            EnemyStatus = GetComponent<EnemyStatus>();
             Rb = GetComponent<Rigidbody2D>();
             DetectedEnemies = EnemyAI.DetectedEnemies;
             MaxDamage = EnemyAI.MaxDamage;
@@ -70,8 +73,11 @@ namespace Character.Combat.States.Skeleton
                 {
                     var randomDamage = Random.Range(MaxDamage * 0.9f, MaxDamage);
                     var attackedEnemy = hitEnemy.GetComponent<PlayerStatus>();
-                    attackedEnemy?.TakeDamage(randomDamage, HitBox.gameObject);
-                    IsDamaged = true;
+                    if(attackedEnemy?.IsImmortal == false)
+                    {
+                        attackedEnemy?.TakeDamage(randomDamage, HitBox.gameObject);
+                        IsDamaged = true;
+                    }
                 }
             }
             else if(IsAttacking() == false)
@@ -86,5 +92,4 @@ namespace Character.Combat.States.Skeleton
             return AnimationState.IsName($"{AnimationName.Attack}{AttackIndex}");
         }
     }
-  
 }

@@ -14,8 +14,8 @@ namespace Collecting
         [Header("UI")]
         public Transform GoldLabelTransform;
         public TextMeshProUGUI ValueText;
-
-        public int Amount { get; private set; } = 0;
+        public int Amount = 0;
+        
         private int RunningAmount = 0;
         private float CurrentVelocity;
 

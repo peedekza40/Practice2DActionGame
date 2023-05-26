@@ -39,7 +39,7 @@ namespace Character.Combat
         public bool IsPressingBlock { get; private set; }
 
         public EquipmentConfig CurrentWeapon { get; private set; }
-        private StateMachine CombatStateMachine;
+        public StateMachine CombatStateMachine { get; private set; }
         private PlayerHandler PlayerHandler;
 
         #region Dependencies

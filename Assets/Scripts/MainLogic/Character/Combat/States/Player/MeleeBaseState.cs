@@ -80,9 +80,12 @@ namespace Character.Combat.States.Player
                     var maxDamage = MaxDamage + WeaponDamage;
                     var randomDamage = Random.Range(maxDamage * 0.9f, maxDamage);
                     var attackedEnemy = hitEnemy.GetComponent<EnemyStatus>();
-                    attackedEnemy?.TakeDamage(randomDamage, HitBox.gameObject);
-                    AttackedEnemies.Add(attackedEnemy);
-                    IsDamaged = true;
+                    if(attackedEnemy?.IsImmortal == false)
+                    {
+                        attackedEnemy?.TakeDamage(randomDamage, HitBox.gameObject);
+                        AttackedEnemies.Add(attackedEnemy);
+                        IsDamaged = true;
+                    }
                 }
             }
             else if(IsAttacking() == false)

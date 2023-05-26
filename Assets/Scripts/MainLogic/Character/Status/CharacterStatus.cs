@@ -10,6 +10,7 @@ namespace Character.Status
 
         public float MaxHP = 100;
         public float CurrentHP { get; protected set; }
+        public bool IsImmortal = false;
         public SliderBar HealthBar;
         public UnityEvent OnDamaged;
         public UnityEvent<float> OnDamagedPassDamage;

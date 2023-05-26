@@ -3,7 +3,7 @@ using Core.Constants;
 
 namespace Character.Animators
 {
-    public class SkeletonAnimatorController : AnimatorController
+    public class EnemyAnimatorController : AnimatorController
     {
         public Transform CanvasTransform;
 

@@ -1,6 +1,6 @@
 namespace Character.Combat.States.Skeleton
 {
-    public class GroundEntryState : MeleeBaseState
+    public class GroundEntryState : EnemyMeleeBaseState
     {
         public override void OnEnter(StateMachine _stateMachine)
         {
