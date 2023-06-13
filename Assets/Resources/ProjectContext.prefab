@@ -178,6 +178,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: DataPersistenceManager
       objectReference: {fileID: 0}
+    - target: {fileID: 5110815170872248540, guid: f4b3706133a6a694eb856c05168b72f5, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5110815170872248541, guid: f4b3706133a6a694eb856c05168b72f5, type: 3}
       propertyPath: m_Enabled
       value: 0

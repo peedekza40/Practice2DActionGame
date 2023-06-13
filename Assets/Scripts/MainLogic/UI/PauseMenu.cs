@@ -12,8 +12,6 @@ namespace UI
         public GameObject MenuPanel;
         public GameObject Player;
 
-        private DeathScript DeathScript;
-
         #region Dependencies
         [Inject]
         private DataPersistenceManager dataPersistenceManager;
@@ -27,7 +25,6 @@ namespace UI
 
         private void Awake() 
         {
-            DeathScript = Player.GetComponent<DeathScript>();
             MouseEvent = GetComponent<MouseEvent>();
         }
 

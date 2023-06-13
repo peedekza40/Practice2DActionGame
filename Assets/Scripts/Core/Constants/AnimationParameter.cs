@@ -6,6 +6,7 @@ namespace Core.Constants
     public static class AnimationParameter
     {
         public const string Attack = "Attack";
+        public const string AttackFromAir = "AttackFromAir";
         public const string IsAttacked = "IsAttacked";
         public const string Speed = "Speed";
         public const string IsDeath = "IsDeath";

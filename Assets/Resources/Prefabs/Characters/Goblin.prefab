@@ -763,7 +763,7 @@ Transform:
   - {fileID: 5124606033839770905}
   - {fileID: 3197656211200406714}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &8009742133586685725
 Rigidbody2D:
@@ -893,15 +893,17 @@ MonoBehaviour:
   AttackDuration: 1
   TimeBetweenCombo: 0.25
   MaxDamage: 15
-  HitBox: {fileID: 3634407732105629947}
+  MinDamage: 10
+  HitBoxes:
+  - {fileID: 3634407732105629947}
   DetectEnemyRange: 1.3
   DetectEnemyTransform: {fileID: 5124606033839770905}
   EnemyLayers:
     serializedVersion: 2
     m_Bits: 8
-  FollowEnabled: 1
-  JumpEnabled: 1
-  AttackEnabled: 1
+  FollowEnabled: 0
+  JumpEnabled: 0
+  AttackEnabled: 0
   DirectionLookEnabled: 1
 --- !u!114 &8072776276011549519
 MonoBehaviour:
@@ -993,6 +995,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   KnockBackRange: 4
   ReduceDurationPercent: 0
+  Enabled: 1
   CenterTransform: {fileID: 7360257916326082872}
 --- !u!114 &1787282014
 MonoBehaviour:
@@ -1021,14 +1024,14 @@ MonoBehaviour:
   Items:
     list:
     - item:
-        Type: 3
+        Type: 4
         Amount: 1
       weight: 100
     - item:
         Type: 1
         Amount: 1
       weight: 100
-  DropAmount: 3
+  DropAmount: 1
 --- !u!114 &8969762927044371882
 MonoBehaviour:
   m_ObjectHideFlags: 0

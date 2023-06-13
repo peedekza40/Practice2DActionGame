@@ -9,12 +9,23 @@ namespace Character.Animators
     {
         public Animator MainAnimator;
 
+        private float DurationAttacked = 0.1f;
+        private float CurrentTriggerAttacked = 0f;
         private List<AnimationClip> Clips = new List<AnimationClip>();
 
         // Start is called before the first frame update
         protected virtual void Start()
         {
             Clips = MainAnimator.runtimeAnimatorController.animationClips.ToList();
+        }
+
+        protected virtual void Update()
+        {
+            CurrentTriggerAttacked += Time.deltaTime;
+            if(CurrentTriggerAttacked >= DurationAttacked)
+            {
+                MainAnimator.SetBool(AnimationParameter.IsAttacked, false);
+            }
         }
 
         public virtual void SetIsAttacking(bool isAttacking)
@@ -27,7 +38,7 @@ namespace Character.Animators
         public virtual void TriggerAttacked()
         {
             MainAnimator.SetBool(AnimationParameter.IsAttacked, true);
-            MainAnimator.SetBool(AnimationParameter.IsAttacked, false);
+            CurrentTriggerAttacked = 0f;
         }
 
         public virtual void SetDeath()

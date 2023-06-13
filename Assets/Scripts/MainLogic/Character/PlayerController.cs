@@ -55,9 +55,6 @@ namespace Character
         
         private void Start()
         {
-            //bind jump control
-            playerInputControl.JumpInput.performed += StartJump;
-            playerInputControl.JumpInput.canceled += FinishJump;
         }
 
         private void Update() {
@@ -69,7 +66,8 @@ namespace Character
             bool isIdleCombat = CombatStateMachine.IsCurrentState(typeof(IdleCombatState));
             bool isBlockFinish = CombatStateMachine.IsCurrentState(typeof(BlockFinisherState));
             bool isKnockingBack = BehaviourStateMachine.IsCurrentState(typeof(KnockBackState));
-            IsCanMove = (isIdleCombat || isBlockFinish) && isKnockingBack == false;
+            bool isDisabledMove = BehaviourStateMachine.IsCurrentState(typeof(DisabledMoveState));
+            IsCanMove = (isIdleCombat || isBlockFinish) && isKnockingBack == false && isDisabledMove == false;
 
             GatherInput();
             RunCollisionChecks();
@@ -292,7 +290,7 @@ namespace Character
             }
         }
 
-        private void StartJump(InputAction.CallbackContext context)
+        public void StartJump()
         {
             _lastJumpPressed = Time.time;
 
@@ -306,7 +304,7 @@ namespace Character
             }
         }
 
-        private void FinishJump(InputAction.CallbackContext context)
+        public void FinishJump()
         {
             // End the jump early if button released
             if (!_colDown && !_endedJumpEarly && Velocity.y > 0) {
@@ -363,6 +361,7 @@ namespace Character
 
         #endregion
 
+        #region IDataPersistence
         public void LoadData(GameDataModel data)
         {
             transform.position = data.PlayerData.Position;
@@ -374,5 +373,6 @@ namespace Character
             data.PlayerData.Position = _lastPosition;
             data.PlayerData.Scale = transform.localScale;
         }
+        #endregion
     }
 }

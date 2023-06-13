@@ -11,10 +11,11 @@ namespace Infrastructure.InputSystem
     {
         public Vector2 Move => MoveInput.ReadValue<Vector2>();
 
+        public List<IPlayerInputPersistence> PlayerInputPersistences;
         public List<IUIPersistence> UIPersistences;
         private List<MouseEvent> UIMouseEvents { get; set; } = new List<MouseEvent>();
 
-        private PlayerInputAction PlayerInput;
+        public PlayerInputAction PlayerInput;
         public InputAction MoveInput { get; private set; }
         public InputAction JumpInput { get; private set; }
         public InputAction AttackInput { get; private set; }
@@ -25,29 +26,25 @@ namespace Infrastructure.InputSystem
         private void Awake() 
         {
             PlayerInput = new PlayerInputAction();
+            MoveInput = PlayerInput.Player.Move;
+            JumpInput = PlayerInput.Player.Jump;
+            AttackInput = PlayerInput.Player.Attack;
+            BlockInput = PlayerInput.Player.Block;
+            ToggleInventoryInput = PlayerInput.Player.ToggleInventory;
+            InteractInput = PlayerInput.Player.Interact;
         }
 
         private void OnEnable() 
         {
-            MoveInput = PlayerInput.Player.Move;
             MoveInput.Enable();
-
-            JumpInput = PlayerInput.Player.Jump;
             JumpInput.Enable();
-
-            AttackInput = PlayerInput.Player.Attack;
             AttackInput.Enable();
-
-            BlockInput = PlayerInput.Player.Block;
             BlockInput.Enable();
-
-            ToggleInventoryInput = PlayerInput.Player.ToggleInventory;
             ToggleInventoryInput.Enable();
-
-            InteractInput = PlayerInput.Player.Interact;
             InteractInput.Enable();
 
             SceneManager.sceneLoaded += OnSceneLoaded;
+            SceneManager.sceneUnloaded += OnSceneUnloaded;
         }
 
         private void OnDisable() 
@@ -65,7 +62,16 @@ namespace Infrastructure.InputSystem
         public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
             UIPersistences = FindAllUIPersistenceObjects();
+            PlayerInputPersistences = FindAllPlayerInputPersistenceObjects();
             UIMouseEvents = UIPersistences.Select(x => x.MouseEvent).ToList();
+        }
+
+        public void OnSceneUnloaded(Scene scene)
+        {   
+            foreach(var playerInputPersistence in PlayerInputPersistences)
+            {
+                playerInputPersistence.ClearInputActionOnUnloadScene();
+            }
         }
 
         private void Update() 
@@ -84,8 +90,9 @@ namespace Infrastructure.InputSystem
 
             //disabled movement && inventory
             bool pauseMenuIsOpen = UIPersistences.Any(x => x.Number == UINumber.PauseMenu && x.IsOpen);
+            bool deathMenuIsOpen = UIPersistences.Any(x => x.Number == UINumber.DeathMenu && x.IsOpen);
             bool statisticIsOpen = UIPersistences.Any(x => x.Number == UINumber.Statistic && x.IsOpen);
-            if(pauseMenuIsOpen || statisticIsOpen)
+            if(deathMenuIsOpen || pauseMenuIsOpen || statisticIsOpen)
             {
                 MoveInput.Disable();
                 JumpInput.Disable();
@@ -113,8 +120,13 @@ namespace Infrastructure.InputSystem
         private List<IUIPersistence> FindAllUIPersistenceObjects()
         {
             IEnumerable<IUIPersistence> uiPersistences = FindObjectsOfType<MonoBehaviour>().OfType<IUIPersistence>();
-
             return new List<IUIPersistence>(uiPersistences);
+        }
+
+        private List<IPlayerInputPersistence> FindAllPlayerInputPersistenceObjects()
+        {
+            IEnumerable<IPlayerInputPersistence> playerPersistences = FindObjectsOfType<MonoBehaviour>().OfType<IPlayerInputPersistence>();
+            return new List<IPlayerInputPersistence>(playerPersistences);
         }
 
     }

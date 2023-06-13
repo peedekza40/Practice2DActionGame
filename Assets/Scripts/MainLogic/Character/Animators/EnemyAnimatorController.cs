@@ -15,8 +15,9 @@ namespace Character.Animators
             base.Start();
         }
         
-        void Update()
+        protected override void Update()
         {
+            base.Update();
             MainAnimator.SetFloat(AnimationParameter.Speed, Mathf.Abs(Rb.velocity.x));
         }
 

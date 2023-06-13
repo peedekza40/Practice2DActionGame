@@ -16,14 +16,16 @@ namespace Character.Combat.States
         protected EnemyAI EnemyAI;
         protected EnemyStatus EnemyStatus;
         protected AnimatorController AnimatorController;
-        private AnimatorStateInfo AnimationState;
+        protected AnimatorStateInfo AnimationState;
         public Rigidbody2D Rb;
         public List<Collider2D> DetectedEnemies;
 
         #region Calculate attack
         protected float MaxDamage;
+        protected float MinDamage;
         protected LayerMask EnemyLayers;
-        protected Collider2D HitBox;
+        protected List<Collider2D> HitBoxes = new List<Collider2D>();
+        protected List<Collider2D> HitBoxesIsDetected = new List<Collider2D>();
         protected bool IsDamaged;
         #endregion
 
@@ -37,8 +39,9 @@ namespace Character.Combat.States
             Rb = GetComponent<Rigidbody2D>();
             DetectedEnemies = EnemyAI.DetectedEnemies;
             MaxDamage = EnemyAI.MaxDamage;
+            MinDamage = EnemyAI.MinDamage;
             EnemyLayers = EnemyAI.EnemyLayers;
-            HitBox = EnemyAI.HitBox;
+            HitBoxes = EnemyAI.HitBoxes;
 
             //look direction
             var target = DetectedEnemies.FirstOrDefault(x => x.tag == TagName.Player);
@@ -58,24 +61,21 @@ namespace Character.Combat.States
             AnimatorController.SetIsAttacking(IsAttacking());
         }
 
-        protected void Attack()
+        protected virtual void Attack()
         {
             if(IsAttacking() && IsDamaged == false)
             {
                 //detect enemy in range of attack
-                List<Collider2D> hitEnemies = new List<Collider2D>();
-                ContactFilter2D filter = new ContactFilter2D();
-                filter.SetLayerMask(EnemyLayers);
-                HitBox.OverlapCollider(filter, hitEnemies);
+                List<Collider2D> hitEnemies = DetectEnemy();
 
                 //damage them
                 foreach (var hitEnemy in hitEnemies)
                 {
-                    var randomDamage = Random.Range(MaxDamage * 0.9f, MaxDamage);
+                    var randomDamage = Random.Range(MinDamage, MaxDamage);
                     var attackedEnemy = hitEnemy.GetComponent<PlayerStatus>();
                     if(attackedEnemy?.IsImmortal == false)
                     {
-                        attackedEnemy?.TakeDamage(randomDamage, HitBox.gameObject);
+                        attackedEnemy?.TakeDamage(randomDamage, HitBoxesIsDetected.FirstOrDefault()?.gameObject);
                         IsDamaged = true;
                     }
                 }
@@ -84,10 +84,30 @@ namespace Character.Combat.States
             {
                 IsDamaged = false;
             }
-
         }
 
-        private bool IsAttacking()
+        protected List<Collider2D> DetectEnemy()
+        {
+            //detect enemy in range of attack
+            List<Collider2D> hitEnemies = new List<Collider2D>();
+            ContactFilter2D filter = new ContactFilter2D();
+            filter.SetLayerMask(EnemyLayers);
+            foreach(var hitBox in HitBoxes)
+            {
+                var tempHitEnemies = new List<Collider2D>();
+                hitBox.OverlapCollider(filter, tempHitEnemies);
+
+                if(tempHitEnemies.Any())
+                {
+                    HitBoxesIsDetected.Add(hitBox);
+                }
+
+                hitEnemies.AddRange(tempHitEnemies);
+            }
+            return hitEnemies;
+        }
+
+        protected virtual bool IsAttacking()
         {
             return AnimationState.IsName($"{AnimationName.Attack}{AttackIndex}");
         }

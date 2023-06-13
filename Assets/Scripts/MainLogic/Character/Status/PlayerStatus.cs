@@ -62,6 +62,7 @@ namespace Character.Status
         public override void TakeDamage(float damage, GameObject attackerHitBox)
         {
             var reduceDamage = 0f;
+
             bool isBlocking = CombatStateMachine.IsCurrentState(typeof(BlockingState));
             if(isBlocking)
             {
@@ -73,11 +74,17 @@ namespace Character.Status
                 }
                 else
                 {
-                    reduceDamage = (PlayerCombat.ReduceDamagePercent/100) * damage;
+                    reduceDamage = (PlayerCombat.ReduceDamagePercent / 100) * damage;
                 }
 
                 damage -= reduceDamage;
             }
+
+            var equipmentReduceDamagePercent = 0f;
+            equipmentReduceDamagePercent += CurrentArmor?.MaxDefense ?? 0f;
+            equipmentReduceDamagePercent += CurrentGlove?.MaxDefense ?? 0f;
+            equipmentReduceDamagePercent += CurrentBoot?.MaxDefense ?? 0f;
+            damage -= (equipmentReduceDamagePercent / 100) * damage;
             
             base.TakeDamage(damage, attackerHitBox);
         }

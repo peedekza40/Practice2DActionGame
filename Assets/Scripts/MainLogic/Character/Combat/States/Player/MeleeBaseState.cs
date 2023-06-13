@@ -6,6 +6,7 @@ using Collecting;
 using Core.Constants;
 using Infrastructure.InputSystem;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Character.Combat.States.Player
 {
@@ -47,7 +48,7 @@ namespace Character.Combat.States.Player
             StaminaUse = PlayerHandler.Combat.StaminaUse;
             playerInputControl = PlayerHandler.Combat.PlayerInputControl;
 
-            playerInputControl.AttackInput.performed += (context) => { SetShouldCombo(); };
+            playerInputControl.AttackInput.performed += SetShouldCombo;
         }
 
         public override void OnUpdate()
@@ -59,7 +60,13 @@ namespace Character.Combat.States.Player
             CollectGoldFromDeathEnemy();
         }
 
-        private void SetShouldCombo()
+        public override void OnExit()
+        {
+            base.OnExit();
+            playerInputControl.AttackInput.performed -= SetShouldCombo;
+        }
+
+        private void SetShouldCombo(InputAction.CallbackContext context)
         {
             ShouldCombo = true && PlayerHandler.Status.CurrentStamina >= StaminaUse;
         }

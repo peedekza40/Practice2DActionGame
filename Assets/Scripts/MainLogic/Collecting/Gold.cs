@@ -1,6 +1,7 @@
 using Core.Constants;
 using Core.DataPersistence;
 using Core.DataPersistence.Data;
+using Core.Repositories;
 using Infrastructure.Extensions;
 using Infrastructure.InputSystem;
 using TMPro;
@@ -22,6 +23,9 @@ namespace Collecting
         #region Dependencies
         [Inject]
         private PlayerInputControl playerInputControl;
+
+        [Inject]
+        private IEnemyConfigRepository enemyConfigRepository;
         #endregion
 
         private void Start() 
@@ -50,14 +54,10 @@ namespace Collecting
 
         public void Collect(EnemyId attackedEnemyType)
         {
-            switch(attackedEnemyType)
-            {
-                case EnemyId.Skeleton :
-                    Amount += Random.Range(50, 70);;
-                    break; 
-                default :
-                    break;
-            }
+            var enemyConfig = enemyConfigRepository.GetById(attackedEnemyType);
+            var minGold = enemyConfig?.MinGold ?? 0;
+            var maxGold = enemyConfig?.MaxGold ?? 0;
+            Amount += Random.Range(minGold, maxGold);
         }
 
         public void SetGoldAmount(int amount)

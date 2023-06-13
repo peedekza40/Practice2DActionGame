@@ -37,7 +37,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0.075, y: 0.51}
+  m_AnchoredPosition: {x: 0.075, y: 0.417}
   m_SizeDelta: {x: 263.3391, y: 62.4164}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &8498872873792097217
@@ -763,7 +763,7 @@ Transform:
   - {fileID: 5124606033839770905}
   - {fileID: 3197656211200406714}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &8009742133586685725
 Rigidbody2D:
@@ -888,12 +888,14 @@ MonoBehaviour:
   Speed: 500
   NextWaypointDistance: 2
   JumpNodeHeightRequirement: 0.8
-  JumpModifier: 0.3
+  JumpSpeed: 8
   JumpCheckOffset: 0.1
   AttackDuration: 1.5
   TimeBetweenCombo: 0.25
   MaxDamage: 20
-  HitBox: {fileID: 3634407732105629947}
+  MinDamage: 15
+  HitBoxes:
+  - {fileID: 3634407732105629947}
   DetectEnemyRange: 1.76
   DetectEnemyTransform: {fileID: 5124606033839770905}
   EnemyLayers:
@@ -916,6 +918,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MaxHP: 100
+  IsImmortal: 0
   HealthBar: {fileID: 7643319597143774133}
   OnDamaged:
     m_PersistentCalls:
@@ -992,6 +995,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   KnockBackRange: 4
   ReduceDurationPercent: 0
+  Enabled: 1
   CenterTransform: {fileID: 7360257916326082872}
 --- !u!114 &1787282014
 MonoBehaviour:

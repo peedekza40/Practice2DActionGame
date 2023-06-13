@@ -64,9 +64,6 @@ namespace Character.Combat
 
         private void Start() 
         {
-            PlayerInputControl.AttackInput.performed += (context) => { SetMeleeState(); };
-            PlayerInputControl.BlockInput.performed += (context) => { StartBlockState(); };
-            PlayerInputControl.BlockInput.canceled += (context) => { FinishBlockState(); };
         }
 
         private void Update() 
@@ -77,7 +74,7 @@ namespace Character.Combat
             }
         }
 
-        private void SetMeleeState()
+        public void SetMeleeState()
         {
             if((CombatStateMachine.IsCurrentState(typeof(IdleCombatState)) || CombatStateMachine.IsCurrentState(typeof(BlockFinisherState)))
                && CurrentWeapon != null
@@ -87,7 +84,7 @@ namespace Character.Combat
             }
         }
 
-        private void StartBlockState()
+        public void StartBlockState()
         {
             IsPressingBlock = true;
             if(CombatStateMachine.IsCurrentState(typeof(IdleCombatState)))
@@ -96,7 +93,7 @@ namespace Character.Combat
             }
         }
 
-        private void FinishBlockState()
+        public void FinishBlockState()
         {
             IsPressingBlock = false;
             if(CombatStateMachine.IsCurrentState(typeof(BlockingState)))

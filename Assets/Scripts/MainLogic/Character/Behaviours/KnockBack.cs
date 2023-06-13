@@ -11,6 +11,7 @@ namespace Character.Behaviours
         public float KnockBackRange;
         [Range(0, 100)]
         public float ReduceDurationPercent;
+        public bool Enabled = true;
         public Transform CenterTransform;
 
         private Rigidbody2D Rb;
@@ -24,7 +25,10 @@ namespace Character.Behaviours
         
         public void Action(GameObject attackerHitBox)
         {
-            BehaviourStateMachine.SetNextState(new KnockBackState(attackerHitBox));
+            if(Enabled)
+            {
+                BehaviourStateMachine.SetNextState(new KnockBackState(attackerHitBox));
+            }
         }
         
         public void CalculateKnockBackRange(float damage)

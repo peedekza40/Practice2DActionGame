@@ -7,6 +7,8 @@ namespace Core.Constants
     {
         public const string IsAttacking = "IsAttacking";
         public const string Attack = "Attack";
+        public const string AttackFromAirFall = "AttackFromAir-Fall";
+        public const string AttackFromAirLanding = "AttackFromAir-Landing";
         public const string Idle = "Idle";
     }
 }

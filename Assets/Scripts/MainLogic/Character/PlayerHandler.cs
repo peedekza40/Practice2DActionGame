@@ -4,22 +4,43 @@ using Character.Inventory;
 using Character.Status;
 using Collecting;
 using Core.Constants;
+using Infrastructure.InputSystem;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
+using Zenject;
+using static PlayerInputAction;
 
 namespace Character
 {
-    public class PlayerHandler : MonoBehaviour
+    public class PlayerHandler : MonoBehaviour, IPlayerActions
     {
         [Header("Assets")]
         public PlayerAnimatorController AnimatorController;
         public PlayerStatus Status;
         public PlayerCombat Combat;
+        public PlayerController Controller;
         public Gold Gold;
         public InventoryManagement Inventory;
+
+        #region Dependencies
+        [Inject]
+        private PlayerInputControl playerInputControl;
+        #endregion
 
         private void Awake() 
         {
             Inventory.UseItemAction += UseItem;    
+        }
+
+        private void OnEnable() 
+        {
+            SceneManager.sceneLoaded += OnSceneLoaded;
+        }
+
+        public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+        {
+           playerInputControl.PlayerInput.Player.SetCallbacks(this);
         }
 
         private void Update() 
@@ -61,6 +82,55 @@ namespace Character
             }
         }
 
+        #region IPlayerActions
+        public void OnJump(InputAction.CallbackContext context)
+        {
+            if(context.performed)
+            {
+                Controller.StartJump();
+            }
+            else if(context.canceled)
+            {
+                Controller.FinishJump();
+            }
+        }
+
+        public void OnMove(InputAction.CallbackContext context)
+        {
+        }
+
+        public void OnAttack(InputAction.CallbackContext context)
+        {
+            if(context.performed)
+            {
+                Combat.SetMeleeState();
+            }
+        }
+
+        public void OnBlock(InputAction.CallbackContext context)
+        {
+            if(context.performed)
+            {
+                Combat.StartBlockState();
+            }
+            else if(context.canceled)
+            {
+                Combat.FinishBlockState();
+            }
+        }
+
+        public void OnToggleInventory(InputAction.CallbackContext context)
+        {
+            if(context.performed)
+            {
+                Inventory.ToggleInventory();
+            }
+        }
+
+        public void OnInteract(InputAction.CallbackContext context)
+        {
+        }
+        #endregion
     }
 }
 

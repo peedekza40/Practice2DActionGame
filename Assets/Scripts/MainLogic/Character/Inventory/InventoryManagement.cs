@@ -10,6 +10,7 @@ using Infrastructure.InputSystem;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 using Zenject;
 
 namespace Character.Inventory
@@ -34,7 +35,6 @@ namespace Character.Inventory
         private IPlayerController PlayerController;
 
         #region Dependencies
-        private PlayerInputControl playerInputControl;
         private ItemAssets itemAssets;
         private DiContainer diContainer;
         #endregion
@@ -47,11 +47,9 @@ namespace Character.Inventory
 
         [Inject]
         public void Init(
-            PlayerInputControl playerInputControl,
             ItemAssets itemAssets,
             DiContainer diContainer)
         {
-            this.playerInputControl = playerInputControl;
             this.itemAssets = itemAssets;
             this.diContainer = diContainer;
         }
@@ -67,8 +65,6 @@ namespace Character.Inventory
 
         private void Start() 
         {
-            playerInputControl.ToggleInventoryInput.performed += ToggleInventory;
-
             ItemModel weapon = diContainer.Instantiate<ItemModel>();
             ItemModel boot = diContainer.Instantiate<ItemModel>();
             
@@ -175,7 +171,7 @@ namespace Character.Inventory
             return removeItem;
         }
 
-        private void ToggleInventory(InputAction.CallbackContext context)
+        public void ToggleInventory()
         {
             IsOpen = !IsOpen;
             InventoryContainer.SetActive(IsOpen);

@@ -10,6 +10,7 @@ using Character.Combat.States;
 using Character.Behaviours.States;
 using Character.Animators;
 using Character.Status;
+using Character.Combat.States.BossKnight;
 
 namespace Character
 {
@@ -31,13 +32,14 @@ namespace Character
         public float AttackDuration = 1.5f;
         public float TimeBetweenCombo = 0.25f;
         public float MaxDamage = 20f;
-        public Collider2D HitBox;
+        public float MinDamage = 10f;
+        public List<Collider2D> HitBoxes;
         public float DetectEnemyRange = 0.5f;
         public Transform DetectEnemyTransform;
         public LayerMask EnemyLayers;
         public List<Collider2D> DetectedEnemies { get; private set; } = new List<Collider2D>();
-        private StateMachine CombatStateMachine;
-        private StateMachine BehaviourStateMachine;
+        public StateMachine CombatStateMachine { get; private set; }
+        public StateMachine BehaviourStateMachine { get; private set; }
 
         [Header("Custom Behavior")]
         public bool FollowEnabled = true;
@@ -47,7 +49,8 @@ namespace Character
 
         private Path Path;
         private int CurrentWaypoint = 0;
-        private bool IsGrounded = false;
+        public bool IsJumping { get; private set ;}
+        public bool IsGrounded { get; private set ;}
         private bool IsKnockingBack = false;
         private Seeker Seeker;
         private Rigidbody2D Rb;
@@ -79,9 +82,15 @@ namespace Character
             AnimationState = AnimatorController.MainAnimator.GetCurrentAnimatorStateInfo(0);
             AnimatorClip = AnimatorController.MainAnimator.GetCurrentAnimatorClipInfo(0);
 
-            bool isIdleCombat = CombatStateMachine.IsCurrentState(typeof(IdleCombatState));
+            var isIdleCombat = CombatStateMachine.IsCurrentState(typeof(IdleCombatState));
+            var isMovableCombat = CombatStateMachine.IsCurrentState(typeof(MovableCombatState));
+            var isAttackFromAir = CombatStateMachine.IsCurrentState(typeof(AttackFromAirState));//special case
+            var isDisabledMove = BehaviourStateMachine.IsCurrentState(typeof(DisabledMoveState));
             IsKnockingBack = BehaviourStateMachine.IsCurrentState(typeof(KnockBackState));
-            if(TargetInDistance() && FollowEnabled && isIdleCombat && IsKnockingBack == false)
+            if(TargetInDistance() && FollowEnabled 
+                && (isIdleCombat || isMovableCombat || isAttackFromAir)
+                && isDisabledMove == false
+                && IsKnockingBack == false)
             {
                 PathFollow();
             }
@@ -93,6 +102,21 @@ namespace Character
         }
 
         #region Pathfinding
+
+        public float DistanceFromTarget()
+        {
+            return Vector2.Distance(transform.position, Target.transform.position);
+        }
+
+        public Vector2 DirectionToTarget()
+        {
+            return ((Vector2)Target.transform.position - Rb.position).normalized;
+        }
+
+        public void SetIsJumping(bool isJumping)
+        {
+            IsJumping = isJumping;
+        }
 
         private void UpdatePath()
         {
@@ -118,6 +142,7 @@ namespace Character
             //See if colliding with anything
             Vector3 startOffset = transform.position - new Vector3(0f, GetComponent<Collider2D>().bounds.extents.y + JumpCheckOffset);
             IsGrounded = Physics2D.Raycast(startOffset, -Vector3.up, 0.05f);
+            IsJumping = IsGrounded == false;
             
             //Direction Calculation
             Vector2 direction = ((Vector2)Path.vectorPath[CurrentWaypoint] - Rb.position).normalized;
@@ -128,6 +153,7 @@ namespace Character
                 if(direction.y > JumpNodeHeightRequirement)
                 {
                     Rb.velocity = Vector2.up * JumpSpeed;
+                    IsJumping = true;
                 }
             }
 
@@ -150,7 +176,7 @@ namespace Character
 
         private bool TargetInDistance()
         {
-            return Vector2.Distance(transform.position, Target.transform.position) < ActivateDistance;
+            return DistanceFromTarget() < ActivateDistance;
         }
 
         private void OnPathComplete(Path path)
@@ -172,18 +198,24 @@ namespace Character
             bool isEnemyDetected =  DetectedEnemies.Any();
             if(CombatStateMachine.IsCurrentState(typeof(IdleCombatState)) && isEnemyDetected)
             {
-                State meleeEntryState = null;
+                State attackState = null;
                 switch(EnemyStatus.Type)
                 {
                     case EnemyId.Skeleton : 
-                        meleeEntryState = new Character.Combat.States.Skeleton.MeleeEntryState(); 
+                        attackState = new Character.Combat.States.Skeleton.MeleeEntryState(); 
                         break;
                     case EnemyId.Goblin : 
-                        meleeEntryState = new Character.Combat.States.Goblin.MeleeEntryState(); 
+                        attackState = new Character.Combat.States.Goblin.MeleeEntryState(); 
+                        break;
+                    case EnemyId.Mushroom :
+                        attackState = new Character.Combat.States.Mushroom.MeleeEntryState(); 
+                        break;
+                    case EnemyId.BossKnight :
+                        attackState = new Character.Combat.States.BossKnight.MeleeEntryState();
                         break;
                 }
 
-                CombatStateMachine.SetNextState(meleeEntryState);
+                CombatStateMachine.SetNextState(attackState);
             }
         }
 
