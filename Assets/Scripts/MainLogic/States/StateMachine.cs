@@ -98,6 +98,11 @@ public class StateMachine : MonoBehaviour
         return result;
     }
 
+    public string GetCurrentStateName()
+    {
+        return currentState?.GetType().Name;
+    }
+
     public float GetCurrentStateTime()
     {
         return currentState?.time ?? 0f;

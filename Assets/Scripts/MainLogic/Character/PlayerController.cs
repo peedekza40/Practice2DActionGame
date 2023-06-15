@@ -6,6 +6,7 @@ using Character.Combat.States;
 using Character.Combat.States.Player;
 using Character.Interfaces;
 using Constants;
+using Core.Constants;
 using Core.DataPersistence;
 using Core.DataPersistence.Data;
 using Infrastructure.InputSystem;
@@ -59,8 +60,9 @@ namespace Character
 
         private void Update() {
             if(!_active) return;
+
             // Calculate velocity
-            Velocity = (transform.position - _lastPosition) / Time.deltaTime;
+            Velocity = (transform.position - _lastPosition) / Time.unscaledDeltaTime;
             _lastPosition = transform.position;
 
             bool isIdleCombat = CombatStateMachine.IsCurrentState(typeof(IdleCombatState));
@@ -344,7 +346,6 @@ namespace Character
 
                 if (Physics2D.OverlapBox(posToTry, _characterBounds.size, 0, _groundLayer)) {
                     transform.position = positionToMoveTo;
-
                     // We've landed on a corner or hit our head on a ledge. Nudge the player gently
                     if (i == 1) {
                         if (_currentVerticalSpeed < 0) _currentVerticalSpeed = 0;
@@ -365,13 +366,11 @@ namespace Character
         public void LoadData(GameDataModel data)
         {
             transform.position = data.PlayerData.Position;
-            transform.localScale = data.PlayerData.Scale;
         }
 
         public void SaveData(GameDataModel data)
         {
             data.PlayerData.Position = _lastPosition;
-            data.PlayerData.Scale = transform.localScale;
         }
         #endregion
     }

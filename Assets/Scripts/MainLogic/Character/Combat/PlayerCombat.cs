@@ -131,7 +131,7 @@ namespace Character.Combat
         
         public void SetConfig(AppSettingsModel config)
         {
-            MaxDamage = config.Combat.Attacking.DefaultDamage;
+            MaxDamage = config.Combat.Attacking.DefaultMaxDamage;
             AttackDuration = config.Combat.Attacking.DefaultAttackDuration;
             ReduceDamagePercent = config.Combat.Blocking.DefaultReduceDamagePercent;
             TimeBetweenBlock = config.Combat.Blocking.DefaultTimeBetweenBlock;

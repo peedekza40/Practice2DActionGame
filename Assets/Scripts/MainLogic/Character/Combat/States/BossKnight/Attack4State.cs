@@ -17,9 +17,8 @@ namespace Character.Combat.States.BossKnight
             MinDamage = MaxDamage * 0.9f;
 
             //charge
-            var direction = EnemyAI.DirectionToTarget();
-            Rb.AddForce(direction * EnemyAI.Speed * 1.5f);
-
+            var direction = EnemyAI.DirectionToTarget().x > 0.01f ? Vector2.right : Vector2.left;
+            Rb.AddForce(direction * EnemyAI.Speed * 1.2f);
             AnimatorController.TriggerAttack(AttackIndex);
         }
 

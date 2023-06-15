@@ -1,3 +1,4 @@
+using Character.Behaviours.States;
 using Core.Constants;
 using UnityEngine;
 
@@ -9,17 +10,20 @@ namespace Character.Combat.States.BossKnight
         {
             base.OnEnter(_stateMachine);
             var enemyAI = GetComponent<EnemyAI>();
-
             if(enemyAI.DistanceFromTarget() >= 2)
             {
-                switch (Random.Range(0, 3))
+                var isCanMove = enemyAI.BehaviourStateMachine.IsCurrentState(typeof(DisabledMoveState)) == false;
+                if(isCanMove)
                 {
-                    case 1:
-                        _stateMachine.SetNextState(new Attack4State());
-                        break;
-                    case 2:
-                        _stateMachine.SetNextState(new AttackFromAirState());
-                        break;
+                    switch (Random.Range(0, 2))
+                    {
+                        case 0:
+                            _stateMachine.SetNextState(new Attack4State());
+                            break;
+                        case 1:
+                            _stateMachine.SetNextState(new AttackFromAirState());
+                            break;
+                    }
                 }
             }
             else

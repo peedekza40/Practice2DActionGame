@@ -21,18 +21,20 @@ namespace Character.Combat.States.BossKnight
         public override void OnEnter(StateMachine _stateMachine)
         {
             base.OnEnter(_stateMachine);
+            Duration = 0.5f;
             BossKnightAnimatorController = GetComponent<BossKnightAnimatorController>();
+
+            if(EnemyAI.IsGrounded)
+            {
+                Rb.velocity = JumpToTarget(AngleJump, BeyondTarget);
+                EnemyAI.SetIsJumping(true);
+            }
+            
         }
 
         public override void OnUpdate()
         {
             base.OnUpdate();
-
-            if(EnemyAI.IsGrounded && IsTriggered == false)
-            {
-                Rb.velocity = JumpToTarget(AngleJump, BeyondTarget);
-                EnemyAI.SetIsJumping(true);
-            }
 
             var triggerAttack = Mathf.Abs(EnemyAI.Target.position.x - Rb.transform.position.x) <= DistantTrigger;
             if(EnemyAI.IsGrounded == false && IsTriggered == false && triggerAttack)
@@ -52,6 +54,10 @@ namespace Character.Combat.States.BossKnight
                 {
                     stateMachine.SetNextStateToMain();
                 }
+            }
+            else if(EnemyAI.IsGrounded && fixedtime > Duration)
+            {
+                stateMachine.SetNextStateToMain();
             }
         }
 

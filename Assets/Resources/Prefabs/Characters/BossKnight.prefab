@@ -1121,7 +1121,7 @@ MonoBehaviour:
   EnemyLayers:
     serializedVersion: 2
     m_Bits: 8
-  FollowEnabled: 1
+  FollowEnabled: 0
   JumpEnabled: 0
   AttackEnabled: 0
   DirectionLookEnabled: 1

@@ -11,7 +11,6 @@ namespace Infrastructure.InputSystem
     {
         public Vector2 Move => MoveInput.ReadValue<Vector2>();
 
-        public List<IPlayerInputPersistence> PlayerInputPersistences;
         public List<IUIPersistence> UIPersistences;
         private List<MouseEvent> UIMouseEvents { get; set; } = new List<MouseEvent>();
 
@@ -44,7 +43,6 @@ namespace Infrastructure.InputSystem
             InteractInput.Enable();
 
             SceneManager.sceneLoaded += OnSceneLoaded;
-            SceneManager.sceneUnloaded += OnSceneUnloaded;
         }
 
         private void OnDisable() 
@@ -62,16 +60,7 @@ namespace Infrastructure.InputSystem
         public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
             UIPersistences = FindAllUIPersistenceObjects();
-            PlayerInputPersistences = FindAllPlayerInputPersistenceObjects();
             UIMouseEvents = UIPersistences.Select(x => x.MouseEvent).ToList();
-        }
-
-        public void OnSceneUnloaded(Scene scene)
-        {   
-            foreach(var playerInputPersistence in PlayerInputPersistences)
-            {
-                playerInputPersistence.ClearInputActionOnUnloadScene();
-            }
         }
 
         private void Update() 
@@ -119,14 +108,8 @@ namespace Infrastructure.InputSystem
 
         private List<IUIPersistence> FindAllUIPersistenceObjects()
         {
-            IEnumerable<IUIPersistence> uiPersistences = FindObjectsOfType<MonoBehaviour>().OfType<IUIPersistence>();
+            IEnumerable<IUIPersistence> uiPersistences = FindObjectsOfType<MonoBehaviour>(true).OfType<IUIPersistence>();
             return new List<IUIPersistence>(uiPersistences);
-        }
-
-        private List<IPlayerInputPersistence> FindAllPlayerInputPersistenceObjects()
-        {
-            IEnumerable<IPlayerInputPersistence> playerPersistences = FindObjectsOfType<MonoBehaviour>().OfType<IPlayerInputPersistence>();
-            return new List<IPlayerInputPersistence>(playerPersistences);
         }
 
     }

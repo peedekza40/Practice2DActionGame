@@ -6,6 +6,7 @@ namespace Core.Configs
     public class AppSettingsModel
     {
         public DatabaseModel Database;
+        public StatusModel Status;
         public CombatModel Combat;
     
         public AppSettingsModel()
@@ -16,11 +17,17 @@ namespace Core.Configs
                 Password = "Asdf+1234"
             };
 
+            Status = new StatusModel
+            {
+                MaxHP = 100f
+            };
+
+
             Combat = new CombatModel
             {
                 Attacking = new AttackingModel
                 {
-                    DefaultDamage = 10f,
+                    DefaultMaxDamage = 10f,
                     DefaultAttackDuration = 0.6f,
                     MaxDecreaseTimeBetweenAttack = 0.35f
                 },
@@ -40,6 +47,12 @@ namespace Core.Configs
         }
 
         [Serializable]
+        public class StatusModel
+        {
+            public float MaxHP;
+        }
+
+        [Serializable]
         public class CombatModel 
         {
             public AttackingModel Attacking;
@@ -49,7 +62,7 @@ namespace Core.Configs
         [Serializable]
         public class AttackingModel 
         {
-            public float DefaultDamage;
+            public float DefaultMaxDamage;
             public float DefaultAttackDuration;
             public float MaxDecreaseTimeBetweenAttack;
         }

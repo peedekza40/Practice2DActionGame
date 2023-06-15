@@ -20,7 +20,6 @@ public class PlayerDataModel
 
     [Header("Player Sprite")]
     public Vector3 Position;
-    public Vector3 Scale;
 
     public PlayerDataModel()
     {

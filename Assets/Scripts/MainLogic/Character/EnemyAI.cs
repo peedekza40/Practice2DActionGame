@@ -33,6 +33,7 @@ namespace Character
         public float TimeBetweenCombo = 0.25f;
         public float MaxDamage = 20f;
         public float MinDamage = 10f;
+        public float BufferTimeAttack = 0.5f;
         public List<Collider2D> HitBoxes;
         public float DetectEnemyRange = 0.5f;
         public Transform DetectEnemyTransform;
@@ -40,6 +41,7 @@ namespace Character
         public List<Collider2D> DetectedEnemies { get; private set; } = new List<Collider2D>();
         public StateMachine CombatStateMachine { get; private set; }
         public StateMachine BehaviourStateMachine { get; private set; }
+        private float TimeSinceAttack = 0f;
 
         [Header("Custom Behavior")]
         public bool FollowEnabled = true;
@@ -196,8 +198,9 @@ namespace Character
         {
             DetectedEnemies = Physics2D.OverlapCircleAll(DetectEnemyTransform.position, DetectEnemyRange, EnemyLayers).ToList();
             bool isEnemyDetected =  DetectedEnemies.Any();
-            if(CombatStateMachine.IsCurrentState(typeof(IdleCombatState)) && isEnemyDetected)
+            if(CombatStateMachine.IsCurrentState(typeof(IdleCombatState)) && isEnemyDetected && TimeSinceAttack > BufferTimeAttack)
             {
+                TimeSinceAttack = 0f;
                 State attackState = null;
                 switch(EnemyStatus.Type)
                 {
@@ -217,6 +220,8 @@ namespace Character
 
                 CombatStateMachine.SetNextState(attackState);
             }
+
+            TimeSinceAttack += Time.deltaTime;
         }
 
         #endregion

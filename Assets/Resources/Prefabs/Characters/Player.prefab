@@ -1572,7 +1572,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23b121a682eeb5b4cab1a5c4bbf4e1cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxHP: 100
+  MaxHP: 500
   IsImmortal: 0
   HealthBar: {fileID: 8113681033669129687}
   OnDamaged:
@@ -1671,7 +1671,7 @@ MonoBehaviour:
   _coyoteTimeThreshold: 0.1
   _jumpBuffer: 0.1
   _jumpEndEarlyGravityModifier: 3
-  _freeColliderIterations: 15
+  _freeColliderIterations: 20
 --- !u!114 &972187603
 MonoBehaviour:
   m_ObjectHideFlags: 0

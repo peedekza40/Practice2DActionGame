@@ -6,6 +6,7 @@ using Core.DataPersistence.Data;
 using Character.Combat;
 using Character.Status;
 using Core.Configs;
+using Zenject;
 
 namespace Core.DataPersistence
 {
@@ -19,6 +20,11 @@ namespace Core.DataPersistence
         private List<IDataPersistence> DataPersistences;
         private FileDataHandler FileDataHandler;
 
+        #region Dependencies
+        [Inject]
+        private readonly IAppSettingsContext appSettingsContext;
+        #endregion 
+
         private void Awake() 
         {
             this.FileDataHandler = new FileDataHandler(Application.persistentDataPath, FileName, UseEncryption);
@@ -27,13 +33,11 @@ namespace Core.DataPersistence
         private void OnEnable() 
         {
             SceneManager.sceneLoaded += OnSceneLoaded;
-            SceneManager.sceneUnloaded += OnSceneUnloaded;    
         }
 
         private void OnDisable() 
         {
             SceneManager.sceneLoaded -= OnSceneLoaded;
-            SceneManager.sceneUnloaded -= OnSceneUnloaded;    
         }
 
         public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -42,28 +46,16 @@ namespace Core.DataPersistence
             LoadGame();
         }
 
-        public void OnSceneUnloaded(Scene scene)
-        {
-            SaveGame();
-        }
-
-        private void OnApplicationQuit() 
-        {
-            SaveGame();
-        }
-
         public void NewGame()
         {
-            var playerStatus = FindObjectsOfType<PlayerStatus>(true).FirstOrDefault();
-            var playerCombat = FindObjectsOfType<PlayerCombat>(true).FirstOrDefault();
             GameData = new GameDataModel();
-            GameData.PlayerData.CurrentHP = playerStatus?.MaxHP ?? 0;
-            GameData.PlayerData.Scale = playerStatus?.transform.localScale ?? Vector3.zero;
-            GameData.PlayerData.MaxHP = playerStatus?.MaxHP ?? 0;
-            GameData.PlayerData.AttackMaxDamage = playerCombat?.MaxDamage ?? 0;
-            GameData.PlayerData.AttackDuration = playerCombat?.AttackDuration ?? 0;
-            GameData.PlayerData.ReduceDamagePercent = playerCombat?.ReduceDamagePercent ?? 0;
-            GameData.PlayerData.TimeBetweenBlock = playerCombat?.TimeBetweenBlock ?? 0;
+            GameData.PlayerData.CurrentHP = appSettingsContext.Config.Status.MaxHP;
+            GameData.PlayerData.MaxHP = appSettingsContext.Config.Status.MaxHP;
+            GameData.PlayerData.AttackMaxDamage = appSettingsContext.Config.Combat.Attacking.DefaultMaxDamage;
+            GameData.PlayerData.AttackDuration = appSettingsContext.Config.Combat.Attacking.DefaultAttackDuration;
+            GameData.PlayerData.ReduceDamagePercent = appSettingsContext.Config.Combat.Blocking.DefaultReduceDamagePercent;
+            GameData.PlayerData.TimeBetweenBlock = appSettingsContext.Config.Combat.Blocking.DefaultTimeBetweenBlock;
+            SaveGame();
         }
 
         public void LoadGame()
@@ -118,7 +110,7 @@ namespace Core.DataPersistence
 
         private List<IDataPersistence> FindAllDataPersistenceObjects()
         {
-            IEnumerable<IDataPersistence> dataPersistences = FindObjectsOfType<MonoBehaviour>().OfType<IDataPersistence>();
+            IEnumerable<IDataPersistence> dataPersistences = FindObjectsOfType<MonoBehaviour>(true).OfType<IDataPersistence>();
 
             return new List<IDataPersistence>(dataPersistences);
         }
