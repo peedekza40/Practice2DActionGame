@@ -7,7 +7,7 @@ namespace Character.Combat.States.Player
         public override void OnEnter(StateMachine _stateMachine)
         {
             base.OnEnter(_stateMachine);
-            Duration = PlayerCombat.ParryDurtation;
+            Duration = PlayerHandler.Attribute.ParryDurtation;
             AnimatorController.SetBlock(true);
         }
 

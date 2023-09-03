@@ -19,7 +19,11 @@ namespace Core.Configs
 
             Status = new StatusModel
             {
-                MaxHP = 100f
+                MaxHP = 100f,
+                MaxStamina = 100f,
+                DefaultRegenStamina = 15f,
+                DefaultRegenStaminaSpeedTime = 1f,
+                MaxDecreaseRegenStaminaSpeedTime = 0.5f
             };
 
 
@@ -29,7 +33,8 @@ namespace Core.Configs
                 {
                     DefaultMaxDamage = 10f,
                     DefaultAttackDuration = 0.6f,
-                    MaxDecreaseTimeBetweenAttack = 0.35f
+                    MaxDecreaseAttackDuration = 0.35f,
+                    DefaultStaminaUse = 20f
                 },
                 Blocking = new BlockingModel
                 {
@@ -50,6 +55,10 @@ namespace Core.Configs
         public class StatusModel
         {
             public float MaxHP;
+            public float MaxStamina;
+            public float DefaultRegenStamina;
+            public float DefaultRegenStaminaSpeedTime;
+            public float MaxDecreaseRegenStaminaSpeedTime;
         }
 
         [Serializable]
@@ -64,7 +73,8 @@ namespace Core.Configs
         {
             public float DefaultMaxDamage;
             public float DefaultAttackDuration;
-            public float MaxDecreaseTimeBetweenAttack;
+            public float MaxDecreaseAttackDuration;
+            public float DefaultStaminaUse;
         }
         
         [Serializable]

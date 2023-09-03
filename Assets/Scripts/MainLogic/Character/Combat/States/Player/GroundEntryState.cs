@@ -9,7 +9,7 @@ namespace Character.Combat.States.Player
 
             //Attack
             AttackIndex = 1;
-            Duration = PlayerHandler.Combat.AttackDuration;
+            Duration = PlayerHandler.Attribute.AttackDuration;
             AnimatorController.TriggerAttack(AttackIndex);
         }
 

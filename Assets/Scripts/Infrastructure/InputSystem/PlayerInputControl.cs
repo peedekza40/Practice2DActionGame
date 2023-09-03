@@ -28,8 +28,8 @@ namespace Infrastructure.InputSystem
             MoveInput = PlayerInput.Player.Move;
             JumpInput = PlayerInput.Player.Jump;
             AttackInput = PlayerInput.Player.Attack;
-            BlockInput = PlayerInput.Player.Block;
             ToggleInventoryInput = PlayerInput.Player.ToggleInventory;
+            BlockInput = PlayerInput.Player.Block;
             InteractInput = PlayerInput.Player.Interact;
         }
 
@@ -41,7 +41,7 @@ namespace Infrastructure.InputSystem
             BlockInput.Enable();
             ToggleInventoryInput.Enable();
             InteractInput.Enable();
-
+            
             SceneManager.sceneLoaded += OnSceneLoaded;
         }
 
@@ -77,7 +77,7 @@ namespace Infrastructure.InputSystem
                 BlockInput.Enable();
             }
 
-            //disabled movement && inventory
+            //disabled movement && inventory && statistic
             bool pauseMenuIsOpen = UIPersistences.Any(x => x.Number == UINumber.PauseMenu && x.IsOpen);
             bool deathMenuIsOpen = UIPersistences.Any(x => x.Number == UINumber.DeathMenu && x.IsOpen);
             bool statisticIsOpen = UIPersistences.Any(x => x.Number == UINumber.Statistic && x.IsOpen);
@@ -93,7 +93,6 @@ namespace Infrastructure.InputSystem
                 JumpInput.Enable();
                 ToggleInventoryInput.Enable();
             }
-
 
             //set cursor visible
             if(UIPersistences.Any(x => x.IsOpen))

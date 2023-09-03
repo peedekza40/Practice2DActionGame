@@ -8,7 +8,7 @@ namespace Character.Combat.States.Skeleton
 
             //Attack
             AttackIndex = 2;
-            Duration = EnemyAI.AttackDuration + EnemyAI.TimeBetweenCombo; // duration + time betweem combo
+            Duration = EnemyStatus.Attribute.AttackDuration + EnemyStatus.Attribute.TimeBetweenCombo; // duration + time betweem combo
             AnimatorController.TriggerAttack(AttackIndex);
         }
 

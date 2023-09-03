@@ -48,7 +48,7 @@ namespace Collecting
             ValueText.SetText(RunningAmount.ToString(Formatter.Amount));
 
             //hide when statistics ui is open
-            bool statisticIsOpen = playerInputControl.UIPersistences.GetByUiNumber(UINumber.Statistic).IsOpen;
+            bool statisticIsOpen = playerInputControl.UIPersistences.GetByUiNumber(UINumber.Statistic)?.IsOpen ?? false;
             GoldLabelTransform.gameObject.SetActive(!statisticIsOpen);
         }
 

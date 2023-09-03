@@ -5,7 +5,7 @@ using Unity.Services.Authentication;
 using Unity.Services.Core;
 using Unity.Services.RemoteConfig;
 using UnityEngine;
-using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 namespace Core.Configs
 {
@@ -23,6 +23,25 @@ namespace Core.Configs
         {
             AppSettingsPersistences = FindAllAppSettingsPersistencesObjects().OrderBy(x => x.SeqNo).ToList();
             SetupRemoteConfig();
+        }
+
+        private void OnEnable() 
+        {
+            SceneManager.sceneLoaded += OnSceneLoaded;
+        }
+
+        private void OnDisable() 
+        {
+            SceneManager.sceneLoaded -= OnSceneLoaded;
+        }
+
+        public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+        {
+            AppSettingsPersistences = FindAllAppSettingsPersistencesObjects().OrderBy(x => x.SeqNo).ToList();
+            foreach(var item in AppSettingsPersistences)
+            {
+                item.SetConfig(Config);
+            }
         }
         
         public void FetchRemoteConfig()

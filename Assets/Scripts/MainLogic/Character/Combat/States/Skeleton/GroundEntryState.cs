@@ -8,7 +8,7 @@ namespace Character.Combat.States.Skeleton
 
             //Attack
             AttackIndex = 1;
-            Duration = EnemyAI.AttackDuration;
+            Duration = EnemyStatus.Attribute.AttackDuration;
             AnimatorController.TriggerAttack(AttackIndex);
         }
 

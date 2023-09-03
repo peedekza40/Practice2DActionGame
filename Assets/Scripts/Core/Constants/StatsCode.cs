@@ -7,5 +7,7 @@ namespace Core.Constant
         public const string AttackSpeed = "ASP";
         public const string BlockDefense = "BDF";
         public const string BlockSpeed = "BSP";
+        public const string MaxStamina = "MXS";
+        public const string RegenStaminaSpeed = "RSP";
     }
 }

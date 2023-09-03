@@ -11,6 +11,7 @@ using Character.Behaviours.States;
 using Character.Animators;
 using Character.Status;
 using Character.Combat.States.BossKnight;
+using LDtkUnity;
 
 namespace Character
 {
@@ -21,19 +22,24 @@ namespace Character
         public float ActivateDistance = 50f;
         public float PathUpdateSecond = 1f;
 
+        [Header("Patrol")]
+        public Transform PointA;
+        public Transform PointB;
+        private Transform PatrolPoint;
+        public float TurnDuration = 2f;
+        private float TimeSinceReachedPoint = 0f;
+        private LDtkFields Fields;
+
         [Header("Physics")]
         public float Speed = 200f;
+        public float MaxSpeed = 3f;
         public float NextWaypointDistance = 2f;
         public float JumpNodeHeightRequirement = 0.8f;
         public float JumpSpeed = 8f;
         public float JumpCheckOffset = 0.1f;
+        public LayerMask GroundLayer;
 
         [Header("Combat")]
-        public float AttackDuration = 1.5f;
-        public float TimeBetweenCombo = 0.25f;
-        public float MaxDamage = 20f;
-        public float MinDamage = 10f;
-        public float BufferTimeAttack = 0.5f;
         public List<Collider2D> HitBoxes;
         public float DetectEnemyRange = 0.5f;
         public Transform DetectEnemyTransform;
@@ -57,7 +63,7 @@ namespace Character
         private Seeker Seeker;
         private Rigidbody2D Rb;
         private KnockBack KnockBack;
-        private AnimatorController AnimatorController;
+        private EnemyAnimatorController AnimatorController;
         private AnimatorStateInfo AnimationState;
         private AnimatorClipInfo[] AnimatorClip;
 
@@ -68,14 +74,19 @@ namespace Character
             Seeker = GetComponent<Seeker>();
             Rb = GetComponent<Rigidbody2D>();
             KnockBack = GetComponent<KnockBack>();
-            AnimatorController = GetComponent<AnimatorController>();
+            AnimatorController = GetComponent<EnemyAnimatorController>();
             CombatStateMachine = GetComponents<StateMachine>().FirstOrDefault(x => x.Id == StateId.Combat);
             BehaviourStateMachine = GetComponents<StateMachine>().FirstOrDefault(x => x.Id == StateId.Behaviour);
             EnemyStatus = GetComponent<EnemyStatus>();
+            Fields = GetComponent<LDtkFields>();
+            PointA = Fields?.GetEntityReference("PointA").FindEntity()?.transform;
+            PointB = Fields?.GetEntityReference("PointB").FindEntity()?.transform;
         }
 
         private void Start()
         {
+            Target = GameObject.FindGameObjectWithTag(TagName.Player).transform.Find(GameObjectName.TargetPoint);
+            PatrolPoint = PointA;
             InvokeRepeating(nameof(UpdatePath), 0f, PathUpdateSecond);
         }
 
@@ -89,8 +100,8 @@ namespace Character
             var isAttackFromAir = CombatStateMachine.IsCurrentState(typeof(AttackFromAirState));//special case
             var isDisabledMove = BehaviourStateMachine.IsCurrentState(typeof(DisabledMoveState));
             IsKnockingBack = BehaviourStateMachine.IsCurrentState(typeof(KnockBackState));
-            if(TargetInDistance() && FollowEnabled 
-                && (isIdleCombat || isMovableCombat || isAttackFromAir)
+
+            if((isIdleCombat || isMovableCombat || isAttackFromAir)
                 && isDisabledMove == false
                 && IsKnockingBack == false)
             {
@@ -103,11 +114,17 @@ namespace Character
             }
         }
 
+        public void ResetStateMachine()
+        {
+            CombatStateMachine.SetNextStateToMain();
+            BehaviourStateMachine.SetNextStateToMain();
+        }
+
         #region Pathfinding
 
         public float DistanceFromTarget()
         {
-            return Vector2.Distance(transform.position, Target.transform.position);
+            return Vector2.Distance(transform.position, Target.position);
         }
 
         public Vector2 DirectionToTarget()
@@ -122,10 +139,40 @@ namespace Character
 
         private void UpdatePath()
         {
-            if(FollowEnabled && TargetInDistance() && Seeker.IsDone())
+            if(Seeker.IsDone())
             {
-                Seeker.StartPath(Rb.position, Target.position, OnPathComplete);
+                if(FollowEnabled && TargetInDistance())
+                {
+                    PatrolPoint = PointA;
+                    Seeker.StartPath(Rb.position, Target.position, OnPathComplete);
+                }
+                else if (PointA != null && PointB != null)
+                {
+                    //Reached to point
+                    if(CurrentWaypoint >= Path?.vectorPath.Count)
+                    {
+                        TimeSinceReachedPoint += PathUpdateSecond;
+                        if(TimeSinceReachedPoint >= TurnDuration)
+                        {
+                            if(PatrolPoint.gameObject == PointA.gameObject)
+                            {
+                                PatrolPoint = PointB;
+                            }
+                            else
+                            {
+                                PatrolPoint = PointA;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        TimeSinceReachedPoint = 0f;
+                    }
+
+                    Seeker.StartPath(Rb.position, PatrolPoint.position, OnPathComplete);
+                }
             }
+
         }
 
         private void PathFollow()
@@ -134,7 +181,7 @@ namespace Character
             {
                 return;
             }
-
+            
             //Reached end of path
             if(CurrentWaypoint >= Path.vectorPath.Count)
             {
@@ -142,8 +189,10 @@ namespace Character
             }
 
             //See if colliding with anything
-            Vector3 startOffset = transform.position - new Vector3(0f, GetComponent<Collider2D>().bounds.extents.y + JumpCheckOffset);
-            IsGrounded = Physics2D.Raycast(startOffset, -Vector3.up, 0.05f);
+            // Vector3 startOffset = transform.position - new Vector3(0f, GetComponent<Collider2D>().bounds.extents.y + JumpCheckOffset);
+            // IsGrounded = Physics2D.Raycast(startOffset, -Vector3.up, 0.05f);
+            var collider = GetComponent<Collider2D>();
+            IsGrounded = Physics2D.BoxCast(collider.bounds.center, collider.bounds.size, 0, Vector2.down, 0.1f, GroundLayer);
             IsJumping = IsGrounded == false;
             
             //Direction Calculation
@@ -160,7 +209,10 @@ namespace Character
             }
 
             //Movement
-            Rb.AddForce(direction * Speed * Time.deltaTime);
+            if(Rb.velocity.magnitude < MaxSpeed)
+            {
+                Rb.AddForce(direction * Speed * Time.deltaTime);
+            }
 
             //Next Waypoint
             float distance = Vector2.Distance(Rb.position, Path.vectorPath[CurrentWaypoint]);
@@ -194,11 +246,22 @@ namespace Character
 
         #region Combat
 
+        public void TriggerDeflected()
+        {
+            BehaviourStateMachine.SetNextState(new DisabledMoveState(1f));
+            CombatStateMachine.SetNextStateToMain();
+            EnemyStatus.IsImmortal = false;
+            AnimatorController.TriggerDeflected();
+        }
+
         private void Attack()
         {
             DetectedEnemies = Physics2D.OverlapCircleAll(DetectEnemyTransform.position, DetectEnemyRange, EnemyLayers).ToList();
             bool isEnemyDetected =  DetectedEnemies.Any();
-            if(CombatStateMachine.IsCurrentState(typeof(IdleCombatState)) && isEnemyDetected && TimeSinceAttack > BufferTimeAttack)
+            if(CombatStateMachine.IsCurrentState(typeof(IdleCombatState)) 
+                && AnimatorController.IsDeflected == false
+                && isEnemyDetected 
+                && TimeSinceAttack > EnemyStatus.Attribute.BufferTimeAttack)
             {
                 TimeSinceAttack = 0f;
                 State attackState = null;

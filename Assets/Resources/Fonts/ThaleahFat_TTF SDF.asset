@@ -131,7 +131,8 @@ Texture2D:
   m_MipCount: 1
   m_IsReadable: 0
   m_IsPreProcessed: 0
-  m_IgnoreMasterTextureLimit: 0
+  m_IgnoreMipmapLimit: 0
+  m_MipmapLimitGroupName: 
   m_StreamingMipmaps: 0
   m_StreamingMipmapsPriority: 0
   m_VTOnly: 0
@@ -182,6 +183,7 @@ MonoBehaviour:
     m_StyleName: Medium
     m_PointSize: 102
     m_Scale: 1
+    m_UnitsPerEM: 0
     m_LineHeight: 102.59766
     m_AscentLine: 67.93359
     m_CapLine: 45

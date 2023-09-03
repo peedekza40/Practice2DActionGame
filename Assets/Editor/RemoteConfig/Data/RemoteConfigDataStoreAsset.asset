@@ -12,23 +12,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 469c24fdb3bd6431b92cc1465bd9166b, type: 3}
   m_Name: RemoteConfigDataStoreAsset
   m_EditorClassIdentifier: 
-  _rsKeyList: "[\r\n  {\r\n    \"metadata\": {\r\n      \"entityId\": \"0477751b-feb4-49ba-a847-13d65a6bbcfc\"\r\n   
+  _rsKeyList: "[\r\n  {\r\n    \"metadata\": {\r\n      \"entityId\": \"13a30e3b-1b76-4bd3-93a1-e91f28c338ea\"\r\n   
     },\r\n    \"rs\": {\r\n      \"key\": \"AppSettings\",\r\n      \"type\": \"json\",\r\n     
     \"schemaId\": null,\r\n      \"value\": {\r\n        \"Status\": {\r\n         
-    \"MaxHP\": 300\r\n        },\r\n        \"Combat\": {\r\n          \"Attacking\":
-    {\r\n            \"DefaultDamage\": 5,\r\n            \"DefaultAttackDuration\":
-    0.6,\r\n            \"MaxDecreaseTimeBetweenAttack\": 0.35\r\n          },\r\n         
-    \"Blocking\": {\r\n            \"DefaultReduceDamagePercent\": 5,\r\n           
-    \"DefaultTimeBetweenBlock\": 0.6,\r\n            \"MaxDecreaseTimeBetweenBlock\":
+    \"MaxHP\": 100,\r\n          \"MaxStamina\": 100,\r\n          \"DefaultRegenStamina\":
+    15,\r\n          \"DefaultRegenStaminaSpeedTime\": 1,\r\n          \"MaxDecreaseRegenStaminaSpeedTime\":
+    0.5\r\n        },\r\n        \"Combat\": {\r\n          \"Attacking\": {\r\n           
+    \"DefaultDamage\": 5,\r\n            \"DefaultAttackDuration\": 0.6,\r\n           
+    \"MaxDecreaseAttackDuration\": 0.35,\r\n            \"StaminaUse\": 20\r\n         
+    },\r\n          \"Blocking\": {\r\n            \"DefaultReduceDamagePercent\":
+    5,\r\n            \"DefaultTimeBetweenBlock\": 0.6,\r\n            \"MaxDecreaseTimeBetweenBlock\":
     0.4\r\n          }\r\n        }\r\n      }\r\n    }\r\n  }\r\n]"
-  _rsLastCachedKeyList: "[\r\n  {\r\n    \"metadata\": {\r\n      \"entityId\": \"0477751b-feb4-49ba-a847-13d65a6bbcfc\"\r\n   
+  _rsLastCachedKeyList: "[\r\n  {\r\n    \"metadata\": {\r\n      \"entityId\": \"13a30e3b-1b76-4bd3-93a1-e91f28c338ea\"\r\n   
     },\r\n    \"rs\": {\r\n      \"key\": \"AppSettings\",\r\n      \"type\": \"json\",\r\n     
     \"schemaId\": null,\r\n      \"value\": {\r\n        \"Status\": {\r\n         
-    \"MaxHP\": 300\r\n        },\r\n        \"Combat\": {\r\n          \"Attacking\":
-    {\r\n            \"DefaultDamage\": 5,\r\n            \"DefaultAttackDuration\":
-    0.6,\r\n            \"MaxDecreaseTimeBetweenAttack\": 0.35\r\n          },\r\n         
-    \"Blocking\": {\r\n            \"DefaultReduceDamagePercent\": 5,\r\n           
-    \"DefaultTimeBetweenBlock\": 0.6,\r\n            \"MaxDecreaseTimeBetweenBlock\":
+    \"MaxHP\": 100,\r\n          \"MaxStamina\": 100,\r\n          \"DefaultRegenStamina\":
+    15,\r\n          \"DefaultRegenStaminaSpeedTime\": 1,\r\n          \"MaxDecreaseRegenStaminaSpeedTime\":
+    0.5\r\n        },\r\n        \"Combat\": {\r\n          \"Attacking\": {\r\n           
+    \"DefaultDamage\": 5,\r\n            \"DefaultAttackDuration\": 0.6,\r\n           
+    \"MaxDecreaseAttackDuration\": 0.35,\r\n            \"StaminaUse\": 20\r\n         
+    },\r\n          \"Blocking\": {\r\n            \"DefaultReduceDamagePercent\":
+    5,\r\n            \"DefaultTimeBetweenBlock\": 0.6,\r\n            \"MaxDecreaseTimeBetweenBlock\":
     0.4\r\n          }\r\n        }\r\n      }\r\n    }\r\n  }\r\n]"
   _environments: "[\r\n  {\r\n    \"projectId\": \"cfcc838b-7fae-4e1e-886d-f503130919cf\",\r\n   
     \"name\": \"production\",\r\n    \"id\": \"9cce920c-19fa-4f90-a9b3-234905c8e9ec\",\r\n   

@@ -41,12 +41,12 @@ namespace Character.Combat.States.Player
             AnimatorController = GetComponent<AnimatorController>();
             Gold = GetComponent<Gold>();
             PlayerHandler = GetComponent<PlayerHandler>();
-            MaxDamage = PlayerHandler.Combat.MaxDamage;
+            MaxDamage = PlayerHandler.Attribute.MaxDamage;
             WeaponDamage = PlayerHandler.Combat.CurrentWeapon?.MaxDamage ?? 0f;
             EnemyLayers = PlayerHandler.Combat.EnemyLayers;
             HitBox = PlayerHandler.Combat.HitBox;
-            StaminaUse = PlayerHandler.Combat.StaminaUse;
-            playerInputControl = PlayerHandler.Combat.PlayerInputControl;
+            StaminaUse = PlayerHandler.Attribute.StaminaUse;
+            playerInputControl = PlayerHandler.Combat.playerInputControl;
 
             playerInputControl.AttackInput.performed += SetShouldCombo;
         }
@@ -87,12 +87,9 @@ namespace Character.Combat.States.Player
                     var maxDamage = MaxDamage + WeaponDamage;
                     var randomDamage = Random.Range(maxDamage * 0.9f, maxDamage);
                     var attackedEnemy = hitEnemy.GetComponent<EnemyStatus>();
-                    if(attackedEnemy?.IsImmortal == false)
-                    {
-                        attackedEnemy?.TakeDamage(randomDamage, HitBox.gameObject);
-                        AttackedEnemies.Add(attackedEnemy);
-                        IsDamaged = true;
-                    }
+                    attackedEnemy?.TakeDamage(randomDamage, HitBox.gameObject);
+                    AttackedEnemies.Add(attackedEnemy);
+                    IsDamaged = true;
                 }
             }
             else if(IsAttacking() == false)

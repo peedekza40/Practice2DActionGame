@@ -11,6 +11,8 @@ namespace Character.Animators
 
         private float DurationAttacked = 0.1f;
         private float CurrentTriggerAttacked = 0f;
+        private float DurationDeath = 0.5f;
+        private float CurrentTriggerDeath = 0f;
         private List<AnimationClip> Clips = new List<AnimationClip>();
 
         // Start is called before the first frame update
@@ -25,6 +27,12 @@ namespace Character.Animators
             if(CurrentTriggerAttacked >= DurationAttacked)
             {
                 MainAnimator.SetBool(AnimationParameter.IsAttacked, false);
+            }
+
+            CurrentTriggerDeath += Time.deltaTime;
+            if(CurrentTriggerDeath >= DurationDeath)
+            {
+                MainAnimator.SetBool(AnimationParameter.IsDeath, false);
             }
         }
 
@@ -44,6 +52,7 @@ namespace Character.Animators
         public virtual void SetDeath()
         {
             MainAnimator.SetBool(AnimationParameter.IsDeath, true);
+            CurrentTriggerDeath = 0;
         }
 
         public virtual void SetBlock(bool isBlocking){}

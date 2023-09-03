@@ -40,11 +40,9 @@ namespace Statistics
             }
         }
 
-        public void SetGUI(StatsConfig statsConfig, float currentStatsValue, UnityAction<StatsRow> addStatsAction, UnityAction<StatsRow> minusStatsAction)
+        public void SetGUI(StatsConfig statsConfig, UnityAction<StatsRow> addStatsAction, UnityAction<StatsRow> minusStatsAction)
         {
             StatsCode = statsConfig.Code;
-            //set current stats value
-            SetCurrentStatsValue(currentStatsValue);
 
             //set name
             StatsName.SetText(statsConfig.Name);

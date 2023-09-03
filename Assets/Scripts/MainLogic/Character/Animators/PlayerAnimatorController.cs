@@ -38,7 +38,7 @@ namespace Character.Animators
                 transform.localScale = new Vector3(Input.X, transform.localScale.y, transform.localScale.z);
             }
 
-            IsFalling = PlayerController.Velocity.y < 0;
+            IsFalling = PlayerController.Velocity.y < -0.2f;
 
             MainAnimator.SetFloat(AnimationParameter.Speed, Mathf.Abs(PlayerController.RawMovement.x));
             MainAnimator.SetBool(AnimationParameter.IsJumping, PlayerController.JumpingThisFrame);

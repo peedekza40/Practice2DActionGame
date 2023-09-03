@@ -16,7 +16,7 @@ namespace Core.DataPersistence
         public string FileName;
         public bool UseEncryption; 
 
-        private GameDataModel GameData;
+        private GameDataModel GameData { get; set; }
         private List<IDataPersistence> DataPersistences;
         private FileDataHandler FileDataHandler;
 
@@ -27,7 +27,7 @@ namespace Core.DataPersistence
 
         private void Awake() 
         {
-            this.FileDataHandler = new FileDataHandler(Application.persistentDataPath, FileName, UseEncryption);
+            FileDataHandler = new FileDataHandler(Application.persistentDataPath, FileName, UseEncryption);
         }
 
         private void OnEnable() 
@@ -42,31 +42,25 @@ namespace Core.DataPersistence
 
         public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
-            this.DataPersistences = FindAllDataPersistenceObjects();
+            DataPersistences = FindAllDataPersistenceObjects();
             LoadGame();
         }
 
         public void NewGame()
         {
-            GameData = new GameDataModel();
-            GameData.PlayerData.CurrentHP = appSettingsContext.Config.Status.MaxHP;
-            GameData.PlayerData.MaxHP = appSettingsContext.Config.Status.MaxHP;
-            GameData.PlayerData.AttackMaxDamage = appSettingsContext.Config.Combat.Attacking.DefaultMaxDamage;
-            GameData.PlayerData.AttackDuration = appSettingsContext.Config.Combat.Attacking.DefaultAttackDuration;
-            GameData.PlayerData.ReduceDamagePercent = appSettingsContext.Config.Combat.Blocking.DefaultReduceDamagePercent;
-            GameData.PlayerData.TimeBetweenBlock = appSettingsContext.Config.Combat.Blocking.DefaultTimeBetweenBlock;
+            GameData = new GameDataModel(appSettingsContext);
             SaveGame();
         }
 
         public void LoadGame()
         {
             //load any save data from a file using data handler.
-            this.GameData = FileDataHandler.Load();
+            GameData = FileDataHandler.Load();
 
-            //if no data can be loaded, intialize to a new game
-            if(this.GameData == null)
+            //if no data can be loaded, log a warning here
+            if(GameData == null)
             {
-                Debug.Log("No data was found. A New Game needs to be started before data can be loaded.");
+                Debug.LogWarning("No data was found. A New Game needs to be started before data can be saved.");
                 return;
             }
 
@@ -82,7 +76,7 @@ namespace Core.DataPersistence
         public void SaveGame()
         {
             //if we don't have any data to save, log a warning here
-            if(this.GameData == null)
+            if(GameData == null)
             {
                 Debug.LogWarning("No data was found. A New Game needs to be started before data can be saved.");
                 return;
@@ -95,7 +89,14 @@ namespace Core.DataPersistence
             }
 
             //save current scene
-            GameData.CurrentScene = SceneManager.GetActiveScene().name;
+            if(string.IsNullOrEmpty(GameData.CurrentScene))
+            {
+                GameData.CurrentScene = "Level 1";
+            }
+            else
+            {
+                GameData.CurrentScene = SceneManager.GetActiveScene().name;
+            }
 
             Debug.Log("Saved game data.");
 
@@ -105,7 +106,7 @@ namespace Core.DataPersistence
 
         public bool IsHasGameData()
         {
-            return GameData != null;
+            return FileDataHandler.Load() != null;
         }
 
         private List<IDataPersistence> FindAllDataPersistenceObjects()

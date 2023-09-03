@@ -21,7 +21,7 @@ TagManager:
   - Item
   - Interact
   - EnemyNoCollisionPlayer
-  - 
+  - Decorate
   - 
   - 
   - 
@@ -44,6 +44,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: BackgroundBack
+    uniqueID: 1742577047
+    locked: 0
   - name: Background
     uniqueID: 568810929
     locked: 0
@@ -53,6 +56,9 @@ TagManager:
   - name: CheckPoint
     uniqueID: 424771295
     locked: 0
+  - name: Chest
+    uniqueID: 168235331
+    locked: 0
   - name: BackCharacter
     uniqueID: 692642847
     locked: 0
@@ -61,6 +67,18 @@ TagManager:
     locked: 0
   - name: FrontCharacter
     uniqueID: 2548424911
+    locked: 0
+  - name: PlatformGlass
+    uniqueID: 3305026195
+    locked: 0
+  - name: Merge
+    uniqueID: 2943097987
+    locked: 0
+  - name: Decorate
+    uniqueID: 4170579025
+    locked: 0
+  - name: Item
+    uniqueID: 421310295
     locked: 0
   - name: UI
     uniqueID: 216390949

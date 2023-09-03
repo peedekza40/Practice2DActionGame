@@ -10,7 +10,7 @@ namespace Character.Combat.States.Goblin
 
             //Attack
             AttackIndex = 1;
-            Duration = EnemyAI.AttackDuration;
+            Duration = EnemyStatus.Attribute.AttackDuration;
             AnimatorController.TriggerAttack(AttackIndex);
         }
 

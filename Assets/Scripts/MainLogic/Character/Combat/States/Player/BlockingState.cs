@@ -7,13 +7,13 @@ namespace Character.Combat.States.Player
     {
         protected float Duration;
         protected AnimatorController AnimatorController;
-        protected PlayerCombat PlayerCombat;
+        protected PlayerHandler PlayerHandler;
 
         public override void OnEnter(StateMachine _stateMachine)
         {
             base.OnEnter(_stateMachine);
             AnimatorController = GetComponent<AnimatorController>();
-            PlayerCombat = GetComponent<PlayerCombat>();
+            PlayerHandler = GetComponent<PlayerHandler>();
         }
     }
 }

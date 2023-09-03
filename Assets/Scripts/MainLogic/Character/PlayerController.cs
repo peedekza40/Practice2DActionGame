@@ -23,7 +23,12 @@ namespace Character
     /// if there's enough interest. You can play and compete for best times here: https://tarodev.itch.io/
     /// If you hve any questions or would like to brag about your score, come to discord: https://discord.gg/GqeHHnhHpz
     /// </summary>
-    public class PlayerController : MonoBehaviour, IPlayerController, IDataPersistence {
+    public class PlayerController : MonoBehaviour, IPlayerController, IDataPersistence 
+    {
+        public Transform StartPoint;
+        public Transform FootPoint;
+        
+        
         // Public for external hooks
         public Vector3 Velocity { get; private set; }
         public FrameInput Input { get; private set; }
@@ -53,9 +58,15 @@ namespace Character
             CombatStateMachine = GetComponents<StateMachine>().FirstOrDefault(x => x.Id == StateId.Combat);
             BehaviourStateMachine = GetComponents<StateMachine>().FirstOrDefault(x => x.Id == StateId.Behaviour);
         }
-        
+
         private void Start()
         {
+            var playerHandler = GetComponent<PlayerHandler>();
+            var lastCheckPoint = FindObjectsOfType<CheckPointController>().FirstOrDefault(x => x.ID == playerHandler.LastCheckPointID);
+            if(lastCheckPoint != null)
+            {
+                transform.position = lastCheckPoint.transform.position;
+            }
         }
 
         private void Update() {
@@ -81,7 +92,6 @@ namespace Character
 
             MoveCharacter(); // Actually perform the axis movement
         }
-
 
         #region Gather Input
 
@@ -365,7 +375,7 @@ namespace Character
         #region IDataPersistence
         public void LoadData(GameDataModel data)
         {
-            transform.position = data.PlayerData.Position;
+            transform.position = data.PlayerData.Position ?? StartPoint.position;
         }
 
         public void SaveData(GameDataModel data)

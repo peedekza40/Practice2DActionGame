@@ -6,6 +6,7 @@ namespace Character.Status
 {
     public class EnemyStatus : CharacterStatus
     {
+        public EnemyAttribute Attribute;
         public EnemyId Type;
 
         private EnemyAI EnemyAi;
@@ -13,12 +14,14 @@ namespace Character.Status
 
         protected override void Awake()
         {
+            BaseAttribute = Attribute;
             EnemyAi = GetComponent<EnemyAI>();
             base.Awake();
         }
 
         public override void Die()
         {
+            EnemyAi.ResetStateMachine();
             EnemyAi.enabled = false;
             base.Die();
             StartCoroutine(WaitForDestroy());

@@ -73,3 +73,5 @@ crashlytics-build.properties
 
 BuildApp/
 /Assets/Editor/RemoteConfig/Data/RemoteConfigDataStoreAsset.asset
+
+.fake

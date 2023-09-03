@@ -1,0 +1,77 @@
+fileFormatVersion: 2
+guid: a78b4bd55a83d0d408a360dec1b45427
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 11500000, guid: aaa16bfc62c086f4fb45da87b6acf9b1, type: 3}
+  _reimportOnDependencyChange: 1
+  _jsonFile: {fileID: -164016180542632921, guid: a78b4bd55a83d0d408a360dec1b45427, type: 3}
+  _pixelsPerUnit: 16
+  _atlas: {instanceID: 0}
+  _customLevelPrefab: {instanceID: 0}
+  _deparentInRuntime: 0
+  _intGridValueColorsVisible: 0
+  _useCompositeCollider: 1
+  _createBackgroundColor: 1
+  _createLevelBoundsTrigger: 0
+  _intGridValues:
+  - _key: CaveAutoLayer_1
+    _asset: {fileID: 11400000, guid: 13c6490e24025bb43b17f35b390d397a, type: 2}
+  - _key: CaveAutoLayer_2
+    _asset: {instanceID: 0}
+  - _key: GroundFlowerAutoLayer_1
+    _asset: {fileID: 11400000, guid: 13c6490e24025bb43b17f35b390d397a, type: 2}
+  - _key: GroundFlowerAutoLayer_2
+    _asset: {fileID: 11400000, guid: b73ff79e1b696e54cb0633bfb9df6479, type: 2}
+  - _key: GroundAutoLayer_1
+    _asset: {fileID: 11400000, guid: 13c6490e24025bb43b17f35b390d397a, type: 2}
+  - _key: GroundAutoLayer_2
+    _asset: {fileID: 11400000, guid: b73ff79e1b696e54cb0633bfb9df6479, type: 2}
+  - _key: GroundDryAutoLayer_1
+    _asset: {fileID: 11400000, guid: 13c6490e24025bb43b17f35b390d397a, type: 2}
+  - _key: GroundDryAutoLayer_2
+    _asset: {fileID: 11400000, guid: b73ff79e1b696e54cb0633bfb9df6479, type: 2}
+  - _key: CaveBackgroundAutoLayer_1
+    _asset: {fileID: 11400000, guid: b73ff79e1b696e54cb0633bfb9df6479, type: 2}
+  - _key: CastleAutoLayer_1
+    _asset: {fileID: 11400000, guid: 13c6490e24025bb43b17f35b390d397a, type: 2}
+  - _key: CastleAutoLayer_2
+    _asset: {fileID: 11400000, guid: 13c6490e24025bb43b17f35b390d397a, type: 2}
+  - _key: CastleBackgroundAutoLayer_1
+    _asset: {fileID: 11400000, guid: b73ff79e1b696e54cb0633bfb9df6479, type: 2}
+  _entities:
+  - _key: CampFire
+    _asset: {fileID: 3024308233949555861, guid: 08a25de08c835fc44a54e4a46c3afae8, type: 3}
+  - _key: Lamb
+    _asset: {fileID: 2881741179333041416, guid: e6fb2138920a2b240a6220d0a54d3ba6, type: 3}
+  - _key: Touch
+    _asset: {fileID: 3193023941562458917, guid: d582a4b76fa5d4d438eefb753e1b4546, type: 3}
+  - _key: Player
+    _asset: {instanceID: 0}
+  - _key: Skeleton
+    _asset: {fileID: 8511704446154591096, guid: 8dfa8f81e4684554099d8a7fbff3db43, type: 3}
+  - _key: Goblin
+    _asset: {fileID: 8511704446154591096, guid: d41b3c2342f8d754b9ebc60c8faabaa4, type: 3}
+  - _key: Mushroom
+    _asset: {fileID: 8511704446154591096, guid: 3db6d7f9daa718a409b2641386bdecee, type: 3}
+  - _key: BossKnight
+    _asset: {fileID: 8511704446154591096, guid: 3673c060262b96b46b7ec003f91fed48, type: 3}
+  - _key: PointA
+    _asset: {instanceID: 0}
+  - _key: PointB
+    _asset: {instanceID: 0}
+  - _key: ChestWooden
+    _asset: {fileID: 9014151654193274894, guid: d955980ac5328a54caa08df865975ef8, type: 3}
+  - _key: ChestSilver
+    _asset: {fileID: 5628532757225865041, guid: 0923f70342f43054691ac0e28e079d93, type: 3}
+  - _key: ChestIron
+    _asset: {fileID: 4425077923397180848, guid: e299e396920c1ab4bbfb99e7ed919226, type: 3}
+  - _key: ChestGold
+    _asset: {fileID: 6923174981373360383, guid: 7d2b0dc088ea8d74d9abc03f191c1aaa, type: 3}
+  _enumGenerate: 0
+  _enumPath: 
+  _enumNamespace: 

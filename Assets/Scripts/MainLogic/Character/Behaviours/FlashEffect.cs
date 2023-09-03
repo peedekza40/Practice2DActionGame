@@ -31,14 +31,14 @@ namespace Character.Behaviours
             }
         }
 
-        public void Flash()
+        public void Flash(float damage)
         {
             if(FlashRoutine != null)
             {
                 StopCoroutine(FlashRoutine);
             }
             
-            if(CombatStateMachine.IsCurrentState(typeof(BlockParryState)) == false)
+            if(damage > 0)
             {
                 FlashRoutine = StartCoroutine(WaitFlash());
             }

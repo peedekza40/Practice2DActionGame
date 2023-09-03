@@ -5,18 +5,23 @@ using Core.Constants;
 
 public class LevelLoader : MonoBehaviour
 {
-    public float LoadingTime = 1f;
     public Animator Animator;
 
     public void LoadLevel(string sceneName)
     {
-        StartCoroutine(LoadScene(sceneName));
+        StartCoroutine(LoadSceneAsync(sceneName));
     }
 
-    IEnumerator LoadScene(string sceneName)
+    IEnumerator LoadSceneAsync(string sceneName)
     {
         Animator.SetTrigger(AnimationParameter.Start);
-        yield return new WaitForSeconds(LoadingTime);
-        SceneManager.LoadScene(sceneName);
+        var operation = SceneManager.LoadSceneAsync(sceneName);
+        while (!operation.isDone)
+        {
+            float progressValue = Mathf.Clamp01(operation.progress / 0.9f);
+            Debug.Log("progressValue" + progressValue);
+
+            yield return null;
+        }
     }
 }

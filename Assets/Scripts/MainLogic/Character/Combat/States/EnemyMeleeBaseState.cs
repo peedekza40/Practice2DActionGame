@@ -38,8 +38,8 @@ namespace Character.Combat.States
             EnemyStatus = GetComponent<EnemyStatus>();
             Rb = GetComponent<Rigidbody2D>();
             DetectedEnemies = EnemyAI.DetectedEnemies;
-            MaxDamage = EnemyAI.MaxDamage;
-            MinDamage = EnemyAI.MinDamage;
+            MaxDamage = EnemyStatus.Attribute.MaxDamage;
+            MinDamage = EnemyStatus.Attribute.MinDamage;
             EnemyLayers = EnemyAI.EnemyLayers;
             HitBoxes = EnemyAI.HitBoxes;
 
@@ -73,11 +73,8 @@ namespace Character.Combat.States
                 {
                     var randomDamage = Random.Range(MinDamage, MaxDamage);
                     var attackedEnemy = hitEnemy.GetComponent<PlayerStatus>();
-                    if(attackedEnemy?.IsImmortal == false)
-                    {
-                        attackedEnemy?.TakeDamage(randomDamage, HitBoxesIsDetected.FirstOrDefault()?.gameObject);
-                        IsDamaged = true;
-                    }
+                    attackedEnemy?.TakeDamage(randomDamage, HitBoxesIsDetected.FirstOrDefault()?.gameObject);
+                    IsDamaged = true;
                 }
             }
             else if(IsAttacking() == false)

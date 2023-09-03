@@ -8,10 +8,13 @@ namespace Character.Behaviours
 {
     public class KnockBack : MonoBehaviour
     {
-        public float KnockBackRange;
+        public float KnockBackForce = 3f;
+
         [Range(0, 100)]
-        public float ReduceDurationPercent;
+        public float ReduceForcePercent;
+
         public bool Enabled = true;
+
         public Transform CenterTransform;
 
         private Rigidbody2D Rb;
@@ -31,9 +34,9 @@ namespace Character.Behaviours
             }
         }
         
-        public void CalculateKnockBackRange(float damage)
+        public void CalculateKnockBackForce(float damage)
         {
-            KnockBackRange = damage * (3f/10f);
+            KnockBackForce = damage * 0.3f * ((100 - ReduceForcePercent) / 100);
         }
     }
 

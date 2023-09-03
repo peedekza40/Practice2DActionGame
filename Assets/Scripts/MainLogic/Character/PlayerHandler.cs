@@ -1,11 +1,17 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using Character.Animators;
 using Character.Combat;
 using Character.Inventory;
 using Character.Status;
 using Collecting;
 using Core.Constants;
+using Core.DataPersistence;
+using Core.DataPersistence.Data;
 using Infrastructure.InputSystem;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using Zenject;
@@ -13,15 +19,27 @@ using static PlayerInputAction;
 
 namespace Character
 {
-    public class PlayerHandler : MonoBehaviour, IPlayerActions
+    public class PlayerHandler : MonoBehaviour, IPlayerActions, IDataPersistence
     {
         [Header("Assets")]
         public PlayerAnimatorController AnimatorController;
+        public PlayerAttribute Attribute;
         public PlayerStatus Status;
         public PlayerCombat Combat;
         public PlayerController Controller;
         public Gold Gold;
         public InventoryManagement Inventory;
+
+        [Header("Collect Items")]
+        public LayerMask ItemLayer;
+        public float CollectingRange = 0.5f;
+        public Transform CenterPoint;
+
+        public UnityAction InteractAction;
+
+        public string LastCheckPointID { get; private set; }
+        public List<string> CheckedPointIDs { get; private set; } = new List<string>();
+        public List<string> OpenedChestIDs { get; private set; } = new List<string>();
 
         #region Dependencies
         [Inject]
@@ -48,16 +66,13 @@ namespace Character
             AnimatorController.SetAssetsAnimation(
                 Combat.CurrentWeapon != null, 
                 Status.CurrentBoot?.HaveWeaponSpritePath);
-        }
 
-        private void OnTriggerEnter2D(Collider2D other) 
-        {
-            CollectItem(other);
-        }
-        
-        private void OnTriggerStay2D(Collider2D other) 
-        {
-            CollectItem(other);
+            //collect items
+            var items = Physics2D.OverlapCircleAll(CenterPoint.position, CollectingRange, ItemLayer).ToList();
+            foreach (var item in items) 
+            {
+                CollectItem(item);
+            }
         }
 
         private void CollectItem(Collider2D other)
@@ -80,6 +95,24 @@ namespace Character
                 case ItemType.ManaPotion : 
                     break;
             }
+        }
+
+        public void AddCheckedPointID(string checkPointID)
+        {
+            LastCheckPointID = checkPointID;
+            CheckedPointIDs.Add(LastCheckPointID);
+        }
+
+        public void AddOpenedChestID(string chestID)
+        {
+            OpenedChestIDs.Add(chestID);
+        }
+
+
+        void OnDrawGizmosSelected()
+        {
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawWireSphere(CenterPoint.position, CollectingRange);
         }
 
         #region IPlayerActions
@@ -129,8 +162,26 @@ namespace Character
 
         public void OnInteract(InputAction.CallbackContext context)
         {
+            if(context.performed)
+            {
+                InteractAction?.Invoke();
+            }
         }
         #endregion
+
+        public void LoadData(GameDataModel data)
+        {
+            LastCheckPointID = data.PlayerData.LastCheckPointID;
+            CheckedPointIDs = data.CheckedPointIDs;
+            OpenedChestIDs = data.OpenedChestIDs;
+        }
+
+        public void SaveData(GameDataModel data)
+        {
+            data.PlayerData.LastCheckPointID = LastCheckPointID;
+            data.CheckedPointIDs = CheckedPointIDs;
+            data.OpenedChestIDs = OpenedChestIDs;
+        }
     }
 }
 

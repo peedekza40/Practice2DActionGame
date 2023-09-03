@@ -1,11 +1,21 @@
+using Character.Animators;
+
 namespace Character.Combat.States.Player
 {
-    public class BlockFinisherState : MeleeBaseState
+    public class BlockFinisherState : State
     {
+        private float Duration;
+        protected PlayerHandler PlayerHandler;
+        protected AnimatorController AnimatorController;
+
+
         public override void OnEnter(StateMachine _stateMachine)
         {
             base.OnEnter(_stateMachine);
-            Duration = PlayerHandler.Combat.TimeBetweenBlock;
+            AnimatorController = GetComponent<AnimatorController>();
+            PlayerHandler = GetComponent<PlayerHandler>();
+            
+            Duration = PlayerHandler.Attribute.TimeBetweenBlock;
             AnimatorController.SetBlock(false);
         }
 

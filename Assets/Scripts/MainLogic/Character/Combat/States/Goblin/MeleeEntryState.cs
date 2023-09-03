@@ -16,7 +16,6 @@ namespace Character.Combat.States.Goblin
         public override void OnUpdate()
         {
             base.OnUpdate();
-
             if(fixedtime >= 1f)
             {
                 stateMachine.SetNextState(new Attack1State());  
@@ -25,8 +24,9 @@ namespace Character.Combat.States.Goblin
             {
                 if(PlayerCombat)
                 {
-                    var playerIsAttack = PlayerCombat.CombatStateMachine.IsCurrentState(typeof(Character.Combat.States.Player.GroundEntryState));
-                    if(playerIsAttack)
+                    var randNum = Random.Range(0, 10);
+                    var playerIsAttack = PlayerCombat.CombatStateMachine.IsCurrentState(typeof(Player.MeleeBaseState));
+                    if(playerIsAttack && randNum == 1)
                     {
                         stateMachine.SetNextState(new Attack2State());  
                     }

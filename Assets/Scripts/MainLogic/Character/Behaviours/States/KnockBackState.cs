@@ -4,9 +4,8 @@ namespace Character.Behaviours.States
 {
     public class KnockBackState : State
     {
-        private float Range;
+        private float Force;
         private float Duration;
-        private float ReduceDurationPercent;
         private Transform CenterTransform;
         private Rigidbody2D Rb;
         private GameObject AttackerHitBox;
@@ -20,8 +19,7 @@ namespace Character.Behaviours.States
         {
             base.OnEnter(_stateMachine);
             Rb = GetComponent<Rigidbody2D>();
-            Range = GetComponent<KnockBack>().KnockBackRange;
-            ReduceDurationPercent = GetComponent<KnockBack>().ReduceDurationPercent;
+            Force = GetComponent<KnockBack>().KnockBackForce;
             CenterTransform = GetComponent<KnockBack>().CenterTransform;
 
             KnockBack();
@@ -38,6 +36,7 @@ namespace Character.Behaviours.States
 
         private void KnockBack()
         {
+
             var direction = (Vector3)CenterTransform.position - AttackerHitBox.transform.position;
             if(direction.x < 0)
             {
@@ -47,10 +46,13 @@ namespace Character.Behaviours.States
             {
                 direction.x = 1;
             }
-
-            var velocity = (Vector2)(direction.normalized * Range);
+            
+            var velocity = (Vector2)(direction.normalized * Force);
+            velocity.y = 0;
             Rb.velocity = velocity;
-            Duration = (Range / Mathf.Abs(velocity.x)) * (100 - ReduceDurationPercent) / 100;
+
+            var distance = Force - 1.8f; //estimate distance relate with force
+            Duration = (distance / (Rb.velocity.magnitude * 0.7f));
             Duration = float.IsNaN(Duration) ? 0 : Duration;
         }
     }

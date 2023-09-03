@@ -6,6 +6,7 @@ namespace Core.Constants
         Statistic,
         MainMenu,
         PauseMenu,
-        DeathMenu
+        DeathMenu,
+        OptionMenu
     }
 }

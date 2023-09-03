@@ -63,18 +63,6 @@ namespace Character.Inventory
             DrawItemSlot();
         }
 
-        private void Start() 
-        {
-            ItemModel weapon = diContainer.Instantiate<ItemModel>();
-            ItemModel boot = diContainer.Instantiate<ItemModel>();
-            
-            weapon.Setup(ItemType.SwordOne, 1);
-            boot.Setup(ItemType.BootOne, 1);
-
-            AddItem(weapon);
-            AddItem(boot);
-        }
-
         public ItemModel GetItem(System.Guid id)
         {
             return Items.FirstOrDefault(x => x.InstanceId == id);
@@ -173,8 +161,18 @@ namespace Character.Inventory
 
         public void ToggleInventory()
         {
-            IsOpen = !IsOpen;
-            InventoryContainer.SetActive(IsOpen);
+            var fadeUi = InventoryContainer.GetComponent<FadeUI>();
+            if(fadeUi.FadeIn == false && fadeUi.FadeOut == false)
+            {
+                IsOpen = !IsOpen;
+                if(IsOpen)
+                {
+                    fadeUi.ShowUI();
+                }
+                else {
+                    fadeUi.HideUI();
+                }
+            }
         }
 
         private void RefreshInventory()
@@ -218,8 +216,6 @@ namespace Character.Inventory
 
         private void DrawItemSlot()
         {
-            InventoryContainer.SetActive(true);
-
             int x = 0;
             int y = 0;
             float slotCellSize = 144.3f;
@@ -239,8 +235,6 @@ namespace Character.Inventory
                     y++;
                 }
             }
-
-            InventoryContainer.SetActive(IsOpen);
         }
 
         #region IDataPersistence

@@ -12,7 +12,7 @@ namespace Character.Combat.States.Mushroom
 
             //Attack
             AttackIndex = 1;
-            Duration = EnemyAI.AttackDuration;
+            Duration = EnemyStatus.Attribute.AttackDuration;
             AnimatorController.TriggerAttack(AttackIndex);
         }
 

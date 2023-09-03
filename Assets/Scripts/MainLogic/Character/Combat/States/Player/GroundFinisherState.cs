@@ -9,7 +9,7 @@ namespace Character.Combat.States.Player
 
             //Attack
             AttackIndex = 3;
-            Duration = PlayerHandler.Combat.AttackDuration + PlayerHandler.Combat.TimeBetweenCombo; // duration + time betweem combo
+            Duration = PlayerHandler.Attribute.AttackDuration + PlayerHandler.Attribute.TimeBetweenCombo; // duration + time betweem combo
             AnimatorController.TriggerAttack(AttackIndex);
         }
 

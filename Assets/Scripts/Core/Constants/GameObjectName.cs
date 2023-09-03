@@ -17,5 +17,6 @@ namespace Core.Constants
         public const string TriggerCollider = "TriggerCollider";
         public const string Value = "Value";
         public const string ContinueButton = "ContinueButton";
+        public const string TargetPoint = "TargetPoint";
     }
 }

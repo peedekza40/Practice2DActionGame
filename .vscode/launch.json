@@ -6,141 +6,14 @@
     "configurations": [
         {
             "name": "Unity Editor",
-            "type": "unity",
-            "path": "/f:/coding/unity/Practice2DActionGame/Library/EditorInstance.json",
-            "request": "launch"
+            "type": "vstuc",
+            "request": "attach"
         },
         {
-            "name": "Windows Player",
-            "type": "unity",
-            "request": "launch"
-        },
-        {
-            "name": "OSX Player",
-            "type": "unity",
-            "request": "launch"
-        },
-        {
-            "name": "Linux Player",
-            "type": "unity",
-            "request": "launch"
-        },
-        {
-            "name": "iOS Player",
-            "type": "unity",
-            "request": "launch"
-        },
-        {
-            "name": "Android Player",
-            "type": "unity",
-            "request": "launch"
-        },
-        {
-            "name": "Xbox One Player",
-            "type": "unity",
-            "request": "launch"
-        },
-        {
-            "name": "PS4 Player",
-            "type": "unity",
-            "request": "launch"
-        },
-        {
-            "name": "SwitchPlayer",
-            "type": "unity",
-            "request": "launch"
-        },
-        {
-            "name": "Unity Editor",
-            "type": "unity",
-            "path": "/f:/coding/unity/Practice2DActionGame/Library/EditorInstance.json",
-            "request": "launch"
-        },
-        {
-            "name": "Windows Player",
-            "type": "unity",
-            "request": "launch"
-        },
-        {
-            "name": "OSX Player",
-            "type": "unity",
-            "request": "launch"
-        },
-        {
-            "name": "Linux Player",
-            "type": "unity",
-            "request": "launch"
-        },
-        {
-            "name": "iOS Player",
-            "type": "unity",
-            "request": "launch"
-        },
-        {
-            "name": "Android Player",
-            "type": "unity",
-            "request": "launch"
-        },
-        {
-            "name": "Xbox One Player",
-            "type": "unity",
-            "request": "launch"
-        },
-        {
-            "name": "PS4 Player",
-            "type": "unity",
-            "request": "launch"
-        },
-        {
-            "name": "SwitchPlayer",
-            "type": "unity",
-            "request": "launch"
-        },
-        {
-            "name": "Unity Editor",
-            "type": "unity",
-            "path": "/f:/coding/unity/Practice2DActionGame/Library/EditorInstance.json",
-            "request": "launch"
-        },
-        {
-            "name": "Windows Player",
-            "type": "unity",
-            "request": "launch"
-        },
-        {
-            "name": "OSX Player",
-            "type": "unity",
-            "request": "launch"
-        },
-        {
-            "name": "Linux Player",
-            "type": "unity",
-            "request": "launch"
-        },
-        {
-            "name": "iOS Player",
-            "type": "unity",
-            "request": "launch"
-        },
-        {
-            "name": "Android Player",
-            "type": "unity",
-            "request": "launch"
-        },
-        {
-            "name": "Xbox One Player",
-            "type": "unity",
-            "request": "launch"
-        },
-        {
-            "name": "PS4 Player",
-            "type": "unity",
-            "request": "launch"
-        },
-        {
-            "name": "SwitchPlayer",
-            "type": "unity",
-            "request": "launch"
+            "name": "Attach",
+            "type": "vstuc",
+            "request": "attach",
+            "endPoint": "127.0.0.1:56461"
         }
     ]
 }

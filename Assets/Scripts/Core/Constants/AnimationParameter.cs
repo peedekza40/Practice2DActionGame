@@ -8,6 +8,7 @@ namespace Core.Constants
         public const string Attack = "Attack";
         public const string AttackFromAir = "AttackFromAir";
         public const string IsAttacked = "IsAttacked";
+        public const string IsDeflected = "IsDeflected";
         public const string Speed = "Speed";
         public const string IsDeath = "IsDeath";
         public const string IsJumping = "IsJumping";
@@ -18,6 +19,9 @@ namespace Core.Constants
         public const string Parry = "Parry";
         public const string Start = "Start";
         public const string End = "End";
+        public const string Open = "Open";
+        public const string Close = "Close";
+
     }
 }
 

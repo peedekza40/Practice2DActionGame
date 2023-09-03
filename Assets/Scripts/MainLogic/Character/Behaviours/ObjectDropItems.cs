@@ -9,6 +9,7 @@ namespace Character.Behaviours
     public class ObjectDropItems : MonoBehaviour
     {
         public WeightedRandomList<ItemModel> Items;
+        public bool EnabledRandomDropAmount = true;
         public int DropAmount;
         
         #region Dependencies
@@ -28,8 +29,8 @@ namespace Character.Behaviours
         public void DropItems()
         {
             int sumDropedAmount = 0;
-            int randomsDropAmount = Random.Range(0, DropAmount);
-            while(sumDropedAmount < randomsDropAmount)
+            int dropAmount = EnabledRandomDropAmount ? Random.Range(0, DropAmount + 1) : DropAmount;
+            while(sumDropedAmount < dropAmount)
             {
                 ItemModel dropItem = Items.GetRandom();
                 if(dropItem.Amount > 0)

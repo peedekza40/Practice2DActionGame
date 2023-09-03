@@ -18,7 +18,7 @@ namespace Character.Combat.States.Mushroom
 
             //Attack
             AttackIndex = 2;
-            Duration = EnemyAI.AttackDuration;
+            Duration = EnemyStatus.Attribute.AttackDuration;
             AnimatorController.TriggerAttack(AttackIndex);
         }
 
@@ -48,25 +48,22 @@ namespace Character.Combat.States.Mushroom
                     var knockBack = hitEnemy.GetComponent<KnockBack>();
                     var attackedEnemy = hitEnemy.GetComponent<PlayerStatus>();
 
-                    if(attackedEnemy?.IsImmortal == false)
+                    if(knockBack != null)
                     {
-                        if(knockBack != null)
-                        {
-                            knockBack.Enabled = false;
-                        }
+                        knockBack.Enabled = false;
+                    }
 
-                        var enemyIsBlocking = combatStateMachine?.IsCurrentState(typeof(BlockingState)) ?? false;
-                        if(enemyIsBlocking == false)
-                        {
-                            behaviorStateMachine?.SetNextState(new DisabledMoveState(1.5f));
-                        }
-                        attackedEnemy?.TakeDamage(randomDamage, HitBoxesIsDetected.FirstOrDefault()?.gameObject);
-                        IsDamaged = true;
+                    var enemyIsBlocking = combatStateMachine?.IsCurrentState(typeof(BlockingState)) ?? false;
+                    if(enemyIsBlocking == false)
+                    {
+                        behaviorStateMachine?.SetNextState(new DisabledMoveState(1.5f));
+                    }
+                    attackedEnemy?.TakeDamage(randomDamage, HitBoxesIsDetected.FirstOrDefault()?.gameObject);
+                    IsDamaged = true;
 
-                        if(knockBack != null)
-                        {
-                            knockBack.Enabled = true;
-                        }
+                    if(knockBack != null)
+                    {
+                        knockBack.Enabled = true;
                     }
                 }
             }

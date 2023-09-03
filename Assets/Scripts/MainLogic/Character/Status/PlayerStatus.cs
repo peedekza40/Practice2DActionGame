@@ -1,12 +1,13 @@
-using System.Collections;
+using System.Linq;
 using Character.Animators;
-using Character.Combat;
 using Character.Combat.States.Player;
+using Constants;
 using Core.Constants;
 using Core.DataPersistence;
 using Core.DataPersistence.Data;
 using Core.Repositories;
 using Infrastructure.Entities;
+using Infrastructure.InputSystem;
 using UI;
 using UnityEngine;
 using Zenject;
@@ -15,42 +16,42 @@ namespace Character.Status
 {
     public class PlayerStatus : CharacterStatus, IDataPersistence
     {
-        public float MaxStamina;
-        public float CurrentStamina { get; private set; }
-        public float RegenStaminaValue = 10f;
         public SliderBar StaminaBar;
-        
-        public int Level { get; private set; }
+        public float CurrentStamina { get; private set; }
 
         public EquipmentConfig CurrentArmor { get; private set; }
         public EquipmentConfig CurrentBoot { get; private set; }
         public EquipmentConfig CurrentGlove { get; private set; }
 
-        private PlayerCombat PlayerCombat;
+        public PlayerHandler PlayerHandler { get; private set; }
         private BlockFlashAnimatorController BlockFlashAnimatorController;
         private StateMachine CombatStateMachine;
 
         #region Dependencies
+        private PlayerInputControl playerInputControl;
         private IEquipmentConfigRepository equipmentConfigRepository;
         #endregion 
 
         [Inject]
         public void Init(
+            PlayerInputControl playerInputControl,
             IEquipmentConfigRepository equipmentConfigRepository)
         {
+            this.playerInputControl = playerInputControl;
             this.equipmentConfigRepository = equipmentConfigRepository;
         }
 
         protected override void Awake()
         {
-            PlayerCombat = GetComponent<PlayerCombat>();
+            PlayerHandler = GetComponent<PlayerHandler>();
+            BaseAttribute = PlayerHandler.Attribute;
             BlockFlashAnimatorController = GameObject.Find(GameObjectName.EffectBlock).GetComponent<BlockFlashAnimatorController>();
-            CombatStateMachine = GetComponent<StateMachine>();
+            CombatStateMachine = GetComponents<StateMachine>().FirstOrDefault(x => x.Id == StateId.Combat); 
             base.Awake();
 
-            Level = 1;
-            StaminaBar.SetMaxValue(MaxStamina);
-            SetCurrentStamina(MaxStamina);
+            PlayerHandler.Attribute.Level = 1;
+            StaminaBar.SetMaxValue(PlayerHandler.Attribute.MaxStamina);
+            SetCurrentStamina(PlayerHandler.Attribute.MaxStamina);
             InvokeRepeating(nameof(RegenStamina), 0f, 1);
         }
 
@@ -61,25 +62,43 @@ namespace Character.Status
 
         public override void TakeDamage(float damage, GameObject attackerHitBox)
         {
-            var reduceDamage = 0f;
+            //check attacker is in direction of player
+            bool attackerIsInDirection = false;
+            if(transform.localScale.x > 0)
+            {
+                attackerIsInDirection = attackerHitBox.transform.position.x > transform.position.x;
+            }
+            else if (transform.localScale.x < 0) 
+            {
+                attackerIsInDirection = attackerHitBox.transform.position.x < transform.position.x;
+            }
 
+            var reduceDamage = 0f;
             bool isBlocking = CombatStateMachine.IsCurrentState(typeof(BlockingState));
-            if(isBlocking)
+            if(isBlocking && attackerIsInDirection)
             {
                 bool isParry = CombatStateMachine.IsCurrentState(typeof(BlockParryState));
                 if(isParry)
                 {
                     reduceDamage = damage;
                     BlockFlashAnimatorController.TriggerParryEffect();
+
+                    //deflect attacker
+                    var enemyAI = attackerHitBox.GetComponentInParent<EnemyAI>();
+                    enemyAI.TriggerDeflected();
                 }
                 else
                 {
-                    reduceDamage = (PlayerCombat.ReduceDamagePercent / 100) * damage;
+                    reduceDamage = (PlayerHandler.Attribute.ReduceDamagePercent / 100) * damage;
                 }
 
                 damage -= reduceDamage;
             }
+            else if (isBlocking && attackerIsInDirection == false) {
+                CombatStateMachine.SetNextState(new BlockFinisherState());
+            }
 
+            //reduce damage from equipment
             var equipmentReduceDamagePercent = 0f;
             equipmentReduceDamagePercent += CurrentArmor?.MaxDefense ?? 0f;
             equipmentReduceDamagePercent += CurrentGlove?.MaxDefense ?? 0f;
@@ -91,14 +110,20 @@ namespace Character.Status
 
         public override void Die()
         {
-            PlayerCombat.enabled = false;
+            PlayerHandler.Combat.enabled = false;
             GetComponent<PlayerController>().enabled = false;
             base.Die();
         }
 
         public void SetLevel(int level)
         {
-            Level = level;
+            PlayerHandler.Attribute.Level = level;
+        }
+
+        public void SetMaxStamina(float maxStamina)
+        {
+            PlayerHandler.Attribute.MaxStamina = maxStamina;
+            StaminaBar.SetMaxValue(PlayerHandler.Attribute.MaxStamina);
         }
 
         public void SetCurrentStamina(float stamina)
@@ -113,10 +138,10 @@ namespace Character.Status
 
         public void RegenStamina()
         {
-            if(StaminaBar.TimeSinceSetValue >= 1f){
-                CurrentStamina += RegenStaminaValue;
-                if(CurrentStamina >= MaxStamina){
-                    CurrentStamina = MaxStamina;
+            if(StaminaBar.TimeSinceSetValue >= PlayerHandler.Attribute.RegenStaminaSpeedTime){
+                CurrentStamina += PlayerHandler.Attribute.RegenStamina;
+                if(CurrentStamina >= PlayerHandler.Attribute.MaxStamina){
+                    CurrentStamina = PlayerHandler.Attribute.MaxStamina;
                 }
                 StaminaBar.SetCurrentValue(CurrentStamina, false);  
             }
@@ -131,14 +156,28 @@ namespace Character.Status
         {
             SetCurrentHP(data.PlayerData.CurrentHP);
             SetMaxHealth(data.PlayerData.MaxHP);
-            Level = data.PlayerData.Level;
+
+            SetCurrentStamina(data.PlayerData.CurrentStamina);
+            SetMaxStamina(data.PlayerData.MaxStamina);
+            PlayerHandler.Attribute.RegenStamina = data.PlayerData.RegenStamina;
+            PlayerHandler.Attribute.RegenStaminaSpeedTime = data.PlayerData.RegenStaminaSpeedTime;
+            PlayerHandler.Attribute.StaminaUse = data.PlayerData.StaminaUse;
+
+            PlayerHandler.Attribute.Level = data.PlayerData.Level;
         }
 
         public void SaveData(GameDataModel data)
         {
             data.PlayerData.CurrentHP = CurrentHP;
-            data.PlayerData.MaxHP = MaxHP;
-            data.PlayerData.Level = Level;
+            data.PlayerData.MaxHP = PlayerHandler.Attribute.MaxHP;
+
+            data.PlayerData.CurrentStamina = CurrentStamina;
+            data.PlayerData.MaxStamina = PlayerHandler.Attribute.MaxStamina;
+            data.PlayerData.RegenStamina = PlayerHandler.Attribute.RegenStamina;
+            data.PlayerData.RegenStaminaSpeedTime = PlayerHandler.Attribute.RegenStaminaSpeedTime;
+            data.PlayerData.StaminaUse = PlayerHandler.Attribute.StaminaUse;
+
+            data.PlayerData.Level = PlayerHandler.Attribute.Level;
         }
     }
 }

@@ -7,16 +7,17 @@ namespace Character.Status
 {
     public class CharacterStatus : MonoBehaviour
     {
-
-        public float MaxHP = 100;
-        public float CurrentHP { get; protected set; }
+        public float CurrentHP;
         public bool IsImmortal = false;
+        public bool IsDeath { get; private set; }
+        public CharacterAttribute BaseAttribute { get; protected set; }
+
         public SliderBar HealthBar;
+
         public UnityEvent OnDamaged;
         public UnityEvent<float> OnDamagedPassDamage;
         public UnityEvent<GameObject> OnDamagedPassHitBox;
         public UnityEvent OnDied;
-        public bool IsDeath { get; private set; }
 
         private AnimatorController AnimatorController;
         private Rigidbody2D Rigidbody;
@@ -26,8 +27,8 @@ namespace Character.Status
             AnimatorController = GetComponent<AnimatorController>();
             Rigidbody = GetComponent<Rigidbody2D>();
             
-            HealthBar.SetMaxValue(MaxHP);
-            SetCurrentHP(MaxHP);
+            HealthBar.SetMaxValue(BaseAttribute.MaxHP);
+            SetCurrentHP(BaseAttribute.MaxHP);
         }
 
         protected virtual void Update()
@@ -47,8 +48,8 @@ namespace Character.Status
 
         public void SetMaxHealth(float maxHp)
         {
-            MaxHP = maxHp;
-            HealthBar.SetMaxValue(MaxHP);
+            BaseAttribute.MaxHP = maxHp;
+            HealthBar.SetMaxValue(BaseAttribute.MaxHP);
         }
 
         public void AddCurrentHP(float hp)
@@ -59,13 +60,16 @@ namespace Character.Status
 
         public virtual void TakeDamage(float damage, GameObject attackerHitBox)
         {
-            //set hp
-            SetCurrentHP(CurrentHP - damage);
-            AnimatorController.TriggerAttacked();
-            
-            OnDamagedPassDamage?.Invoke(damage);
-            OnDamagedPassHitBox?.Invoke(attackerHitBox);
-            OnDamaged?.Invoke();
+            if(IsImmortal == false)
+            {
+                //set hp
+                SetCurrentHP(CurrentHP - damage);
+                AnimatorController.TriggerAttacked();
+                
+                OnDamagedPassDamage?.Invoke(damage);
+                OnDamagedPassHitBox?.Invoke(attackerHitBox);
+                OnDamaged?.Invoke();
+            }
         }
 
         public virtual void Die()

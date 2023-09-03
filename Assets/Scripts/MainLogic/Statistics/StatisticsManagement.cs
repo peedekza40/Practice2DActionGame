@@ -24,18 +24,21 @@ namespace Statistics
         public Transform StatsContainerTransform;
         public Transform StatsListContainerTransform;
         public StatsRow StatsRowTemplate;
-        public Transform InteractDisplayTransform;
         public Transform CurrentGoldTransform; 
         public Transform UseGoldTransform; 
         public Button SubmitButton;
         public Button ClearButton;
 
         private List<StatsRow> StatsRows { get; set; } = new List<StatsRow>();
+        private List<StatsConfig> StatsConfigs { get; set; } = new List<StatsConfig>();
         private PlayerHandler PlayerHandler;
+        private CheckPointController CheckPointController;
 
         #region Caculate Stats
+        private float DefaultRegenStaminaSpeedTime { get; set; }
+        private float MaxDecreaseRegenStaminaSpeedTime { get; set; }
         private float DefaultAttackDuration { get; set; }
-        private float MaxDecreasaeTimeBetweenAttack { get; set; }
+        private float MaxDecreaseAttackDuration { get; set; }
         private float DefaultTimeBetweenBlock { get; set; }
         private float MaxDecreasaeTimeBetweenBlock { get; set; }
         private Dictionary<string, StatsActionModel> StatsActions = new Dictionary<string, StatsActionModel>();
@@ -47,7 +50,7 @@ namespace Statistics
         private int UseGoldAmount { get; set; }
         private int UsingGoldAmount = 0;
         private int TempLevel { get; set; }
-        private const int UseGoldPerLevel = 150;
+        private const int UseGoldPerLevel = 100;
         #endregion
 
         #region Dependencies
@@ -64,8 +67,7 @@ namespace Statistics
         [Inject]
         public void Init(
             IStatsConfigRepository statsConfigRepository,
-            PlayerInputControl playerInputControl
-        )
+            PlayerInputControl playerInputControl)
         {
             this.statsConfigRepository = statsConfigRepository;
             this.playerInputControl = playerInputControl;
@@ -76,16 +78,18 @@ namespace Statistics
         {
             MouseEvent = StatsContainerTransform.GetComponentInParent<MouseEvent>();
             PlayerHandler = FindObjectsOfType<PlayerHandler>().FirstOrDefault();
+            CheckPointController = GetComponent<CheckPointController>();
 
             if(PlayerHandler == null)
             {
                 Debug.LogError("Can't find Player object on this scene.");
-                this.enabled = false;
+                enabled = false;
             }
         }
 
         private void Start() 
         {
+            DrawStatsRow();
             ClearButton.onClick.AddListener(() => ClearNextStats());
             SubmitButton.onClick.AddListener(() => SubmitNextStats());
 
@@ -95,42 +99,59 @@ namespace Statistics
         private void OnTriggerEnter2D(Collider2D other) 
         {
             PlayerHandler playerHandler = other.GetComponent<PlayerHandler>();
-            if(playerHandler != null)
+            if(playerHandler != null && CheckPointController.IsActivated)
             {
-                playerInputControl.InteractInput.performed += ToggleStatisticsUI;
-                InteractDisplayTransform.gameObject.SetActive(true);
+                PlayerHandler.InteractAction = ToggleStatisticsUI;
             }
         }
 
         private void OnTriggerExit2D(Collider2D other) 
         {
-            PlayerHandler playerStatus = other.GetComponent<PlayerHandler>();
-            if(playerStatus != null)
+            PlayerHandler playerHandler = other.GetComponent<PlayerHandler>();
+            if(playerHandler != null && CheckPointController.IsActivated)
             {
-                playerInputControl.InteractInput.performed -= ToggleStatisticsUI;
-                InteractDisplayTransform.gameObject.SetActive(false);
+                PlayerHandler.InteractAction = null;
             }
         }
 
-        private void ToggleStatisticsUI(InputAction.CallbackContext context)
+        public void ToggleStatisticsUI()
         {
-            TempLevel = PlayerHandler.Status.Level;
-            SetUseGold(CalculateUseGold());
-            SetCurrentGold(PlayerHandler.Gold.Amount);
+            var inventoryIsOpen = playerInputControl.UIPersistences.FirstOrDefault(x => x.Number == UINumber.Inventory).IsOpen;
+            if(inventoryIsOpen == false)
+            {
+                TempLevel = PlayerHandler.Attribute.Level;
+                SetUseGold(CalculateUseGold());
+                SetCurrentGold(PlayerHandler.Gold.Amount);
 
-            IsOpen = !IsOpen;
-            StatsContainerTransform.gameObject.SetActive(IsOpen);
+                foreach(StatsRow statsRow in StatsRows)
+                {
+                    statsRow.SetCurrentStatsValue(GetCurrentStatsValue(statsRow.StatsCode));
+                }
+
+                var fadeUi = StatsContainerTransform.GetComponent<FadeUI>();
+                if(fadeUi.FadeIn == false && fadeUi.FadeOut == false)
+                {
+                    IsOpen = !IsOpen;
+                    if(IsOpen)
+                    {
+                        fadeUi.ShowUI();
+                    }
+                    else {
+                        fadeUi.HideUI();
+                    }
+                }
+            }
         }
 
         private void DrawStatsRow()
         {
-            List<StatsConfig> statsConfigs = statsConfigRepository.Get();
-            foreach(var statsConfig in statsConfigs)
+            StatsConfigs = statsConfigRepository.Get();
+            foreach(var statsConfig in StatsConfigs)
             {
                 StatsRow newStatsRow = Instantiate(StatsRowTemplate, StatsListContainerTransform);
                 StatsActions.Add(statsConfig.Code, InitialStatsActionModel(statsConfig.Code));
                 newStatsRow.gameObject.SetActive(true);
-                newStatsRow.SetGUI(statsConfig, GetCurrentStatsValue(statsConfig.Code), IncreaseStatsPreview, DecreaseStatsPreview);
+                newStatsRow.SetGUI(statsConfig, IncreaseStatsPreview, DecreaseStatsPreview);
                 StatsRows.Add(newStatsRow);
 
             }
@@ -138,8 +159,16 @@ namespace Statistics
 
         private StatsActionModel InitialStatsActionModel(string statsCode)
         {
-            UnityAction calculateIncreaseStatsAction = null;
-            UnityAction calculateDecreaseStatsAction = null;
+            UnityAction<StatsRow> calculateIncreaseStatsAction = (statsRow) => 
+            {
+                ResultValueAction += StatsConfigs.FirstOrDefault(x => x.Code == statsRow.StatsCode)?.IncreaseValue;
+            };
+
+            UnityAction<StatsRow> calculateDecreaseStatsAction = (statsRow) => 
+            {
+                ResultValueAction -= StatsConfigs.FirstOrDefault(x => x.Code == statsRow.StatsCode)?.IncreaseValue;
+            };
+
             UnityAction calculateGetCurrentStatsValueAction = null;
             UnityAction<float> setStatsAction = null;
 
@@ -147,7 +176,7 @@ namespace Statistics
             UnityAction<StatsRow> addStatsAction = (statsRow) => { 
                 ResultValueAction = null;
                 ResultValueAction = statsRow.NextStatsValue ?? statsRow.CurrentStatsValue;
-                calculateIncreaseStatsAction();
+                calculateIncreaseStatsAction(statsRow);
                 statsRow.SetNextStatsValue(ResultValueAction);
                 
                 IncreaseTempLevel();
@@ -157,7 +186,7 @@ namespace Statistics
             UnityAction<StatsRow> minusStatsAction = (statsRow) => { 
                 ResultValueAction = null;
                 ResultValueAction = statsRow.NextStatsValue;
-                calculateDecreaseStatsAction();
+                calculateDecreaseStatsAction(statsRow);
 
                 if(ResultValueAction <= statsRow.CurrentStatsValue)
                 {
@@ -187,49 +216,94 @@ namespace Statistics
             switch(statsCode)
             {
                 case StatsCode.MaxHealth :
-                    calculateIncreaseStatsAction = () => { ResultValueAction += 50f; };
-                    calculateDecreaseStatsAction = () => { ResultValueAction -= 50f; };
-                    calculateGetCurrentStatsValueAction = () => { ResultValueAction = PlayerHandler.Status.MaxHP; };
-                    setStatsAction = (newStatsValue) => { PlayerHandler.Status.SetMaxHealth(newStatsValue); };
+                {
+                    calculateGetCurrentStatsValueAction = () => 
+                    { 
+                        ResultValueAction = PlayerHandler.Attribute.MaxHP; 
+                    };
+                    setStatsAction = (newStatsValue) => 
+                    { 
+                        PlayerHandler.Status.SetMaxHealth(newStatsValue); 
+                        PlayerHandler.Status.SetCurrentHP(newStatsValue);
+                    };
                     break;
+                }
                 case StatsCode.Damage :
-                    calculateIncreaseStatsAction = () => { ResultValueAction += 5f; };
-                    calculateDecreaseStatsAction = () => { ResultValueAction -= 5f; };
-                    calculateGetCurrentStatsValueAction = () => { ResultValueAction = PlayerHandler.Combat.MaxDamage; };
-                    setStatsAction = (newStatsValue) => { PlayerHandler.Combat.MaxDamage = newStatsValue; };
+                {
+                    calculateGetCurrentStatsValueAction = () => 
+                    { 
+                        ResultValueAction = PlayerHandler.Attribute.MaxDamage; 
+                    };
+                    setStatsAction = (newStatsValue) => 
+                    { 
+                        PlayerHandler.Attribute.MaxDamage = newStatsValue; 
+                    };
                     break;
+                }
                 case StatsCode.AttackSpeed :
-                    calculateIncreaseStatsAction = () => { ResultValueAction += 10f; };
-                    calculateDecreaseStatsAction = () => { ResultValueAction -= 10f; };
-                    calculateGetCurrentStatsValueAction = () => { 
-                        ResultValueAction = (DefaultAttackDuration - PlayerHandler.Combat.AttackDuration) / MaxDecreasaeTimeBetweenAttack * 100; 
+                {
+                    calculateGetCurrentStatsValueAction = () => 
+                    { 
+                        ResultValueAction = (DefaultAttackDuration - PlayerHandler.Attribute.AttackDuration) / MaxDecreaseAttackDuration * 100; 
                     };
-                    setStatsAction = (newStatsValue) => { 
-                        float newTimeBetweenAttack = DefaultAttackDuration - ((newStatsValue * MaxDecreasaeTimeBetweenAttack) / 100);
-                        PlayerHandler.Combat.AttackDuration = newTimeBetweenAttack;
+                    setStatsAction = (newStatsValue) => 
+                    { 
+                        float newAttackDuration = DefaultAttackDuration - ((newStatsValue * MaxDecreaseAttackDuration) / 100);
+                        PlayerHandler.Attribute.AttackDuration = newAttackDuration;
                     };
                     break;
+                }
                 case StatsCode.BlockDefense :
-                    calculateIncreaseStatsAction = () => { ResultValueAction += 3f; };
-                    calculateDecreaseStatsAction = () => { ResultValueAction -= 3f; };
-                    calculateGetCurrentStatsValueAction = () => { 
-                        ResultValueAction = PlayerHandler.Combat.ReduceDamagePercent; 
+                {
+                    calculateGetCurrentStatsValueAction = () => 
+                    { 
+                        ResultValueAction = PlayerHandler.Attribute.ReduceDamagePercent; 
                     };
-                    setStatsAction = (newStatsValue) => { 
-                        PlayerHandler.Combat.ReduceDamagePercent = newStatsValue;
+                    setStatsAction = (newStatsValue) => 
+                    { 
+                        PlayerHandler.Attribute.ReduceDamagePercent = newStatsValue;
                     };
                     break;
+                }
                 case StatsCode.BlockSpeed :
-                    calculateIncreaseStatsAction = () => { ResultValueAction += 10f; };
-                    calculateDecreaseStatsAction = () => { ResultValueAction -= 10f; };
-                    calculateGetCurrentStatsValueAction = () => { 
-                        ResultValueAction = (DefaultTimeBetweenBlock - PlayerHandler.Combat.TimeBetweenBlock) / MaxDecreasaeTimeBetweenBlock * 100; 
+                {
+                    calculateGetCurrentStatsValueAction = () => 
+                    { 
+                        ResultValueAction = (DefaultTimeBetweenBlock - PlayerHandler.Attribute.TimeBetweenBlock) / MaxDecreasaeTimeBetweenBlock * 100; 
                     };
-                    setStatsAction = (newStatsValue) => { 
+                    setStatsAction = (newStatsValue) => 
+                    { 
                         float newTimeBetweenBlock = DefaultTimeBetweenBlock - ((newStatsValue * MaxDecreasaeTimeBetweenBlock) / 100);
-                        PlayerHandler.Combat.TimeBetweenBlock = newTimeBetweenBlock;
+                        PlayerHandler.Attribute.TimeBetweenBlock = newTimeBetweenBlock;
                     };
                     break;
+                }
+                case StatsCode.MaxStamina :
+                {
+                    calculateGetCurrentStatsValueAction = () => 
+                    { 
+                        ResultValueAction = PlayerHandler.Attribute.MaxStamina; 
+                    };
+                    setStatsAction = (newStatsValue) => 
+                    { 
+                        PlayerHandler.Status.SetMaxStamina(newStatsValue); 
+                        PlayerHandler.Status.SetCurrentStamina(newStatsValue); 
+                    };
+                    break;
+                }
+                case StatsCode.RegenStaminaSpeed :
+                {
+                    calculateGetCurrentStatsValueAction = () => 
+                    { 
+                        ResultValueAction = (DefaultRegenStaminaSpeedTime - PlayerHandler.Attribute.RegenStaminaSpeedTime) / MaxDecreaseRegenStaminaSpeedTime * 100; 
+                    };
+                    setStatsAction = (newStatsValue) => 
+                    { 
+                        float newRegenStaminaSpeedTime = DefaultRegenStaminaSpeedTime - ((newStatsValue * MaxDecreaseRegenStaminaSpeedTime) / 100);
+                        PlayerHandler.Attribute.RegenStaminaSpeedTime = newRegenStaminaSpeedTime;
+                    };
+                    break;
+                }
             }
 
             return new StatsActionModel(addStatsAction, minusStatsAction, getCurrentStatsValue, upStatsAction);
@@ -261,7 +335,7 @@ namespace Statistics
                 statsRow.SetNextStatsValue(null);
             }
 
-            TempLevel = PlayerHandler.Status.Level;
+            TempLevel = PlayerHandler.Attribute.Level;
             SetUseGold(CalculateUseGold());
             SetUsingGold(0);
         }
@@ -340,12 +414,14 @@ namespace Statistics
         
         public void SetConfig(AppSettingsModel config)
         {
+            DefaultRegenStaminaSpeedTime = config.Status.DefaultRegenStaminaSpeedTime;
+            MaxDecreaseRegenStaminaSpeedTime = config.Status.MaxDecreaseRegenStaminaSpeedTime;
+
             DefaultAttackDuration = config.Combat.Attacking.DefaultAttackDuration;
-            MaxDecreasaeTimeBetweenAttack = config.Combat.Attacking.MaxDecreaseTimeBetweenAttack;
+            MaxDecreaseAttackDuration = config.Combat.Attacking.MaxDecreaseAttackDuration;
+
             DefaultTimeBetweenBlock = config.Combat.Blocking.DefaultTimeBetweenBlock;
             MaxDecreasaeTimeBetweenBlock = config.Combat.Blocking.MaxDecreaseTimeBetweenBlock;
-
-            DrawStatsRow();
         }
         #endregion
     }
