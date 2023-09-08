@@ -134,10 +134,11 @@ namespace Statistics
                     IsOpen = !IsOpen;
                     if(IsOpen)
                     {
+                        StatsContainerTransform.gameObject.SetActive(true);
                         fadeUi.ShowUI();
                     }
                     else {
-                        fadeUi.HideUI();
+                        fadeUi.HideUI(() => { StatsContainerTransform.gameObject.SetActive(false); });
                     }
                 }
             }

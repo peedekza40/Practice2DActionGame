@@ -1008,7 +1008,7 @@ MonoBehaviour:
   TurnDuration: 2
   Speed: 800
   MaxSpeed: 1
-  NextWaypointDistance: 2
+  NextWaypointDistance: 1
   JumpNodeHeightRequirement: 0.6
   JumpSpeed: 8
   JumpCheckOffset: 0.1
@@ -1023,9 +1023,11 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   FollowEnabled: 1
-  JumpEnabled: 1
+  AlwaysFollowWhenDetectedEnabled: 1
+  JumpEnabled: 0
   AttackEnabled: 1
   DirectionLookEnabled: 1
+  OnDetectedPlayer: {fileID: 0}
 --- !u!114 &8072776276011549519
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1136,10 +1138,12 @@ MonoBehaviour:
     - item:
         Type: 8
         Amount: 1
+        IsOnEquipmentSlot: 0
       weight: 10
     - item:
         Type: 1
         Amount: 1
+        IsOnEquipmentSlot: 0
       weight: 100
   EnabledRandomDropAmount: 1
   DropAmount: 1

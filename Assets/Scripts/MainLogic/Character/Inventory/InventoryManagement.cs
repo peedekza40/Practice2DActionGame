@@ -167,10 +167,12 @@ namespace Character.Inventory
                 IsOpen = !IsOpen;
                 if(IsOpen)
                 {
+                    InventoryContainer.SetActive(true);
                     fadeUi.ShowUI();
                 }
-                else {
-                    fadeUi.HideUI();
+                else 
+                {
+                    fadeUi.HideUI(() => { InventoryContainer.SetActive(false); });
                 }
             }
         }
@@ -180,8 +182,7 @@ namespace Character.Inventory
             List<ItemSlot> tempSlots = new List<ItemSlot>();
             foreach(var item in Items)
             {
-                bool isOnEquipment = EquipmentSlots.Any(x => x.ItemInstanceId == item.InstanceId);
-                if(isOnEquipment == false){
+                if(item.IsOnEquipmentSlot == false){
                     ItemSlot currentItemInSlot = ItemSlots.FirstOrDefault(x => x.ItemInstanceId == item.InstanceId);
                     if(currentItemInSlot != null)
                     {
@@ -194,6 +195,14 @@ namespace Character.Inventory
                         ItemSlot slot = ItemSlots.FirstOrDefault(x => x.ItemInstanceId == System.Guid.Empty);
                         slot?.SetItem(item);
                         tempSlots?.Add(slot);
+                    }
+                }
+                else if(item.IsEquipment)//set item to equipment slot
+                {
+                    var equipmentSlot = EquipmentSlots.FirstOrDefault(x => x.Type == item.EquipmentType);
+                    if(equipmentSlot != null)
+                    {
+                        equipmentSlot.SetItem(item);
                     }
                 }
 
@@ -216,6 +225,8 @@ namespace Character.Inventory
 
         private void DrawItemSlot()
         {
+            InventoryContainer.SetActive(true);
+
             int x = 0;
             int y = 0;
             float slotCellSize = 144.3f;
@@ -235,6 +246,8 @@ namespace Character.Inventory
                     y++;
                 }
             }
+            
+            InventoryContainer.SetActive(false);
         }
 
         #region IDataPersistence

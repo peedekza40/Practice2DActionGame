@@ -36,7 +36,7 @@ public class EnemyStatusEditor : CharacterStatusEditor
         EditorGUILayout.PropertyField(HealthBarProperty);
         EditorGUI.indentLevel--;
 
-        EditorGUILayout.LabelField("Event", EditorStyles.boldLabel);
+        EditorGUILayout.LabelField("Events", EditorStyles.boldLabel);
         EditorGUI.indentLevel++;
         EditorGUILayout.PropertyField(OnDamagedProperty);
         EditorGUILayout.PropertyField(OnDamagedPassDamageProperty);

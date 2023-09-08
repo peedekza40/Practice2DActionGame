@@ -17,6 +17,7 @@ namespace Character.Inventory
         public bool IsCanUse { get; private set; }
         public bool IsWeapon => EquipmentType == EquipmentType.Weapon;
         public bool IsEquipment { get; private set; }
+        public bool IsOnEquipmentSlot;
         public EquipmentType EquipmentType { get; private set; }
         public Sprite Sprite { get; private set; }
 

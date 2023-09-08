@@ -12,6 +12,9 @@ using Character.Animators;
 using Character.Status;
 using Character.Combat.States.BossKnight;
 using LDtkUnity;
+using Core.Repositories;
+using Zenject;
+using Infrastructure.Entities;
 
 namespace Character
 {
@@ -51,15 +54,20 @@ namespace Character
 
         [Header("Custom Behavior")]
         public bool FollowEnabled = true;
+        public bool AlwaysFollowWhenDetectedEnabled = false;
         public bool JumpEnabled = true;
         public bool AttackEnabled = true;
         public bool DirectionLookEnabled = true;
 
+        [Header("Events")]
+        public GameEvent OnDetectedPlayer;
+
         private Path Path;
         private int CurrentWaypoint = 0;
-        public bool IsJumping { get; private set ;}
-        public bool IsGrounded { get; private set ;}
+        public bool IsJumping { get; private set; }
+        public bool IsGrounded { get; private set; }
         private bool IsKnockingBack = false;
+        private bool IsDetectedEnemy = false;
         private Seeker Seeker;
         private Rigidbody2D Rb;
         private KnockBack KnockBack;
@@ -68,7 +76,12 @@ namespace Character
         private AnimatorClipInfo[] AnimatorClip;
 
         private EnemyStatus EnemyStatus;
+        public EnemyConfig Config { get; private set; }
 
+        #region Dependencies
+        [Inject]
+        private IEnemyConfigRepository enemyConfigRepository;
+        #endregion
         private void Awake() 
         {
             Seeker = GetComponent<Seeker>();
@@ -81,6 +94,7 @@ namespace Character
             Fields = GetComponent<LDtkFields>();
             PointA = Fields?.GetEntityReference("PointA").FindEntity()?.transform;
             PointB = Fields?.GetEntityReference("PointB").FindEntity()?.transform;
+            Config = enemyConfigRepository.GetById(EnemyStatus.Type);
         }
 
         private void Start()
@@ -143,6 +157,7 @@ namespace Character
             {
                 if(FollowEnabled && TargetInDistance())
                 {
+                    IsDetectedEnemy = true;
                     PatrolPoint = PointA;
                     Seeker.StartPath(Rb.position, Target.position, OnPathComplete);
                 }
@@ -189,8 +204,6 @@ namespace Character
             }
 
             //See if colliding with anything
-            // Vector3 startOffset = transform.position - new Vector3(0f, GetComponent<Collider2D>().bounds.extents.y + JumpCheckOffset);
-            // IsGrounded = Physics2D.Raycast(startOffset, -Vector3.up, 0.05f);
             var collider = GetComponent<Collider2D>();
             IsGrounded = Physics2D.BoxCast(collider.bounds.center, collider.bounds.size, 0, Vector2.down, 0.1f, GroundLayer);
             IsJumping = IsGrounded == false;
@@ -209,7 +222,7 @@ namespace Character
             }
 
             //Movement
-            if(Rb.velocity.magnitude < MaxSpeed)
+            if(Rb.velocity.magnitude <= MaxSpeed)
             {
                 Rb.AddForce(direction * Speed * Time.deltaTime);
             }
@@ -230,7 +243,15 @@ namespace Character
 
         private bool TargetInDistance()
         {
-            return DistanceFromTarget() < ActivateDistance;
+            var isTargetInDistance = DistanceFromTarget() < ActivateDistance;
+
+            //fire event first time on detected
+            if(isTargetInDistance && IsDetectedEnemy == false)
+            {
+                OnDetectedPlayer?.Raise(this, Config);
+            }
+
+            return isTargetInDistance || (IsDetectedEnemy && AlwaysFollowWhenDetectedEnabled);
         }
 
         private void OnPathComplete(Path path)
@@ -293,6 +314,9 @@ namespace Character
         {
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(DetectEnemyTransform.position, DetectEnemyRange);
+
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawWireSphere(DetectEnemyTransform.position, ActivateDistance);
         }
     }
 }

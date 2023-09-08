@@ -1001,7 +1001,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Target: {fileID: 0}
-  ActivateDistance: 10
+  ActivateDistance: 6
   PathUpdateSecond: 1
   PointA: {fileID: 0}
   PointB: {fileID: 0}
@@ -1023,6 +1023,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   FollowEnabled: 1
+  AlwaysFollowWhenDetectedEnabled: 1
   JumpEnabled: 1
   AttackEnabled: 1
   DirectionLookEnabled: 1

@@ -15,7 +15,7 @@ namespace Character.Combat.States.BossKnight
                 var isCanMove = enemyAI.BehaviourStateMachine.IsCurrentState(typeof(DisabledMoveState)) == false;
                 if(isCanMove)
                 {
-                    switch (Random.Range(0, 2))
+                    switch (Random.Range(0, 4))
                     {
                         case 0:
                             _stateMachine.SetNextState(new Attack4State());

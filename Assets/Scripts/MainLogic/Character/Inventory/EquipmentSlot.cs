@@ -73,6 +73,8 @@ namespace Character.Inventory
         public override void SetItem(ItemModel item)
         {
             base.SetItem(item);
+            
+            item.IsOnEquipmentSlot = true;
 
             //clear on click
             ItemMouseEvent.OnLeftClick.RemoveAllListeners();

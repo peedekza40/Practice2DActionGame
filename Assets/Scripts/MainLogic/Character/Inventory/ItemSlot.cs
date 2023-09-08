@@ -54,6 +54,8 @@ namespace Character.Inventory
 
         public virtual void SetItem(ItemModel item)
         {
+            item.IsOnEquipmentSlot = false;
+
             ItemInstanceId = item.InstanceId;
             ItemTransform.gameObject.SetActive(true);
 

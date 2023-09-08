@@ -20,16 +20,13 @@ namespace Character.Combat.States.Goblin
             {
                 stateMachine.SetNextState(new Attack1State());  
             }
-            else 
+            else if(PlayerCombat != null)
             {
-                if(PlayerCombat)
+                var randNum = Random.Range(0, 10);
+                var playerIsAttack = PlayerCombat.CombatStateMachine.IsCurrentState(typeof(Player.MeleeBaseState));
+                if(playerIsAttack && randNum == 1)
                 {
-                    var randNum = Random.Range(0, 10);
-                    var playerIsAttack = PlayerCombat.CombatStateMachine.IsCurrentState(typeof(Player.MeleeBaseState));
-                    if(playerIsAttack && randNum == 1)
-                    {
-                        stateMachine.SetNextState(new Attack2State());  
-                    }
+                    stateMachine.SetNextState(new Attack2State());  
                 }
             }
 
