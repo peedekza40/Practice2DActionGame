@@ -5,6 +5,7 @@ using Core.DataPersistence;
 using Infrastructure.InputSystem;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using Zenject;
 
 public class DeathMenu : MonoBehaviour, IUIPersistence
@@ -14,7 +15,10 @@ public class DeathMenu : MonoBehaviour, IUIPersistence
     
     #region Dependencies
     [Inject]
-    private DataPersistenceManager dataPersistenceManager;
+    private readonly DataPersistenceManager dataPersistenceManager;
+
+    [Inject] 
+    private readonly GeneralFunction generalFunction;
     #endregion
 
     #region IUIPersistence
@@ -28,21 +32,23 @@ public class DeathMenu : MonoBehaviour, IUIPersistence
         MouseEvent = GetComponent<MouseEvent>();
     }
 
+    private void Start()
+    {
+        var restartButton = MenuPanel.transform.Find(GameObjectName.RestartButton).GetComponent<Button>();
+        var returnToMenuButton = MenuPanel.transform.Find(GameObjectName.ReturnToMenuButton).GetComponent<Button>();
+        var quitGameButton = MenuPanel.transform.Find(GameObjectName.QuitGameButton).GetComponent<Button>();
+
+
+        //set onclick
+        restartButton.onClick.AddListener(() => generalFunction.Restart());
+        returnToMenuButton.onClick.AddListener(() => generalFunction.ReturnToMenu());
+        quitGameButton.onClick.AddListener(() => generalFunction.QuitGame());
+    }
+
     public void ShowDeathMenu()
     {
         MenuPanel.SetActive(true);
         Animator.SetTrigger(AnimationParameter.Start);
         IsOpen = true;
-    }
-
-    public void Restart()
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-    }
-
-
-    public void Quit()
-    {
-        Application.Quit();
     }
 }

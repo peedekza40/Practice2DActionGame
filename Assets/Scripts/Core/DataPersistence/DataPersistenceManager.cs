@@ -16,7 +16,7 @@ namespace Core.DataPersistence
         public string FileName;
         public bool UseEncryption; 
 
-        private GameDataModel GameData { get; set; }
+        public GameDataModel GameData { get; private set; }
         private List<IDataPersistence> DataPersistences;
         private FileDataHandler FileDataHandler;
 
@@ -46,9 +46,20 @@ namespace Core.DataPersistence
             LoadGame();
         }
 
-        public void NewGame()
+        public void NewGame(bool isNewGamePlus)
         {
-            GameData = new GameDataModel(appSettingsContext);
+            if(isNewGamePlus)
+            {
+                GameData.PlayerData.Position = null;
+                GameData.PlayerData.LastCheckPointID = null;
+                GameData.CheckedPointIDs.Clear();
+                GameData.OpenedChestIDs.Clear();
+            }
+            else
+            {
+                GameData = new GameDataModel(appSettingsContext);
+            }
+
             SaveGame();
         }
 

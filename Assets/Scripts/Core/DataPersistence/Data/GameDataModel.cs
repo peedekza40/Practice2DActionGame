@@ -17,6 +17,8 @@ namespace Core.DataPersistence.Data
         public List<string> CheckedPointIDs = new List<string>();
         public List<string> OpenedChestIDs = new List<string>();
 
+        public bool IsGameEnded = false;
+
         public GameDataModel(IAppSettingsContext appSettingsContext)
         {
             CameraPosition = Vector3.zero;

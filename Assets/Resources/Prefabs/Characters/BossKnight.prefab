@@ -1387,18 +1387,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1787282014}
-        m_TargetAssemblyTypeName: CloneCharacter, Assembly-CSharp
-        m_MethodName: Clone
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
   Attribute: {fileID: 11400000, guid: 5a8a07963d18af442a7b4ae76342cdb1, type: 2}
   Type: 4
 --- !u!114 &8950884111431860641
@@ -1446,10 +1434,12 @@ MonoBehaviour:
     - item:
         Type: 4
         Amount: 1
+        IsOnEquipmentSlot: 0
       weight: 100
     - item:
         Type: 1
         Amount: 1
+        IsOnEquipmentSlot: 0
       weight: 100
   EnabledRandomDropAmount: 1
   DropAmount: 1

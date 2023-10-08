@@ -8,7 +8,9 @@ namespace Core.Configs
         public DatabaseModel Database;
         public StatusModel Status;
         public CombatModel Combat;
-    
+
+        public string StartSceneName;
+
         public AppSettingsModel()
         {
             Database = new DatabaseModel
@@ -43,6 +45,8 @@ namespace Core.Configs
                     MaxDecreaseTimeBetweenBlock = 0.4f
                 }
             };
+
+            StartSceneName = "Level 1";
         }
     
         public class DatabaseModel 

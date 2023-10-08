@@ -10,6 +10,7 @@ using Core.Constants;
 using Core.DataPersistence;
 using Core.DataPersistence.Data;
 using Infrastructure.InputSystem;
+using UI;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
@@ -29,6 +30,7 @@ namespace Character
         public PlayerController Controller;
         public Gold Gold;
         public InventoryManagement Inventory;
+        public PauseMenu PauseMenu;
 
         [Header("Collect Items")]
         public LayerMask ItemLayer;
@@ -116,6 +118,7 @@ namespace Character
         }
 
         #region IPlayerActions
+        
         public void OnJump(InputAction.CallbackContext context)
         {
             if(context.performed)
@@ -160,6 +163,14 @@ namespace Character
             }
         }
 
+        public void OnTogglePauseMenu(InputAction.CallbackContext context)
+        {
+            if(context.performed)
+            {
+                PauseMenu.TogglePauseMenu();
+            }
+        }
+
         public void OnInteract(InputAction.CallbackContext context)
         {
             if(context.performed)
@@ -167,6 +178,7 @@ namespace Character
                 InteractAction?.Invoke();
             }
         }
+        
         #endregion
 
         public void LoadData(GameDataModel data)

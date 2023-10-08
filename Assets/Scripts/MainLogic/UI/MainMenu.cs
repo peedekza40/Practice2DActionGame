@@ -4,19 +4,24 @@ using Core.DataPersistence.Data;
 using Core.Constants;
 using Infrastructure.InputSystem;
 using Zenject;
+using UnityEngine.UI;
+using Core.Configs;
 
 namespace UI
 {
-    public class MainMenu : MonoBehaviour, IDataPersistence, IUIPersistence
+    public class MainMenu : MonoBehaviour, IUIPersistence
     {
-        public LevelLoader LevelLoader;
         public Transform MainMenuTransform;
-
-        private string ContinueScene; 
 
         #region Dependencies
         [Inject]
-        private DataPersistenceManager dataPersistenceManager;
+        private readonly DataPersistenceManager dataPersistenceManager;
+
+        [Inject]
+        private readonly IAppSettingsContext appSettingsContext;
+
+        [Inject] 
+        private readonly GeneralFunction generalFunction;
         #endregion
 
         #region IUIPersistence
@@ -32,37 +37,22 @@ namespace UI
 
         private void Start() 
         {
-            MainMenuTransform.Find(GameObjectName.ContinueButton).gameObject.SetActive(dataPersistenceManager.IsHasGameData());
+            var continueButton = MainMenuTransform.Find(GameObjectName.ContinueButton).GetComponent<Button>();
+            var newGameButton = MainMenuTransform.Find(GameObjectName.NewGameButton).GetComponent<Button>();
+            var newGamePlusButton = MainMenuTransform.Find(GameObjectName.NewGamePlusButton).GetComponent<Button>();
+            var quitGameButton = MainMenuTransform.Find(GameObjectName.QuitGameButton).GetComponent<Button>();
+
+            //set onclick
+            continueButton.onClick.AddListener(() => generalFunction.Continue());
+            newGameButton.onClick.AddListener(() => generalFunction.NewGame(appSettingsContext.Config.StartSceneName));
+            newGamePlusButton.onClick.AddListener(() => generalFunction.NewGamePlus(appSettingsContext.Config.StartSceneName));
+            quitGameButton.onClick.AddListener(() => generalFunction.QuitGame());
+
+            var isGameEnded = dataPersistenceManager.GameData?.IsGameEnded ?? false;
+            var isHasGameData = dataPersistenceManager.IsHasGameData();
+            continueButton.gameObject.SetActive(isHasGameData && isGameEnded == false);
+            newGamePlusButton.gameObject.SetActive(isGameEnded);
             IsOpen = true;
-        }
-
-        public void NewGame(string sceneName)
-        {
-            //create a new game - which will initialize our game data
-            dataPersistenceManager.NewGame();
-
-            //load the gameplay scene - which will in turn save the game because of OnSceneUnloaded() in the DataPersistenceManager
-            LevelLoader.LoadLevel(sceneName);
-        }
-
-        public void Continue()
-        {
-            //load the next scene - which will in turn load the game because of OnScreenLoaded() in the DataPersistenceManager
-            LevelLoader.LoadLevel(ContinueScene);
-        }
-
-        public void QuitGame()
-        {
-            Application.Quit();
-        }
-
-        public void LoadData(GameDataModel data)
-        {
-            ContinueScene = data.CurrentScene; 
-        }
-
-        public void SaveData(GameDataModel data)
-        {
         }
     }
  

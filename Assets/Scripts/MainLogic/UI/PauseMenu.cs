@@ -4,6 +4,7 @@ using Core.DataPersistence;
 using Infrastructure.InputSystem;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using Zenject;
 
 namespace UI
@@ -19,7 +20,10 @@ namespace UI
 
         #region Dependencies
         [Inject]
-        private DataPersistenceManager dataPersistenceManager;
+        private readonly DataPersistenceManager dataPersistenceManager;
+
+        [Inject] 
+        private readonly GeneralFunction generalFunction;
         #endregion
 
         #region IUIPersistence
@@ -36,24 +40,32 @@ namespace UI
         }
 
         // Start is called before the first frame update
-        void Start()
+        private void Start()
         {
+            var saveButton = MenuPanel.transform.Find(GameObjectName.SaveButton).GetComponent<Button>();
+            var loadButton = MenuPanel.transform.Find(GameObjectName.LoadButton).GetComponent<Button>();
+            var returnToMenuButton = MenuPanel.transform.Find(GameObjectName.ReturnToMenuButton).GetComponent<Button>();
+            var quitGameButton = MenuPanel.transform.Find(GameObjectName.QuitGameButton).GetComponent<Button>();
+
+
+            //set onclick
+            saveButton.onClick.AddListener(() => generalFunction.Save());
+            loadButton.onClick.AddListener(() => generalFunction.Load());
+            returnToMenuButton.onClick.AddListener(() => generalFunction.ReturnToMenu());
+            quitGameButton.onClick.AddListener(() => generalFunction.QuitGame());
+
             Cursor.visible = false;
         }
 
-        // Update is called once per frame
-        void Update()
+        public void TogglePauseMenu()
         {
-            if(Input.GetKeyDown(KeyCode.Escape))
+            if(IsOpen == false && !OptionMenu.gameObject.activeSelf)
             {
-                if(!MenuPanel.activeSelf && !OptionMenu.gameObject.activeSelf)
-                {
-                    Pause();
-                }
-                else if(MenuPanel.activeSelf)
-                {
-                    Resume();
-                }
+                Pause();
+            }
+            else if(IsOpen && !OptionMenu.gameObject.activeSelf)
+            {
+                Resume();
             }
         }
 
@@ -69,22 +81,6 @@ namespace UI
             Time.timeScale = 1f;
             MenuFadeUI?.HideUI(() => { MenuPanel.SetActive(false); });
             IsOpen = false;
-        }
-
-        public void Save()
-        {
-            dataPersistenceManager.SaveGame();
-        }
-
-        public void Load()
-        {
-            Time.timeScale = 1f;
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-        }
-
-        public void Quit()
-        {
-            Application.Quit();
         }
     }
 

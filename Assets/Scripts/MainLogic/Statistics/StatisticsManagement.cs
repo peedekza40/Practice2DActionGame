@@ -50,7 +50,7 @@ namespace Statistics
         private int UseGoldAmount { get; set; }
         private int UsingGoldAmount = 0;
         private int TempLevel { get; set; }
-        private const int UseGoldPerLevel = 100;
+        private const int UseGoldPerLevel = 50;
         #endregion
 
         #region Dependencies

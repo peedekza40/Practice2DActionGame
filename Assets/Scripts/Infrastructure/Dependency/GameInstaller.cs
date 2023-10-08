@@ -15,6 +15,7 @@ namespace Infrastructure.Dependency
             Container.Bind<IAppSettingsContext>().To<AppSettingsContext>().FromComponentInHierarchy().AsTransient();
             Container.Bind<DataPersistenceManager>().FromComponentInHierarchy().AsSingle();
             Container.Bind<PlayerInputControl>().FromComponentInHierarchy().AsSingle();
+            Container.Bind<GeneralFunction>().FromComponentInHierarchy().AsSingle();
 
             Container.Bind<DbContextBuilder>().AsSingle();
             Container.Bind<IStatsConfigRepository>().To<StatsConfigRepository>().AsSingle();

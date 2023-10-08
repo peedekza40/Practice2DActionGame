@@ -20,6 +20,7 @@ namespace Infrastructure.InputSystem
         public InputAction AttackInput { get; private set; }
         public InputAction BlockInput { get; private set; }
         public InputAction ToggleInventoryInput { get; private set; }
+        public InputAction TogglePauseMenuInput { get; private set; }
         public InputAction InteractInput { get; private set; }
 
         private void Awake() 
@@ -29,6 +30,7 @@ namespace Infrastructure.InputSystem
             JumpInput = PlayerInput.Player.Jump;
             AttackInput = PlayerInput.Player.Attack;
             ToggleInventoryInput = PlayerInput.Player.ToggleInventory;
+            TogglePauseMenuInput = PlayerInput.Player.TogglePauseMenu;
             BlockInput = PlayerInput.Player.Block;
             InteractInput = PlayerInput.Player.Interact;
         }
@@ -92,6 +94,7 @@ namespace Infrastructure.InputSystem
                 MoveInput.Enable();
                 JumpInput.Enable();
                 ToggleInventoryInput.Enable();
+                TogglePauseMenuInput.Enable();
             }
 
             //set cursor visible

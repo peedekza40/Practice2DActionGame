@@ -7,6 +7,7 @@ namespace Core.Constants
         MainMenu,
         PauseMenu,
         DeathMenu,
+        GameEndMenu,
         OptionMenu
     }
 }
