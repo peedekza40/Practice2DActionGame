@@ -6,7 +6,7 @@ Project นี้เป็นเกมแรกที่ผมใช้ทดล
 
 ### Installing
 #### Support Windows Only
-* ดาวโหลดไฟล์เกมตามลิงค์นี้ : https://github.com/peedekza40/Practice2DActionGame
+* ดาวโหลดไฟล์เกมตามลิงค์นี้ : https://github.com/peedekza40/Practice2DActionGame/releases/tag/Demo2DRPG-0.0.1
 * ทำการ Extract file และ enjoy ได้เลย
 
 ## Authors
